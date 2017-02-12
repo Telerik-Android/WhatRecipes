@@ -7,14 +7,17 @@ import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.utils.ActivityUtils;
 
 public class MainActivity extends AppCompatActivity {
+    DrawerFragment drawerFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),new BlankFragment(),R.id.myFragment);
+        drawerFragment = new DrawerFragment();
 
+        ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(),drawerFragment,R.id.drawerFragment);
 
     }
 }
