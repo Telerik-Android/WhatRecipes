@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "865232834615",
+    "firebase_url": "https://whatrecipes.firebaseio.com",
+    "project_id": "whatrecipes",
+    "storage_bucket": "whatrecipes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865232834615:android:837081f2328a0cb9",
+        "android_client_info": {
+          "package_name": "com.whatrecipes.whatrecipes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865232834615-uumlsqgg8viosfgak1fefg7jebu8bb07.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.whatrecipes.whatrecipes",
+            "certificate_hash": "A35854F8E5DBC4AC5E8B1499479CF08043AC4ADC"
+          }
+        },
+        {
+          "client_id": "865232834615-ng0nk6bajk4lv0oohgutegjrhimsbk0k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTf2nkESpf5nn7mqcJJ1WKmY-Xk_3CPVc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865232834615-ng0nk6bajk4lv0oohgutegjrhimsbk0k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
