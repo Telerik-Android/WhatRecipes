@@ -1,4 +1,4 @@
 package com.whatrecipes.whatrecipes;
 
-public class IPresenter {
+public interface IPresenter {
 }

@@ -20,6 +20,7 @@ import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.whatrecipes.whatrecipes.R;
+import com.whatrecipes.whatrecipes.utils.ActivityUtils;
 
 public class DrawerFragment extends Fragment {
     AccountHeader accountHeader;
@@ -81,7 +82,23 @@ public class DrawerFragment extends Fragment {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        // do something with the clicked item :D
+                        switch(position){
+                            case 0:
+                                ActivityUtils.replaceFragmentToActivity(getFragmentManager(),new RecipesStackFragment(),R.id.cardStackFragment);
+                                break;
+                            case 1:
+                                ActivityUtils.replaceFragmentToActivity(getFragmentManager(),new RecipesStackFragment(),R.id.cardStackFragment);
+                                break;
+                            case 2:
+                                ActivityUtils.replaceFragmentToActivity(getFragmentManager(),new RecipesStackFragment(),R.id.cardStackFragment);
+                                break;
+                            case 3:
+                                ActivityUtils.replaceFragmentToActivity(getFragmentManager(),new RecipesStackFragment(),R.id.cardStackFragment);
+                                break;
+                            case 4:
+                                ActivityUtils.replaceFragmentToActivity(getFragmentManager(),new RecipesStackFragment(),R.id.cardStackFragment);
+                                break;
+                        }
                         return false;
                     }
                 })

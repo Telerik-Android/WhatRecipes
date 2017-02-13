@@ -1,4 +1,4 @@
 package com.whatrecipes.whatrecipes;
 
-public class IView {
+public interface IView {
 }
