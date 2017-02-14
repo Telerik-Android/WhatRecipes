@@ -66,6 +66,8 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         ButterKnife.bind(getActivity());
 
         imageView=(ImageView) view.findViewById(R.id.image_view);
+
+        //STAR CAMERA LOGIC
         String filename="cam2_"+ Build.MANUFACTURER+"_"+Build.PRODUCT
                 +"_"+new SimpleDateFormat("yyyyMMdd'-'HHmmss").format(new Date());
         testRoot=new File(getActivity().getExternalFilesDir(null), filename);
@@ -77,18 +79,16 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
                 Intent i=new CameraActivity.IntentBuilder(getActivity())
                         .skipConfirm()
                         .facing(Facing.FRONT)
-                        .to(new File(testRoot, "portrait-front.jpg"))
+                        .to(new File(testRoot, getString(R.string.screenshot)))
                         .debug()
                         .zoomStyle(ZoomStyle.SEEKBAR)
                         .updateMediaStore()
                         .build();
 
                 startActivityForResult(i, REQUEST_PORTRAIT_FFC);
-
-
-
             }
         });
+        //END CAMERA LOGIC
 
         return view;
     }
@@ -100,10 +100,11 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         // check if the request code is same as what is passed  here it is 2
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        Bitmap bitmap = BitmapFactory.decodeFile(testRoot.getAbsolutePath()+"/portrait-front.jpg",options);
+        Bitmap bitmap = BitmapFactory.decodeFile(testRoot.getAbsolutePath()+getString(R.string.screenshot),options);
 
+
+        //Preview photo
         imageView.setImageBitmap(bitmap);
-        Integer a = 5;
     }
 
     @Override
