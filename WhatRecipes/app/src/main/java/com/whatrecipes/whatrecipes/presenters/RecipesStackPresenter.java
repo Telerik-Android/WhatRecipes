@@ -11,8 +11,6 @@ import javax.inject.Inject;
  */
 
 public class RecipesStackPresenter implements IPresenter.RecipeStackPresenter {
-
-
     private IView.RecipeStackView mView;
     private final FirebaseDatabase db;
 
@@ -27,7 +25,9 @@ public class RecipesStackPresenter implements IPresenter.RecipeStackPresenter {
         // load from firebase or local database
     }
 
-    public void setmView(IView.RecipeStackView mView) {
-        this.mView = mView;
+
+    @Override
+    public void setView(IView.RecipeStackView view) {
+        this.mView = view;
     }
 }

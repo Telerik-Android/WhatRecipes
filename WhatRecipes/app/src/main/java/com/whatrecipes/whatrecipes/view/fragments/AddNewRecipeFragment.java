@@ -49,21 +49,29 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.whatrecipes.whatrecipes.R.id.container;
+
 /**
  * Created by dnt on 13.2.2017 г..
  */
 
 public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipeView {
-
-    private ImageView imageView;
+    private File testRoot;
+    private static final int REQUEST_PORTRAIT_RFC=1337;
+    private static final int REQUEST_PORTRAIT_FFC=REQUEST_PORTRAIT_RFC+1;
     private Uri file;
+    private ArrayList<LinearLayout> ingredientsList;
+
+    private View view;
 
     @BindView(R.id.camera_button)
     Button cameraButton;
 
-    private File testRoot;
-    private static final int REQUEST_PORTRAIT_RFC=1337;
-    private static final int REQUEST_PORTRAIT_FFC=REQUEST_PORTRAIT_RFC+1;
+    @BindView(R.id.image_view)
+    public ImageView imageView;
+
+    @BindView(R.id.add_ingredient_field_button)
+    Button addIngredientFieldButton;
 
     @Inject
     AddNewRecipePresenter presenter;
@@ -71,22 +79,16 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_new_recipe,container,false);
+        view = inflater.inflate(R.layout.fragment_add_new_recipe,container,false);
 
 
-            //LinearLayout ll = (LinearLayout)view.findViewById(R.id.ingredient_framelayout);
-            //ll.addView(layout);
-        DaggerAppComponent.builder()
-                .viewModule(new ViewModule(this))
-                .build()
-                .inject(this);
+        this.ingredientsList = new ArrayList<>();
 
-//
-//        App.get()
-//                .getAppComponent().inject(this);
+        App.get().getAppComponent().inject(this);
 
         ButterKnife.bind(this,view);
-        imageView=(ImageView) view.findViewById(R.id.image_view);
+
+        presenter.setView(this);
 
         return view;
     }
@@ -108,6 +110,14 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
                 .build();
 
         startActivityForResult(i, REQUEST_PORTRAIT_FFC);
+    }
+
+    @OnClick(R.id.add_ingredient_field_button)
+    public void handleAddNewIngredientForm(){
+        LinearLayout newLayout = this.addIngridientFormView();
+        this.ingredientsList.add(newLayout);
+        LinearLayout ll = (LinearLayout)view.findViewById(R.id.ingredient_framelayout);
+        ll.addView(newLayout);
     }
 
     @Override
