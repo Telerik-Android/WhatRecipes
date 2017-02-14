@@ -1,21 +1,13 @@
 package com.whatrecipes.whatrecipes.view.fragments;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.*;
 import android.view.View;
 import android.widget.Button;
@@ -23,33 +15,27 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.commonsware.cwac.cam2.CameraActivity;
 import com.commonsware.cwac.cam2.Facing;
 import com.commonsware.cwac.cam2.ZoomStyle;
 import com.whatrecipes.whatrecipes.App;
-import com.whatrecipes.whatrecipes.DaggerAppComponent;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
-import com.whatrecipes.whatrecipes.ViewModule;
 import com.whatrecipes.whatrecipes.presenters.AddNewRecipePresenter;
-import com.whatrecipes.whatrecipes.view.MainActivity;
+import com.whatrecipes.whatrecipes.presenters.Presenter;
+import com.whatrecipes.whatrecipes.utils.ActivityUtils;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.whatrecipes.whatrecipes.R.id.container;
 
 /**
  * Created by dnt on 13.2.2017 г..
@@ -73,6 +59,12 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
     @BindView(R.id.add_ingredient_field_button)
     Button addIngredientFieldButton;
 
+    @BindView(R.id.submit_recipe)
+    Button submitButton;
+
+    @BindView(R.id.cancel_recipe)
+    Button cancelButton;
+
     @Inject
     AddNewRecipePresenter presenter;
 
@@ -91,6 +83,16 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         presenter.setView(this);
 
         return view;
+    }
+
+    @OnClick(R.id.submit_recipe)
+    public void handleSubmitButtonClick(View v){
+        Integer b = 5;
+    }
+
+    @OnClick(R.id.cancel_recipe)
+    public void handleCancelButtonClick(){
+        ActivityUtils.replaceFragmentToActivity(getFragmentManager(),new RecipesStackFragment(),R.id.cardStackFragment);
     }
 
     @OnClick(R.id.camera_button)

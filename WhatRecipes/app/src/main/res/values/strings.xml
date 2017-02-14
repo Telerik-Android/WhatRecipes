@@ -16,4 +16,10 @@
     <string name="recipe_summary">Summary:</string>
     <string name="recipe_quick_summary">Quick Summary</string>
     <string name="recipe_ingredients">Ingredients:</string>
+    <string name="recipe_servings">Servings:</string>
+    <string name="minutes">minutes</string>
+    <string name="time_to_prepare">Time to Prepare:</string>
+    <string name="recipe_number_of_servings">Number of servings</string>
+    <string name="how_to_prepare">How to prepare:</string>
+    <string name="describe_how_to_prepare">Describe how to prepare</string>
 </resources>
