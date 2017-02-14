@@ -32,7 +32,6 @@ public class RecipeAdapter extends ArrayAdapter<String> {
         TextView v2 = (TextView)(convertView.findViewById(R.id.recipeTextSummary));
         v.setText(getItem(position));
         v2.setText("MNOGOOGOGOG TEXT");
-        Button btn = (Button)convertView.findViewById(R.id.button);
         return convertView;
     }
 }

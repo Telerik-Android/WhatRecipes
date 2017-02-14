@@ -8,7 +8,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/recipe_name_header"/>
+        android:text="@string/recipe_name_header"
+        android:textAppearance="@style/RecipeHugeFont"/>
     <EditText
         android:id="@+id/recipeTextTitle"
         android:layout_width="match_parent"
@@ -17,6 +18,46 @@
         android:inputType="text"
         android:maxLength="25"
         android:maxLines="1"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/recipe_summary"
+        android:textAppearance="@style/RecipeHugeFont"/>
+    <EditText
+        android:id="@+id/recipeTextSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/recipe_quick_summary"
+        android:inputType="textMultiLine"
+        android:textAppearance="@style/RecipeSummaryFont" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/recipe_ingredients"
+        android:textAppearance="@style/RecipeHugeFont"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/recipeIngredient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Ingredient"
+            android:layout_weight="2"
+            android:textAppearance="@style/RecipeSummaryFont" />
+        <EditText
+            android:id="@+id/recipeIngredientQuantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Quantity"
+            android:layout_weight="1"
+            android:textAppearance="@style/RecipeSummaryFont" />
+    </LinearLayout>
+
+
 
     <ImageView
         android:id="@+id/image_view"

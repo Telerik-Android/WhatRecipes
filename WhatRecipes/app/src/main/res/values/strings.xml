@@ -12,5 +12,8 @@
     <string name="btn_save_recipe">Save</string>
     <string name="hint_recipe_name">Recipe name Max 25 characters</string>
     <string name="recipe_name_header">Recipe name:</string>
-    <string name="screenshot">screenshot.jpg</string>
+    <string name="screenshot">/screenshot.jpg</string>
+    <string name="recipe_summary">Summary:</string>
+    <string name="recipe_quick_summary">Quick Summary</string>
+    <string name="recipe_ingredients">Ingredients:</string>
 </resources>
