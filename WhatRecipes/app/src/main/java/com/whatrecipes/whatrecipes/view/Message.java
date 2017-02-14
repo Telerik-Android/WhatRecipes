@@ -3,7 +3,7 @@ package com.whatrecipes.whatrecipes.view;
 /**
  * Created by dnt on 12.2.2017 г..
  */
-
+@Deprecated
 public class Message {
     private String message;
     private String name;

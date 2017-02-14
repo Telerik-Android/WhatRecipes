@@ -1,5 +1,7 @@
 package com.whatrecipes.whatrecipes.presenters;
 
+import com.google.firebase.database.FirebaseDatabase;
+import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.data.FirebaseModule;
 
 import dagger.Module;
@@ -11,5 +13,10 @@ import dagger.Provides;
 
 @Module(includes = FirebaseModule.class)
 public class PresentationModule {
+
+    @Provides
+    public RecipesStackPresenter provideRecipeStackPresenter(FirebaseDatabase db) {
+        return new RecipesStackPresenter(db);
+    }
 
 }

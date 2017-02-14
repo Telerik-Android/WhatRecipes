@@ -20,7 +20,7 @@ import com.whatrecipes.whatrecipes.R;
 
 import javax.inject.Inject;
 
-
+@Deprecated
 public class BlankFragment extends Fragment implements com.whatrecipes.whatrecipes.view.View {
     Button sendBtn;
     EditText editText;
@@ -34,7 +34,7 @@ public class BlankFragment extends Fragment implements com.whatrecipes.whatrecip
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view =  inflater.inflate(R.layout.fragment_blank, container, false);
-        App.get().getAppComponent().inject(this);
+        //App.get().getAppComponent().inject(this);
 
          sendBtn = (Button) view.findViewById(R.id.button);
         editText = (EditText) view.findViewById(R.id.messageText);

@@ -7,4 +7,9 @@
     <string name="drawer_add_recipe">Add Recipe</string>
     <string name="steps">Steps</string>
     <string name="ingredients">Ingredients</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_save_recipe">Save</string>
+    <string name="hint_recipe_name">Recipe name Max 25 characters</string>
+    <string name="recipe_name_header">Recipe name:</string>
 </resources>

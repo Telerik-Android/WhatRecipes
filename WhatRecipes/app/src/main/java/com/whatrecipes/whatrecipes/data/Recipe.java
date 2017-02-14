@@ -22,8 +22,9 @@ public class Recipe {
     private String[] stepsToPrepare;
     private Integer servings;
     private String[] tags;
+    private String author;
 
-    public Recipe(String name, String recipeSummary, String[] ingredients, Integer cookingTime, Bitmap bitmap, String[] stepsToPrepare, Integer servings, String[] tags){
+    public Recipe(String name, String recipeSummary, String[] ingredients, Integer cookingTime, Bitmap bitmap, String[] stepsToPrepare, Integer servings, String[] tags, String Author){
         this.setName(name);
         this.setRecipeSummary(recipeSummary);
         this.setIngredients(ingredients);
@@ -32,6 +33,7 @@ public class Recipe {
         this.setStepsToPrepare(stepsToPrepare);
         this.setServings(servings);
         this.setTags(tags);
+        this.setAuthor(author);
     }
 
     public Bitmap getEncodedImage() {
@@ -111,5 +113,13 @@ public class Recipe {
 
     public void setRecipeSummary(String recipeSummary) {
         this.recipeSummary = recipeSummary;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

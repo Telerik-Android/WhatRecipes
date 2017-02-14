@@ -15,4 +15,4 @@
     android:padding="5dp">
     </com.wenchao.cardstack.CardStack>
 
-    </LinearLayout>
+</LinearLayout>

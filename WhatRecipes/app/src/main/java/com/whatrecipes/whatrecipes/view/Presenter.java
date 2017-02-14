@@ -7,7 +7,7 @@ import javax.inject.Inject;
 /**
  * Created by dnt on 12.2.2017 г..
  */
-
+@Deprecated
 public class Presenter {
     View view;
     FirebaseDatabase database;

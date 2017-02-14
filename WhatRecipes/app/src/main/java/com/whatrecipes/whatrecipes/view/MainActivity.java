@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.utils.ActivityUtils;
+import com.whatrecipes.whatrecipes.view.fragments.DrawerFragment;
 
 public class MainActivity extends AppCompatActivity {
     DrawerFragment drawerFragment;

@@ -1,10 +1,9 @@
 package com.whatrecipes.whatrecipes;
 
-import com.whatrecipes.whatrecipes.data.NetComponent;
 import com.whatrecipes.whatrecipes.presenters.PresentationModule;
-import com.whatrecipes.whatrecipes.utils.CustomScope;
-import com.whatrecipes.whatrecipes.view.BlankFragment;
 import com.whatrecipes.whatrecipes.view.MainActivity;
+import com.whatrecipes.whatrecipes.view.fragments.AddNewRecipeFragment;
+import com.whatrecipes.whatrecipes.view.fragments.RecipesStackFragment;
 
 import javax.inject.Singleton;
 
@@ -17,5 +16,6 @@ import dagger.Component;
 @Component(modules = {AppModule.class, PresentationModule.class})
 public interface AppComponent {
     void inject(MainActivity activity);
-    void inject(BlankFragment fragment);
+    void inject(RecipesStackFragment fragment);
+    void inject(AddNewRecipeFragment fragment);
 }

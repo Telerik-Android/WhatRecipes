@@ -1,4 +1,4 @@
-package com.whatrecipes.whatrecipes.view;
+package com.whatrecipes.whatrecipes.view.fragments;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -14,7 +14,6 @@ import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.DividerDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -83,19 +82,11 @@ public class DrawerFragment extends Fragment {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         switch(position){
-                            case 0:
-                                ActivityUtils.replaceFragmentToActivity(getFragmentManager(),new RecipesStackFragment(),R.id.cardStackFragment);
-                                break;
-                            case 1:
-                                ActivityUtils.replaceFragmentToActivity(getFragmentManager(),new RecipesStackFragment(),R.id.cardStackFragment);
-                                break;
+
                             case 2:
-                                ActivityUtils.replaceFragmentToActivity(getFragmentManager(),new RecipesStackFragment(),R.id.cardStackFragment);
+                                ActivityUtils.replaceFragmentToActivity(getFragmentManager(),new AddNewRecipeFragment(),R.id.cardStackFragment);
                                 break;
                             case 3:
-                                ActivityUtils.replaceFragmentToActivity(getFragmentManager(),new RecipesStackFragment(),R.id.cardStackFragment);
-                                break;
-                            case 4:
                                 ActivityUtils.replaceFragmentToActivity(getFragmentManager(),new RecipesStackFragment(),R.id.cardStackFragment);
                                 break;
                         }
