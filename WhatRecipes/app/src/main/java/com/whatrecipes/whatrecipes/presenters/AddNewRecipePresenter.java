@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 
 import com.google.firebase.database.FirebaseDatabase;
 import com.whatrecipes.whatrecipes.IPresenter;
+import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.data.Recipe;
 import com.whatrecipes.whatrecipes.utils.CameraUtils;
 
@@ -15,10 +16,16 @@ import javax.inject.Inject;
 
 public class AddNewRecipePresenter implements IPresenter.AddRecipePresenter {
     private FirebaseDatabase firebaseDb;
+    IView.AddNewRecipeView mView;
 
     @Inject
     public AddNewRecipePresenter(FirebaseDatabase firebaseDb) {
         this.firebaseDb = firebaseDb;
+
+    }
+
+    public void setmView(IView.AddNewRecipeView mView) {
+        this.mView = mView;
     }
 
     @Override

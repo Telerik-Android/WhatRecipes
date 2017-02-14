@@ -13,16 +13,20 @@ import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.data.RecipeAdapter;
 import com.whatrecipes.whatrecipes.presenters.RecipesStackPresenter;
 
-import java.util.EventListener;
-
 import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by dnt on 13.2.2017 г..
  */
 
-public class RecipesStackFragment extends Fragment implements IView.StackView{
-    private CardStack mCardStack;
+public class RecipesStackFragment extends Fragment implements IView.RecipeStackView {
+
+    @BindView(R.id.container)
+    public CardStack mCardStack;
+
     private RecipeAdapter mCardAdapter;
 
     @Inject
@@ -35,8 +39,8 @@ public class RecipesStackFragment extends Fragment implements IView.StackView{
 
         App.get().getAppComponent().inject(this);
 
+        ButterKnife.bind(this,view);
 
-        mCardStack = (CardStack)view.findViewById(R.id.container);
         mCardStack.setContentResource(R.layout.recipe_item_card_view);
         mCardAdapter = new RecipeAdapter(getContext(),R.layout.recipe_item_card_view);
         mCardAdapter.add("test1");

@@ -1,74 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:gravity="center">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/recipe_name_header"
-        android:textAppearance="@style/RecipeHugeFont"/>
-    <EditText
-        android:id="@+id/recipeTextTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_recipe_name"
-        android:inputType="text"
-        android:maxLength="25"
-        android:maxLines="1"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/recipe_summary"
-        android:textAppearance="@style/RecipeHugeFont"/>
-    <EditText
-        android:id="@+id/recipeTextSummary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/recipe_quick_summary"
-        android:inputType="textMultiLine"
-        android:textAppearance="@style/RecipeSummaryFont" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/recipe_ingredients"
-        android:textAppearance="@style/RecipeHugeFont"/>
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <EditText
-            android:id="@+id/recipeIngredient"
-            android:layout_width="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ingredient"
-            android:layout_weight="2"
-            android:textAppearance="@style/RecipeSummaryFont" />
+            android:text="@string/recipe_name_header"
+            android:textAppearance="@style/RecipeHugeFont"/>
         <EditText
-            android:id="@+id/recipeIngredientQuantity"
-            android:layout_width="wrap_content"
+            android:id="@+id/recipeTextTitle"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Quantity"
-            android:layout_weight="1"
+            android:hint="@string/hint_recipe_name"
+            android:inputType="text"
+            android:maxLength="25"
+            android:maxLines="1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/recipe_summary"
+            android:textAppearance="@style/RecipeHugeFont"/>
+        <EditText
+            android:id="@+id/recipeTextSummary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/recipe_quick_summary"
+            android:inputType="textMultiLine"
             android:textAppearance="@style/RecipeSummaryFont" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/recipe_ingredients"
+            android:textAppearance="@style/RecipeHugeFont"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/ingredient_framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/add_ingredient_field_button"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:text="Add new ingredient"/>
+
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/camera_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Take with camera"/>
+
+
     </LinearLayout>
 
-
-
-    <ImageView
-        android:id="@+id/image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <Button
-        android:id="@+id/camera_button"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Take with camera" />
-
-
-</LinearLayout>
+</ScrollView>
