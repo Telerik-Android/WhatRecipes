@@ -15,7 +15,12 @@ public class ActivityUtils {
 
     public static void replaceFragmentToActivity (@NonNull FragmentManager fragmentManager,
                                                   @NonNull Fragment fragment, int frameId) {
+        Fragment fragmentToBacktrack  = fragmentManager.findFragmentById(frameId);
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        if(fragmentToBacktrack!=null)
+            transaction.addToBackStack(fragmentToBacktrack.toString());
+
         transaction.replace(frameId, fragment);
         transaction.commit();
     }

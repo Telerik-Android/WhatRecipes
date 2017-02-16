@@ -26,4 +26,13 @@ public class MainActivity extends AppCompatActivity {
         ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(),drawerFragment,R.id.drawerFragment);
 
     }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0 ){
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
