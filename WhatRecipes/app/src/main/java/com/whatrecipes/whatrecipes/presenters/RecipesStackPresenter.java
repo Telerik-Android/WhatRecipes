@@ -15,19 +15,13 @@ public class RecipesStackPresenter implements IPresenter.RecipeStackPresenter {
     private final FirebaseDatabase db;
 
     @Inject
-    public RecipesStackPresenter(FirebaseDatabase db){
+    public RecipesStackPresenter(FirebaseDatabase db, IView.RecipeStackView mView){
         this.db = db;
-        //this.mView = mView;
+        this.mView = mView;
     }
 
     @Override
     public void loadRecipesStack() {
         // load from firebase or local database
-    }
-
-
-    @Override
-    public void setView(IView.RecipeStackView view) {
-        this.mView = view;
     }
 }

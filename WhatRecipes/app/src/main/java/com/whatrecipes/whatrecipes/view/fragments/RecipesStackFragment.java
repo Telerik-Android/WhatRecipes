@@ -12,6 +12,8 @@ import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.data.RecipeAdapter;
 import com.whatrecipes.whatrecipes.presenters.RecipesStackPresenter;
+import com.whatrecipes.whatrecipes.view.DaggerMainScreenComponent;
+import com.whatrecipes.whatrecipes.view.MainScreenModule;
 
 import javax.inject.Inject;
 
@@ -37,7 +39,11 @@ public class RecipesStackFragment extends Fragment implements IView.RecipeStackV
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recipe_stack,container,false);
 
-        App.get().getAppComponent().inject(this);
+        DaggerMainScreenComponent.builder()
+                .firebaseComponent(((App)getActivity().getApplicationContext()).getFirebaseComponent())
+                .mainScreenModule(new MainScreenModule(this))
+                .build()
+                .inject(this);
 
         ButterKnife.bind(this,view);
 

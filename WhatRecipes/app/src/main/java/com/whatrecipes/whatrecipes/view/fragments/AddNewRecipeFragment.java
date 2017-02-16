@@ -23,8 +23,9 @@ import com.whatrecipes.whatrecipes.App;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.presenters.AddNewRecipePresenter;
-import com.whatrecipes.whatrecipes.presenters.Presenter;
 import com.whatrecipes.whatrecipes.utils.ActivityUtils;
+import com.whatrecipes.whatrecipes.view.DaggerMainScreenComponent;
+import com.whatrecipes.whatrecipes.view.MainScreenModule;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -76,11 +77,13 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
 
         this.ingredientsList = new ArrayList<>();
 
-        App.get().getAppComponent().inject(this);
+        DaggerMainScreenComponent.builder()
+                .firebaseComponent(((App)getActivity().getApplicationContext()).getFirebaseComponent())
+                .mainScreenModule(new MainScreenModule(this))
+                .build()
+                .inject(this);
 
         ButterKnife.bind(this,view);
-
-        presenter.setView(this);
 
         return view;
     }

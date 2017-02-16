@@ -19,9 +19,9 @@ public class AddNewRecipePresenter implements IPresenter.AddRecipePresenter {
     IView.AddNewRecipeView mView;
 
     @Inject
-    public AddNewRecipePresenter(FirebaseDatabase firebaseDb) {
+    public AddNewRecipePresenter(FirebaseDatabase firebaseDb, IView.AddNewRecipeView mView) {
         this.firebaseDb = firebaseDb;
-
+        this.mView = mView;
     }
 
     @Override
@@ -33,10 +33,5 @@ public class AddNewRecipePresenter implements IPresenter.AddRecipePresenter {
     @Override
     public void saveRecipeToFirebaseDb(Recipe recipe) {
         firebaseDb.getReference("recipes").push().setValue(recipe);
-    }
-
-    @Override
-    public void setView(IView.AddNewRecipeView view) {
-        this.mView = view;
     }
 }
