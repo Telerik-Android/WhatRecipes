@@ -106,6 +106,7 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
 
 
         Intent i=new CameraActivity.IntentBuilder(getActivity())
+                .requestPermissions()
                 .skipConfirm()
                 .facing(Facing.FRONT)
                 .to(new File(testRoot, getString(R.string.screenshot)))
