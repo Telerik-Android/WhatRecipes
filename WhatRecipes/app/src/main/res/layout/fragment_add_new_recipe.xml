@@ -16,7 +16,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <EditText
-            android:id="@+id/recipeTextTitle"
+            android:id="@+id/EditTextRecipeTextTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_recipe_name"
@@ -31,7 +31,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <EditText
-            android:id="@+id/recipeTextSummary"
+            android:id="@+id/EditTextRecipeTextSummary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/recipe_quick_summary"
@@ -79,11 +79,11 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <EditText
-                    android:id="@+id/recipeServings"
+                    android:id="@+id/EditTextRecipeServings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/recipe_number_of_servings"
-                    android:inputType="text"
+                    android:inputType="numberDecimal"
                     android:maxLength="2"
                     android:textAppearance="@style/RecipeSummaryFont" />
 
@@ -102,11 +102,11 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
                 <EditText
-                    android:id="@+id/recipeCookingTime"
+                    android:id="@+id/EditTextRecipeCookingTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/minutes"
-                    android:inputType="text"
+                    android:inputType="numberDecimal"
                     android:maxLength="4"
                     android:textAppearance="@style/RecipeSummaryFont" />
 
@@ -120,16 +120,22 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <EditText
-            android:id="@+id/recipeHowToPrepare"
+            android:id="@+id/EditTextRecipeHowToPrepare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/describe_how_to_prepare"
             android:inputType="textMultiLine"
             android:textAppearance="@style/RecipeSummaryFont" />
 
+        <EditText
+            android:id="@+id/EditTextRecipeTags"
+            android:inputType="text"
+            android:lines="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/image_view"
+            android:id="@+id/iVRecipeImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

@@ -13,6 +13,12 @@ public class ActivityUtils {
         transaction.commit();
     }
 
+    /**
+     * Replace current fragment with another, with backtracking between them
+     * @param fragmentManager
+     * @param fragment
+     * @param frameId
+     */
     public static void replaceFragmentToActivity (@NonNull FragmentManager fragmentManager,
                                                   @NonNull Fragment fragment, int frameId) {
         Fragment fragmentToBacktrack  = fragmentManager.findFragmentById(frameId);

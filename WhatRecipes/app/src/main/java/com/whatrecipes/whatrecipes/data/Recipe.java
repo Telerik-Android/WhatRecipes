@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
+import java.util.Map;
 
 import static android.R.attr.bitmap;
 import static android.R.attr.tag;
@@ -16,15 +18,18 @@ import static android.R.attr.tag;
 public class Recipe {
     private String name;
     private String recipeSummary;
-    private String[] ingredients;
+    private Map<String,String> ingredients;
     private Integer cookingTime;
     private String encodedImage;
-    private String[] stepsToPrepare;
+    private String stepsToPrepare;
     private Integer servings;
-    private String[] tags;
+    private List<String> tags;
     private String author;
+    private Bitmap bitmap;
 
-    public Recipe(String name, String recipeSummary, String[] ingredients, Integer cookingTime, Bitmap bitmap, String[] stepsToPrepare, Integer servings, String[] tags, String Author){
+    public Recipe(){}
+
+    public Recipe(String name, String recipeSummary, Map<String,String> ingredients, Integer cookingTime, String bitmap,String stepsToPrepare, Integer servings, List<String> tags, String Author){
         this.setName(name);
         this.setRecipeSummary(recipeSummary);
         this.setIngredients(ingredients);
@@ -33,30 +38,7 @@ public class Recipe {
         this.setStepsToPrepare(stepsToPrepare);
         this.setServings(servings);
         this.setTags(tags);
-        this.setAuthor(author);
-    }
-
-    public Bitmap getEncodedImage() {
-        return this.decodeImage(encodedImage);
-    }
-
-    public void setEncodedImage(Bitmap bitmap) {
-        this.encodedImage = this.encodeImage(bitmap);
-    }
-
-    public Bitmap decodeImage(String encodedImage) {
-        byte[] decodedString = Base64.decode(encodedImage, Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        return decodedByte;
-    }
-
-    public String encodeImage(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] byteFormat = stream.toByteArray();
-        String encodedImage = Base64.encodeToString(byteFormat, Base64.NO_WRAP);
-
-        return encodedImage;
+        this.setAuthor(Author);
     }
 
     public String getName() {
@@ -67,14 +49,6 @@ public class Recipe {
         this.name = name;
     }
 
-    public String[] getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(String[] ingredients) {
-        this.ingredients = ingredients;
-    }
-
     public Integer getCookingTime() {
         return cookingTime;
     }
@@ -83,11 +57,11 @@ public class Recipe {
         this.cookingTime = cookingTime;
     }
 
-    public String[] getStepsToPrepare() {
+    public String getStepsToPrepare() {
         return stepsToPrepare;
     }
 
-    public void setStepsToPrepare(String[] stepsToPrepare) {
+    public void setStepsToPrepare(String stepsToPrepare) {
         this.stepsToPrepare = stepsToPrepare;
     }
 
@@ -97,14 +71,6 @@ public class Recipe {
 
     public void setServings(Integer servings) {
         this.servings = servings;
-    }
-
-    public String[] getTags() {
-        return tags;
-    }
-
-    public void setTags(String[] tags) {
-        this.tags = tags;
     }
 
     public String getRecipeSummary() {
@@ -121,5 +87,37 @@ public class Recipe {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public Map<String, String> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(Map<String, String> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    public String getEncodedImage() {
+        return encodedImage;
+    }
+
+    public void setEncodedImage(String encodedImage) {
+        this.encodedImage = encodedImage;
+    }
+
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 }

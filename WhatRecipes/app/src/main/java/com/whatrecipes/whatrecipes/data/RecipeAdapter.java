@@ -1,22 +1,31 @@
 package com.whatrecipes.whatrecipes.data;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.whatrecipes.whatrecipes.R;
 
-import static android.R.attr.resource;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by dnt on 13.2.2017 г..
  */
 
-public class RecipeAdapter extends ArrayAdapter<String> {
+public class RecipeAdapter extends ArrayAdapter<Recipe> {
+
+    @BindView(R.id.recipeImageView)
+    ImageView recipeImage;
+
+    @BindView(R.id.EditTextRecipeTextTitle)
+    TextView tvTitle;
 
 
     public RecipeAdapter(Context context, int resource) {
@@ -26,12 +35,11 @@ public class RecipeAdapter extends ArrayAdapter<String> {
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
-
-        TextView v = (TextView)(convertView.findViewById(R.id.recipeTextTitle));
-        TextView v2 = (TextView)(convertView.findViewById(R.id.recipeTextSummary));
-        v.setText(getItem(position));
-        v2.setText("MNOGOOGOGOG TEXT");
+        ButterKnife.bind(this, convertView);
+        String text = getItem(position).getName();
+        tvTitle.setText(text);
+        Bitmap bitmap = getItem(position).getBitmap();
+        recipeImage.setImageBitmap(bitmap);
         return convertView;
     }
 }

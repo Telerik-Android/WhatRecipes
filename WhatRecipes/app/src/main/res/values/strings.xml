@@ -22,4 +22,6 @@
     <string name="recipe_number_of_servings">Number of servings</string>
     <string name="how_to_prepare">How to prepare:</string>
     <string name="describe_how_to_prepare">Describe how to prepare</string>
+    <string name="PhotoPath">PhotoPath</string>
+    <string name="fieldRequired">field is required</string>
 </resources>

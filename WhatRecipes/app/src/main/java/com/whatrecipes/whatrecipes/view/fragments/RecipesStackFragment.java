@@ -10,10 +10,13 @@ import com.wenchao.cardstack.CardStack;
 import com.whatrecipes.whatrecipes.App;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
+import com.whatrecipes.whatrecipes.data.Recipe;
 import com.whatrecipes.whatrecipes.data.RecipeAdapter;
 import com.whatrecipes.whatrecipes.presenters.RecipesStackPresenter;
 import com.whatrecipes.whatrecipes.view.DaggerMainScreenComponent;
 import com.whatrecipes.whatrecipes.view.MainScreenModule;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -47,21 +50,20 @@ public class RecipesStackFragment extends Fragment implements IView.RecipeStackV
 
         ButterKnife.bind(this,view);
 
-        mCardStack.setContentResource(R.layout.recipe_item_card_view);
-        mCardAdapter = new RecipeAdapter(getContext(),R.layout.recipe_item_card_view);
-        mCardAdapter.add("test1");
-        mCardAdapter.add("test2");
-        mCardAdapter.add("test3");
-        mCardAdapter.add("test4");
-        mCardAdapter.add("test5");
         presenter.loadRecipesStack();
-        mCardStack.setAdapter(mCardAdapter);
 
         return view;
     }
 
     @Override
-    public void showRecipesStack(RecipeAdapter recipes) {
-        //mCardAdapter.setAdapter(recipes);
+    public void showRecipesStack(ArrayList<Recipe> recipes) {
+
+        mCardAdapter = new RecipeAdapter(getContext(),R.layout.recipe_item_card_view);
+
+        for(Recipe recipe: recipes){
+            mCardAdapter.add(recipe);
+        }
+        mCardStack.setContentResource(R.layout.recipe_item_card_view);
+        mCardStack.setAdapter(mCardAdapter);
     }
 }
