@@ -1,6 +1,7 @@
 package com.whatrecipes.whatrecipes.view;
 
-import com.whatrecipes.whatrecipes.data.FirebaseComponent;
+
+import com.whatrecipes.whatrecipes.data.firebase.FirebaseComponent;
 import com.whatrecipes.whatrecipes.utils.CustomScope;
 import com.whatrecipes.whatrecipes.view.fragments.AddNewRecipeFragment;
 import com.whatrecipes.whatrecipes.view.fragments.RecipesStackFragment;

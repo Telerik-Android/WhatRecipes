@@ -9,7 +9,6 @@ public interface IPresenter {
     }
 
     interface AddRecipePresenter {
-        void loadAddRecipeForm();
 
         void saveRecipeToFirebaseDb(Recipe recipe);
     }

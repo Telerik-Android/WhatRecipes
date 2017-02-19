@@ -1,4 +1,4 @@
-package com.whatrecipes.whatrecipes.data;
+package com.whatrecipes.whatrecipes.data.firebase;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -22,5 +22,15 @@ public class FirebaseModule {
     @Provides
     public FirebaseAuth provideFirebaseAuth() {
         return FirebaseAuth.getInstance();
+    }
+
+    @Provides
+    public FirebaseDatabaseInteractor provideFirebaseDatabaseInteractor(FirebaseDatabase firebaseDatabase) {
+        return new FirebaseDatabaseInteractorImpl(firebaseDatabase);
+    }
+
+    @Provides
+    public FirebaseAuthenticationInteractor provideFirebaseAuthenticationInteractor(FirebaseAuth firebaseAuth) {
+        return new FirebaseAuthenticationInteractorImpl(firebaseAuth);
     }
 }

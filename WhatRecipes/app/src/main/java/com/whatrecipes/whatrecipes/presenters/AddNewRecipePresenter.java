@@ -24,11 +24,6 @@ public class AddNewRecipePresenter implements IPresenter.AddRecipePresenter {
         this.mView = mView;
     }
 
-    @Override
-    public void loadAddRecipeForm() {
-
-    }
-
 
     @Override
     public void saveRecipeToFirebaseDb(Recipe recipe) {

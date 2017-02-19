@@ -2,9 +2,9 @@ package com.whatrecipes.whatrecipes;
 
 import android.app.Application;
 
-import com.whatrecipes.whatrecipes.data.DaggerFirebaseComponent;
-import com.whatrecipes.whatrecipes.data.FirebaseComponent;
-import com.whatrecipes.whatrecipes.data.FirebaseModule;
+import com.whatrecipes.whatrecipes.data.firebase.DaggerFirebaseComponent;
+import com.whatrecipes.whatrecipes.data.firebase.FirebaseComponent;
+import com.whatrecipes.whatrecipes.data.firebase.FirebaseModule;
 
 public class App extends Application {
 //    private NetComponent mNetComponent;
