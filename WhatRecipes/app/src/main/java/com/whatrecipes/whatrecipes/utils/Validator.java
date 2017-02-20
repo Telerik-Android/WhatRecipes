@@ -16,9 +16,10 @@ public class Validator {
         return false;
     }
 
-    public static boolean validateRequiredEditTextField(EditText et, String messageOnFail){
-        if(stringEmptyOrNull(et.getText().toString())) {
-            et.setError(messageOnFail);
+    public static boolean validateRequiredEditTextFields(String messageOnFail, EditText... et){
+        for(EditText current: et)
+        if(stringEmptyOrNull(current.getText().toString())) {
+            current.setError(messageOnFail);
             return false;
         }
         return true;

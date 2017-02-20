@@ -13,10 +13,14 @@ public interface IView {
 
     interface RecipeStackView {
         void showRecipesStack(ArrayList<Recipe> recipes);
+        void addRecipeToAdapter(Recipe recipe);
     }
 
     interface AddNewRecipeView {
-        void showAddRecipeForm();
+        void handleAddNewIngredientForm();
         LinearLayout addIngridientFormView();
+        void takeCameraPhoto();
+        void handleCancelButtonClick();
+        boolean parseRecipeForm();
     }
 }

@@ -20,14 +20,11 @@ import android.widget.Toast;
 import com.whatrecipes.whatrecipes.App;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
-import com.whatrecipes.whatrecipes.data.Recipe;
 import com.whatrecipes.whatrecipes.presenters.AddNewRecipePresenter;
 import com.whatrecipes.whatrecipes.utils.ActivityUtils;
 import com.whatrecipes.whatrecipes.utils.CameraUtils;
 import com.whatrecipes.whatrecipes.utils.RecipeViewUtils;
 import com.whatrecipes.whatrecipes.utils.Validator;
-import com.whatrecipes.whatrecipes.view.DaggerMainScreenComponent;
-import com.whatrecipes.whatrecipes.view.MainScreenModule;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,8 +47,7 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
 
     private Bitmap RecipeThumbnail;
     private ArrayList<LinearLayout> ingredientsList;
-
-    private View view;
+    private String encodedBitmap;
 
     @BindView(R.id.camera_button)
     Button cameraButton;
@@ -68,6 +64,25 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
     @BindView(R.id.cancel_recipe)
     Button cancelButton;
 
+    Map<String, String> ingredients;
+    @BindView(R.id.EditTextRecipeTextTitle)
+    EditText edrecipeTitle;
+
+    @BindView(R.id.EditTextRecipeTextSummary)
+    EditText edrecipeSummary;
+
+    @BindView(R.id.EditTextRecipeServings)
+    EditText edservings;
+
+    @BindView(R.id.EditTextRecipeCookingTime)
+    EditText edcookingTime;
+
+    @BindView(R.id.EditTextRecipeHowToPrepare)
+    EditText edhowToPrepare;
+
+    @BindView(R.id.EditTextRecipeTags)
+    EditText edtagsToSplit;
+
     @Inject
     AddNewRecipePresenter presenter;
 
@@ -75,16 +90,13 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_add_new_recipe, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_new_recipe, container, false);
+
 
 
         this.ingredientsList = new ArrayList<>();
-
-        DaggerMainScreenComponent.builder()
-                .firebaseComponent(((App) getActivity().getApplicationContext()).getFirebaseComponent())
-                .mainScreenModule(new MainScreenModule(this))
-                .build()
-                .inject(this);
+        App.get().component().inject(this);
+        presenter.setView(this);
 
         ButterKnife.bind(this, view);
 
@@ -93,79 +105,47 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
 
     @OnClick(R.id.submit_recipe)
     public void handleSubmitButtonClick() {
-
-        //parse recipe from form
-        Recipe recipeToSubmit = parseRecipeForm();
-
-        //if input is incorrect stop event
-        if(recipeToSubmit==null)
-        {
-            return;
+        //reads,validates and submits data
+        if(parseRecipeForm()) {
+            ActivityUtils.replaceFragmentToActivity(getFragmentManager(), new RecipesStackFragment(), R.id.cardStackFragment);
         }
-        //save to database
-        presenter.saveRecipeToFirebaseDb(recipeToSubmit);
 
-        //change screen
-        ActivityUtils.replaceFragmentToActivity(getFragmentManager(), new RecipesStackFragment(), R.id.cardStackFragment);
     }
 
-    public Recipe parseRecipeForm() {
-        View v = this.getView();
+    @Override
+    public boolean parseRecipeForm() {
+        if (!Validator.validateRequiredEditTextFields("Field is required", edrecipeTitle, edrecipeSummary, edcookingTime, edservings,edcookingTime, edhowToPrepare, edtagsToSplit)) {
+            return false;
+        }
 
-        EditText edrecipeTitle = (EditText) v.findViewById(R.id.EditTextRecipeTextTitle);
-        if(!Validator.validateRequiredEditTextField(edrecipeTitle,getString(R.string.fieldRequired)))
-        { return null;}
         String recipeTitle = edrecipeTitle.getText().toString();
-
-
-        EditText edrecipeSummary = (EditText) v.findViewById(R.id.EditTextRecipeTextSummary);
-        if(!Validator.validateRequiredEditTextField(edrecipeSummary,getString(R.string.fieldRequired)))
-        { return null;}
         String recipeSummary = edrecipeSummary.getText().toString();
-
-        ViewGroup parent = (ViewGroup) getView().getParent();
-        List<View> ingredientsName = RecipeViewUtils.findViewWithTagRecursively(parent, TAG_INGREDIENT_NAME);
-        List<View> ingredientsQuantity = RecipeViewUtils.findViewWithTagRecursively(parent, TAG_INGREDIENT_QUANITY);
-        Map<String, String> ingredients = RecipeViewUtils.parseIngredientsByViews(ingredientsName, ingredientsQuantity);
-
-        EditText edservings = (EditText) v.findViewById(R.id.EditTextRecipeServings);
-        if(!Validator.validateRequiredEditTextField(edservings,getString(R.string.fieldRequired)))
-        { return null;}
-        Integer servings = Integer.valueOf(edservings.getText().toString());
-
-
-        EditText edcookingTime = (EditText) v.findViewById(R.id.EditTextRecipeCookingTime);
-        if(!Validator.validateRequiredEditTextField(edcookingTime,getString(R.string.fieldRequired)))
-        { return null;}
         Integer cookingTime = Integer.valueOf(edcookingTime.getText().toString());
-
-        EditText edhowToPrepare = (EditText) v.findViewById(R.id.EditTextRecipeHowToPrepare);
-        if(!Validator.validateRequiredEditTextField(edhowToPrepare,getString(R.string.fieldRequired)))
-        { return null;}
         String howToPrepare = edhowToPrepare.getText().toString();
-
-        EditText edtagsToSplit = (EditText) v.findViewById(R.id.EditTextRecipeTags);
-        if(!Validator.validateRequiredEditTextField(edtagsToSplit,getString(R.string.fieldRequired)))
-        { return null;}
         String tagsToSplit = edtagsToSplit.getText().toString();
-
+        Integer servings = Integer.valueOf(edservings.getText().toString());
         tagsToSplit.replaceAll(";", " ");
         tagsToSplit.replaceAll(",", " ");
         String[] tags = tagsToSplit.split(" ");
-        if(this.RecipeThumbnail==null){
+        ViewGroup parent = (ViewGroup) getView().getParent();
+
+        List<View> ingredientsName = RecipeViewUtils.findViewWithTagRecursively(parent, TAG_INGREDIENT_NAME);
+        List<View> ingredientsQuantity = RecipeViewUtils.findViewWithTagRecursively(parent, TAG_INGREDIENT_QUANITY);
+        ingredients = RecipeViewUtils.parseIngredientsByViews(ingredientsName, ingredientsQuantity);
+
+        if (this.RecipeThumbnail == null) {
             Toast.makeText(getActivity(), "Image is required", Toast.LENGTH_LONG).show();
-            return null;
+            return false;
         }
-        String encodedBitmap = RecipeViewUtils.setEncodedImage(this.RecipeThumbnail);
+
+        encodedBitmap = RecipeViewUtils.setEncodedImage(this.RecipeThumbnail);
 
         String author = "Not implemented";
 
+        presenter.saveRecipeToFirebaseDb(recipeTitle, recipeSummary, ingredients, cookingTime, encodedBitmap, howToPrepare, servings, Arrays.asList(tags), author);
 
 
-        //TODO Create factory and replace instantiation here
-        Recipe recipeToSubmit = new Recipe(recipeTitle, recipeSummary, ingredients, cookingTime, encodedBitmap, howToPrepare, servings, Arrays.asList(tags), author);
-
-        return recipeToSubmit;
+        return true;
     }
 
     @OnClick(R.id.cancel_recipe)
@@ -180,6 +160,9 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
 
     @OnClick(R.id.add_ingredient_field_button)
     public void handleAddNewIngredientForm() {
+
+        //TODO refactor
+        View view = getView();
         LinearLayout newLayout = this.addIngridientFormView();
         this.ingredientsList.add(newLayout);
         LinearLayout ll = (LinearLayout) view.findViewById(R.id.ingredient_framelayout);
@@ -191,7 +174,7 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
         // TODO refactor this!
-        if(resultCode==0){
+        if (resultCode == 0) {
             return;
         }
         Uri rootPath = data.getData();
@@ -201,13 +184,10 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         imageView.setImageBitmap(RecipeThumbnail);
     }
 
-    @Override
-    public void showAddRecipeForm() {
-
-    }
 
     @Override
     public LinearLayout addIngridientFormView() {
+        //TODO refactor
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         LinearLayout.LayoutParams layoutParams2 = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         layoutParams2.weight = 1;

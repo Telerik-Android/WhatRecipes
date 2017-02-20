@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "865232834615-olnm4ameg6ilehr7bp6kuaivl2sc8mf1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.whatrecipes.whatrecipes",
+            "certificate_hash": "E2774A7AECEEED43B5EF80610C19F19F665FD9D6"
+          }
+        },
+        {
           "client_id": "865232834615-uumlsqgg8viosfgak1fefg7jebu8bb07.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -12,6 +13,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.data.Recipe;
+import com.whatrecipes.whatrecipes.data.firebase.FirebaseDatabaseInteractor;
+import com.whatrecipes.whatrecipes.data.firebase.IFirebaseDatabaseInteractor;
 import com.whatrecipes.whatrecipes.utils.RecipeViewUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -26,42 +29,54 @@ import javax.inject.Inject;
 
 public class RecipesStackPresenter implements IPresenter.RecipeStackPresenter {
     private IView.RecipeStackView mView;
-    private final FirebaseDatabase db;
+    private final IFirebaseDatabaseInteractor db;
 
     @Inject
-    public RecipesStackPresenter(FirebaseDatabase db, IView.RecipeStackView mView) {
+    public RecipesStackPresenter(IFirebaseDatabaseInteractor db) {
         this.db = db;
-        this.mView = mView;
     }
 
     @Override
     public void loadRecipesStack() {
-        DatabaseReference ref = db.getReference().child("recipes");
-        ref.addValueEventListener(new ValueEventListener() {
+        db.getAllRecipes(bindRecipeListener());
+
+    }
+
+    private ChildEventListener bindRecipeListener() {
+        return new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                ArrayList<Recipe> recipesStack = new ArrayList<>();
-                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-
-                    Recipe recipe = dsp.getValue(Recipe.class);
-                    String bitmapR = recipe.getEncodedImage();
-                    recipe.setBitmap(RecipeViewUtils.getEncodedImage(bitmapR));
-                    recipesStack.add(recipe);
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot != null) {
+                    Recipe model = dataSnapshot.getValue(Recipe.class);
+                    if (model != null) {
+                        String bitmapR = model.getEncodedImage();
+                        model.setBitmap(RecipeViewUtils.getEncodedImage(bitmapR));
+                        mView.addRecipeToAdapter(model);
+                    }
                 }
+            }
 
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
+            }
 
-                mView.showRecipesStack(recipesStack);
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });
-
+        };
     }
-
 
 
     private ArrayList<Recipe> collectStackRecipes(Map<String, Object> recipes) {
@@ -72,5 +87,10 @@ public class RecipesStackPresenter implements IPresenter.RecipeStackPresenter {
         }
 
         return recipesStack;
+    }
+
+    @Override
+    public void setView(IView.RecipeStackView view) {
+        this.mView = view;
     }
 }

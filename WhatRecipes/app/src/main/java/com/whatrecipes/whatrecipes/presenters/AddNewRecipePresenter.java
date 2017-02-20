@@ -6,7 +6,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.data.Recipe;
+import com.whatrecipes.whatrecipes.data.common.FirebaseConstants;
+import com.whatrecipes.whatrecipes.data.firebase.FirebaseDatabaseInteractor;
+import com.whatrecipes.whatrecipes.data.firebase.IFirebaseDatabaseInteractor;
 import com.whatrecipes.whatrecipes.utils.CameraUtils;
+import com.whatrecipes.whatrecipes.utils.Validator;
+
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -15,18 +22,34 @@ import javax.inject.Inject;
  */
 
 public class AddNewRecipePresenter implements IPresenter.AddRecipePresenter {
-    private FirebaseDatabase firebaseDb;
-    IView.AddNewRecipeView mView;
+    public IFirebaseDatabaseInteractor firebaseDb;
+    public IView.AddNewRecipeView mView;
 
     @Inject
-    public AddNewRecipePresenter(FirebaseDatabase firebaseDb, IView.AddNewRecipeView mView) {
+    public AddNewRecipePresenter(IFirebaseDatabaseInteractor firebaseDb) {
         this.firebaseDb = firebaseDb;
-        this.mView = mView;
     }
 
 
     @Override
-    public void saveRecipeToFirebaseDb(Recipe recipe) {
-        firebaseDb.getReference("recipes").push().setValue(recipe);
+    public void saveRecipeToFirebaseDb(String recipeTitle, String recipeSummary, Map<String, String> ingredients, Integer cookingTime, String encodedBitmap, String howToPrepare, Integer servings, List<String> tags, String author) {
+        if(Validator.stringEmptyOrNull(recipeTitle,recipeSummary,encodedBitmap,howToPrepare,author)){
+            throw new IllegalArgumentException("String cannot be null");
+        }
+
+        for (String tag: tags){
+            if(Validator.stringEmptyOrNull(tag)) {
+                throw new IllegalArgumentException("String cannot be null");
+            }
+        }
+
+        Recipe recipe = new Recipe(recipeTitle, recipeSummary, ingredients, cookingTime, encodedBitmap, howToPrepare, servings, tags, author);
+
+        firebaseDb.pushRecipe(recipe);
+    }
+
+    @Override
+    public void setView(IView.AddNewRecipeView view) {
+        this.mView = view;
     }
 }
