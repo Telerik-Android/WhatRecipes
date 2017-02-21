@@ -16,5 +16,7 @@ public interface IFirebaseAuthenticationInteractor {
 
     void changeUserImageUrl(String imageUrl);
 
+    String getLoggedInUserEmail();
+
     String getLoggedInUserImageURL();
 }

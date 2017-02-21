@@ -26,4 +26,12 @@ public interface IPresenter {
                 String author
         );
     }
+
+    interface RegisterUserPresenter extends Presenter<IView.RegisterUserView>{
+        void registerUser(String email, String password);
+    }
+
+    interface LogInPresenter extends Presenter<IView.LogInUserView>{
+        void logInUser(String email, String password);
+    }
 }

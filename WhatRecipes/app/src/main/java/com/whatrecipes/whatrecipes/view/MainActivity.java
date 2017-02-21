@@ -2,6 +2,7 @@ package com.whatrecipes.whatrecipes.view;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -14,14 +15,19 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
+    Toolbar mToolbar;
+
     DrawerFragment drawerFragment;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         drawerFragment = new DrawerFragment();
+
 
         ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(),drawerFragment,R.id.drawerFragment);
 
@@ -35,4 +41,6 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
+
+
 }

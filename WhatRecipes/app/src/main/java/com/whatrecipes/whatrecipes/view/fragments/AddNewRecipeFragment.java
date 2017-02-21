@@ -93,7 +93,6 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         View view = inflater.inflate(R.layout.fragment_add_new_recipe, container, false);
 
 
-
         this.ingredientsList = new ArrayList<>();
         App.get().component().inject(this);
         presenter.setView(this);
@@ -106,7 +105,7 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
     @OnClick(R.id.submit_recipe)
     public void handleSubmitButtonClick() {
         //reads,validates and submits data
-        if(parseRecipeForm()) {
+        if (parseRecipeForm()) {
             ActivityUtils.replaceFragmentToActivity(getFragmentManager(), new RecipesStackFragment(), R.id.cardStackFragment);
         }
 
@@ -114,7 +113,7 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
 
     @Override
     public boolean parseRecipeForm() {
-        if (!Validator.validateRequiredEditTextFields("Field is required", edrecipeTitle, edrecipeSummary, edcookingTime, edservings,edcookingTime, edhowToPrepare, edtagsToSplit)) {
+        if (!Validator.validateRequiredEditTextFields("Field is required", edrecipeTitle, edrecipeSummary, edcookingTime, edservings, edcookingTime, edhowToPrepare, edtagsToSplit)) {
             return false;
         }
 
@@ -232,5 +231,4 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
 
         return layout;
     }
-
 }

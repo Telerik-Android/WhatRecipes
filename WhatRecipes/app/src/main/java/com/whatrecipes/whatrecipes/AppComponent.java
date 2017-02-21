@@ -1,9 +1,15 @@
 package com.whatrecipes.whatrecipes;
 
+import com.whatrecipes.whatrecipes.data.firebase.FirebaseAuthenticationInteractor;
 import com.whatrecipes.whatrecipes.presenters.PresenterModule;
+import com.whatrecipes.whatrecipes.view.ActivityLogIn;
+import com.whatrecipes.whatrecipes.view.ActivityRegister;
 import com.whatrecipes.whatrecipes.view.MainActivity;
 import com.whatrecipes.whatrecipes.view.fragments.AddNewRecipeFragment;
+import com.whatrecipes.whatrecipes.view.fragments.DrawerFragment;
+import com.whatrecipes.whatrecipes.view.fragments.LogInFragment;
 import com.whatrecipes.whatrecipes.view.fragments.RecipesStackFragment;
+import com.whatrecipes.whatrecipes.view.fragments.RegisterUserFragment;
 
 import javax.inject.Singleton;
 
@@ -22,4 +28,14 @@ public interface AppComponent {
     void inject(AddNewRecipeFragment fragment);
 
     void inject(RecipesStackFragment fragment);
+
+    void inject(DrawerFragment fragment);
+
+    void inject(ActivityRegister activity);
+
+    void inject(RegisterUserFragment fragment);
+
+    void inject(ActivityLogIn activity);
+
+    void inject(LogInFragment fragment);
 }

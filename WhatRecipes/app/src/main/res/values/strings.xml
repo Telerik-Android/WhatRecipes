@@ -24,4 +24,5 @@
     <string name="describe_how_to_prepare">Describe how to prepare</string>
     <string name="PhotoPath">PhotoPath</string>
     <string name="fieldRequired">field is required</string>
+    <string name="register_activity_title">register</string>
 </resources>

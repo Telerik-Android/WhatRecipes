@@ -67,6 +67,15 @@ public class FirebaseAuthenticationInteractor implements IFirebaseAuthentication
     }
 
     @Override
+    public String getLoggedInUserEmail(){
+        FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+        if (firebaseUser != null && firebaseUser.getEmail() != null) {
+            return firebaseUser.getEmail();
+        }
+        return null;
+    }
+
+    @Override
     public void changeUserDisplayName(String usernameToSet) {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
