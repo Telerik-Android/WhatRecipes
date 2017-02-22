@@ -70,5 +70,7 @@ public interface IView {
         void showSuccessfulLogInMessage();
 
         void showAllFieldsMustBeFilledMessage();
+
+        void finishActivity();
     }
 }

@@ -7,8 +7,6 @@
     android:orientation="vertical"
     tools:context="com.whatrecipes.whatrecipes.view.ActivityRegister">
 
-    <include layout="@layout/toolbar" />
-
     <FrameLayout
         android:id="@+id/register_activity_frame_layout"
         android:layout_width="match_parent"

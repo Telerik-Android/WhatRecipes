@@ -57,6 +57,8 @@ public class FirebaseAuthenticationInteractor implements IFirebaseAuthentication
         firebaseAuth.signOut();
     }
 
+
+    @Deprecated
     @Override
     public String getLoggedInUserDisplayName() {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -75,6 +77,7 @@ public class FirebaseAuthenticationInteractor implements IFirebaseAuthentication
         return null;
     }
 
+    @Deprecated
     @Override
     public void changeUserDisplayName(String usernameToSet) {
         FirebaseUser user = firebaseAuth.getCurrentUser();

@@ -72,17 +72,6 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
             Toast.makeText(getActivity(), "Please enter password", Toast.LENGTH_LONG).show();
             return;
         }
-
-        //if the email and password are not empty
-        //displaying a progress dialog
-
-//        progressDialog.setMessage("Registering Please Wait...");
-//        progressDialog.show();
-
-
-//        progressDialog.dismiss();
-        //creating a new user
-
         presenter.registerUser(email, password);
 
     }
@@ -94,6 +83,7 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
         registerUser();
     }
 
+    @Override
     @OnClick(R.id.button_cancel)
     public void handleCancelButtonClick() {
         getActivity().finish();
@@ -121,7 +111,7 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
 
     @Override
     public void showAllFieldsMustBeFilledMessage() {
-
+        Toast.makeText(getActivity(), "all fileds must be filled", Toast.LENGTH_SHORT).show();
     }
 
     @Override

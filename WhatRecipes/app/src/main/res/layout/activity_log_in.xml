@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.whatrecipes.whatrecipes.view.ActivityLogIn">
 
+
+    <FrameLayout
+        android:id="@+id/log_in_activity_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
 </RelativeLayout>

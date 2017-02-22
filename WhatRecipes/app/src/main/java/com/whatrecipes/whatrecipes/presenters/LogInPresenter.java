@@ -12,12 +12,13 @@ import javax.inject.Inject;
  * Created by fatal on 2/21/2017.
  */
 
-public class LogInPresenter implements IPresenter.LogInPresenter{
+public class LogInPresenter implements IPresenter.LogInPresenter {
+
     private final FirebaseAuthenticationInteractor firebaseAuth;
     private IView.LogInUserView mView;
 
     @Inject
-    public LogInPresenter(FirebaseAuthenticationInteractor firebaseAuth){
+    public LogInPresenter(FirebaseAuthenticationInteractor firebaseAuth) {
         this.firebaseAuth = firebaseAuth;
     }
 
@@ -31,24 +32,27 @@ public class LogInPresenter implements IPresenter.LogInPresenter{
     public void logInUser(String email, String password) {
         if (!Validator.stringEmptyOrNull(email, password)) {
             mView.showProgressBar();
-            firebaseAuth.logTheUserIn(email,password,bindLoginListener());
+            firebaseAuth.logTheUserIn(email, password, bindLoginListener());
         } else {
             mView.showAllFieldsMustBeFilledMessage();
         }
     }
 
-    protected ResponseListener bindLoginListener() {
+    private ResponseListener bindLoginListener() {
         return new ResponseListener() {
             @Override
             public void onSuccessfulAuthentication() {
                 mView.hideProgressBar();
                 mView.showSuccessfulLogInMessage();
+                mView.finishActivity();
+
             }
 
             @Override
             public void onFailedAuthentication() {
                 mView.hideProgressBar();
                 mView.showInvalidLogInMessage();
+
             }
         };
     }

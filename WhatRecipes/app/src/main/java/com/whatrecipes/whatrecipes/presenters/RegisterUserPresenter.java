@@ -13,7 +13,6 @@ import javax.inject.Inject;
  */
 
 public class RegisterUserPresenter implements IPresenter.RegisterUserPresenter {
-    private String username;
     private final FirebaseAuthenticationInteractor firebaseAuth;
     private IView.RegisterUserView mView;
 
@@ -29,35 +28,18 @@ public class RegisterUserPresenter implements IPresenter.RegisterUserPresenter {
 
     @Override
     public void registerUser(String email, String password) {
-        this.username = email;
         if (!Validator.stringEmptyOrNull(email, password)) {
             mView.showProgressBar();
             firebaseAuth.registerUser(email, password, bindUserRegisterListener());
-            firebaseAuth.logTheUserIn(email, password, bindLoginListener());
         } else {
             mView.showAllFieldsMustBeFilledMessage();
         }
-    }
-
-    protected ResponseListener bindLoginListener() {
-        return new ResponseListener() {
-            @Override
-            public void onSuccessfulAuthentication() {
-                mView.showSuccessfulRegisterMessage();
-            }
-
-            @Override
-            public void onFailedAuthentication() {
-                mView.showInvalidRegisterMessage();
-            }
-        };
     }
 
     private ResponseListener bindUserRegisterListener() {
         return new ResponseListener() {
             @Override
             public void onSuccessfulAuthentication() {
-                firebaseAuth.changeUserDisplayName(username);
                 mView.hideProgressBar();
                 mView.showSuccessfulRegisterMessage();
                 mView.finishActivity();

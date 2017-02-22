@@ -6,19 +6,25 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.whatrecipes.whatrecipes.App;
 import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.presenters.LogInPresenter;
+import com.whatrecipes.whatrecipes.presenters.RegisterUserPresenter;
 import com.whatrecipes.whatrecipes.utils.ActivityUtils;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by fatal on 2/21/2017.
@@ -26,17 +32,25 @@ import butterknife.ButterKnife;
 
 public class LogInFragment extends Fragment implements IView.LogInUserView {
 
+    @BindView(R.id.editTextEmail)
+    public EditText etEmail;
+
+    @BindView(R.id.editTextPassword)
+    public EditText etPassword;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar mProgressBar;
+
     @Inject
     LogInPresenter presenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_new_recipe, container, false);
-
-
+        View view = inflater.inflate(R.layout.fragment_log_in, container, false);
 
         App.get().component().inject(this);
+
         presenter.setView(this);
 
         ButterKnife.bind(this, view);
@@ -46,14 +60,17 @@ public class LogInFragment extends Fragment implements IView.LogInUserView {
 
     @Override
     public void LogInUser() {
-
+        presenter.logInUser(etEmail.getText().toString(), etPassword.getText().toString());
     }
 
+
+    @OnClick(R.id.button_log_in)
     @Override
     public void handleLogInButtonClick() {
-
+        LogInUser();
     }
 
+    @OnClick(R.id.button_cancel)
     @Override
     public void handleCancelButtonClick() {
         getActivity().finish();
@@ -61,26 +78,32 @@ public class LogInFragment extends Fragment implements IView.LogInUserView {
 
     @Override
     public void showProgressBar() {
-
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
-
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
+
 
     @Override
     public void showInvalidLogInMessage() {
-
+        Toast.makeText(getActivity(), "login fail", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showSuccessfulLogInMessage() {
-
+        Toast.makeText(getActivity(), "login success", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showAllFieldsMustBeFilledMessage() {
+        Toast.makeText(getActivity(), "all fileds must be filled", Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void finishActivity() {
+        getActivity().finish();
     }
 }
