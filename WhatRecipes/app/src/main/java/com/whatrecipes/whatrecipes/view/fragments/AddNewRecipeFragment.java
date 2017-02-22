@@ -154,7 +154,7 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
 
     @OnClick(R.id.camera_button)
     public void takeCameraPhoto() {
-        CameraUtils.takeCameraPhoto(this);
+        CameraUtils.takeRecipeCameraPhoto(this);
     }
 
     @OnClick(R.id.add_ingredient_field_button)

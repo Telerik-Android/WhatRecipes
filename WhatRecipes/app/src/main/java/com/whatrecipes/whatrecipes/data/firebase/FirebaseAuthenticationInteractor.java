@@ -1,6 +1,7 @@
 package com.whatrecipes.whatrecipes.data.firebase;
 
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -100,7 +101,6 @@ public class FirebaseAuthenticationInteractor implements IFirebaseAuthentication
             user.updateProfile(request).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    //handle logic when successfully changed profile image
                 }
             });
         }

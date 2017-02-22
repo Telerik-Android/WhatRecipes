@@ -29,6 +29,7 @@ public interface IPresenter {
 
     interface RegisterUserPresenter extends Presenter<IView.RegisterUserView>{
         void registerUser(String email, String password);
+        void uploadImageToStorage(byte[] imageByteArray);
     }
 
     interface LogInPresenter extends Presenter<IView.LogInUserView>{

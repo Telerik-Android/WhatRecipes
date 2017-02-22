@@ -1,10 +1,6 @@
 package com.whatrecipes.whatrecipes.view.fragments;
 
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.whatrecipes.whatrecipes.App;
-import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.presenters.RegisterUserPresenter;
+import com.whatrecipes.whatrecipes.utils.CameraUtils;
 import com.whatrecipes.whatrecipes.utils.Validator;
 
 import javax.inject.Inject;
@@ -38,6 +34,12 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
 
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
+
+    @BindView(R.id.button_register)
+    Button btnRegister;
+
+    @BindView(R.id.button_cancel)
+    Button btnCancel;
 
     @Inject
     RegisterUserPresenter presenter;
@@ -91,11 +93,15 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
 
     @Override
     public void showProgressBar() {
+        btnCancel.setEnabled(false);
+        btnRegister.setEnabled(false);
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
+        btnCancel.setEnabled(true);
+        btnRegister.setEnabled(true);
         mProgressBar.setVisibility(View.INVISIBLE);
     }
 
@@ -117,5 +123,26 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
     @Override
     public void finishActivity() {
         getActivity().finish();
+    }
+
+    @Override
+    @OnClick(R.id.camera_button)
+    public void startTakeAPhotoActivity() {
+        CameraUtils.takeRecipeCameraPhoto(this);
+    }
+
+    @Override
+    public void loadImageFromResources() {
+
+    }
+
+    @Override
+    public void showOnSuccessfulUploadToast() {
+
+    }
+
+    @Override
+    public void showFailedUploadToast() {
+
     }
 }

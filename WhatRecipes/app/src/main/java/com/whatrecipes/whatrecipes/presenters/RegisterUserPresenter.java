@@ -3,6 +3,8 @@ package com.whatrecipes.whatrecipes.presenters;
 import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.data.firebase.FirebaseAuthenticationInteractor;
+import com.whatrecipes.whatrecipes.data.firebase.FirebaseStorageInteractor;
+import com.whatrecipes.whatrecipes.data.firebase.RequestListener;
 import com.whatrecipes.whatrecipes.data.firebase.ResponseListener;
 import com.whatrecipes.whatrecipes.utils.Validator;
 
@@ -14,11 +16,14 @@ import javax.inject.Inject;
 
 public class RegisterUserPresenter implements IPresenter.RegisterUserPresenter {
     private final FirebaseAuthenticationInteractor firebaseAuth;
+    private final FirebaseStorageInteractor firebaseStore;
     private IView.RegisterUserView mView;
+    private String tempUserImageUrl;
 
     @Inject
-    public RegisterUserPresenter(FirebaseAuthenticationInteractor firebaseAuth) {
+    public RegisterUserPresenter(FirebaseAuthenticationInteractor firebaseAuth, FirebaseStorageInteractor firebaseStore) {
         this.firebaseAuth = firebaseAuth;
+        this.firebaseStore = firebaseStore;
     }
 
     @Override
@@ -31,9 +36,36 @@ public class RegisterUserPresenter implements IPresenter.RegisterUserPresenter {
         if (!Validator.stringEmptyOrNull(email, password)) {
             mView.showProgressBar();
             firebaseAuth.registerUser(email, password, bindUserRegisterListener());
+
+            //set user profile image url
         } else {
             mView.showAllFieldsMustBeFilledMessage();
         }
+    }
+
+    @Override
+    public void uploadImageToStorage(byte[] imageByteArray) {
+        if (imageByteArray != null) {
+            mView.showProgressBar();
+            firebaseStore.uploadImageToStorage(imageByteArray, bindImageUploadResponseListener());
+        }
+    }
+
+    protected RequestListener<String> bindImageUploadResponseListener() {
+        return new RequestListener<String>() {
+            @Override
+            public void onSuccessfulRequest(String callback) {
+                tempUserImageUrl=callback;
+                mView.hideProgressBar();
+                mView.showOnSuccessfulUploadToast();
+            }
+
+            @Override
+            public void onFailedRequest() {
+                mView.showProgressBar();
+                mView.showFailedUploadToast();
+            }
+        };
     }
 
     private ResponseListener bindUserRegisterListener() {

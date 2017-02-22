@@ -27,7 +27,28 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
 public class CameraUtils {
     private static final int REQUEST_PORTRAIT_RFC = 1337;
     private static final int REQUEST_PORTRAIT_FFC = REQUEST_PORTRAIT_RFC + 1;
-    public static void takeCameraPhoto(AddNewRecipeFragment fragment){
+    public static void takeRecipeCameraPhoto(AddNewRecipeFragment fragment){
+
+        String filename = "cam2_" + Build.MANUFACTURER + "_" + Build.PRODUCT
+                + "_" + new SimpleDateFormat("yyyyMMdd'-'HHmmss").format(new Date());
+        File testRoot = new File(fragment.getActivity().getExternalFilesDir(null), filename);
+
+
+        Intent i = new CameraActivity.IntentBuilder(fragment.getContext())
+                .requestPermissions()
+                .skipConfirm()
+                .facing(Facing.FRONT)
+                .to(new File(testRoot, fragment.getString(R.string.screenshot)))
+                .debug()
+                .zoomStyle(ZoomStyle.SEEKBAR)
+                .updateMediaStore()
+                .build();
+        i.putExtra(fragment.getString(R.string.PhotoPath),testRoot.getAbsolutePath());
+
+        fragment.startActivityForResult(i, REQUEST_PORTRAIT_FFC);
+    }
+
+    public static void takeUserProfileCameraPhoto(AddNewRecipeFragment fragment){
 
         String filename = "cam2_" + Build.MANUFACTURER + "_" + Build.PRODUCT
                 + "_" + new SimpleDateFormat("yyyyMMdd'-'HHmmss").format(new Date());

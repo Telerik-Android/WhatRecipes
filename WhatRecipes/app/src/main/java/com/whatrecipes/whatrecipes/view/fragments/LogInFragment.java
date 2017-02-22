@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -40,6 +41,14 @@ public class LogInFragment extends Fragment implements IView.LogInUserView {
 
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
+
+    @BindView(R.id.button_cancel)
+    Button btnCancel;
+
+    @BindView(R.id.button_log_in)
+    Button btnLogIn;
+
+
 
     @Inject
     LogInPresenter presenter;
@@ -78,11 +87,15 @@ public class LogInFragment extends Fragment implements IView.LogInUserView {
 
     @Override
     public void showProgressBar() {
+        btnCancel.setEnabled(false);
+        btnLogIn.setEnabled(false);
         mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
+        btnCancel.setEnabled(true);
+        btnLogIn.setEnabled(true);
         mProgressBar.setVisibility(View.INVISIBLE);
     }
 
