@@ -126,9 +126,9 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
     }
 
     @Override
-    @OnClick(R.id.camera_button)
+
     public void startTakeAPhotoActivity() {
-        CameraUtils.takeRecipeCameraPhoto(this);
+        //CameraUtils.takeRecipeCameraPhoto(this);
     }
 
     @Override
