@@ -9,7 +9,6 @@
     tools:context="com.whatrecipes.whatrecipes.view.fragments.RegisterUserFragment">
 
     <LinearLayout
-        android:layout_centerVertical="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -51,6 +50,8 @@
                 android:text="Cancel" />
 
         </LinearLayout>
+
+
 
         <ProgressBar
             android:id="@+id/progress_bar"

@@ -1,6 +1,8 @@
 package com.whatrecipes.whatrecipes.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
@@ -28,19 +30,17 @@ public class MainActivity extends AppCompatActivity {
 
         drawerFragment = new DrawerFragment();
 
+        ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), drawerFragment, R.id.drawerFragment);
 
-        ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(),drawerFragment,R.id.drawerFragment);
 
     }
 
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0 ){
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
             getFragmentManager().popBackStack();
         } else {
             super.onBackPressed();
         }
     }
-
-
 }

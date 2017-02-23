@@ -1,7 +1,9 @@
 package com.whatrecipes.whatrecipes.view.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mikepenz.materialdrawer.AccountHeader;
@@ -20,6 +23,10 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
+import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
+import com.mikepenz.materialdrawer.util.DrawerImageLoader;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.whatrecipes.whatrecipes.App;
 import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.data.firebase.FirebaseAuthenticationInteractor;
@@ -37,7 +44,6 @@ public class DrawerFragment extends Fragment {
     private static final int RC_SIGN_IN = 122;
 
     AccountHeader accountHeader;
-    Drawable profile;
     Drawer drawer;
     Toolbar mToolbar;
 
@@ -52,32 +58,57 @@ public class DrawerFragment extends Fragment {
         App.get().component().inject(this);
 
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        Integer profile1 = R.drawable.user_not_registered;
 
-        if (firebaseAuth.getLoggedInUserDisplayName() != null) {
-            setupHeader(firebaseAuth.getLoggedInUserDisplayName());
+        DrawerImageLoader.init(abstractDrawerImageLoader);
+
+        if (firebaseAuth.getLoggedInUserEmail() != null) {
+            String imageUrl = firebaseAuth.getLoggedInUserImageURL();
+
+            setupHeader(firebaseAuth.getLoggedInUserEmail(), imageUrl);
             setupDrawer(view);
+
         } else {
 
-            setupHeader("not logged in");
+            setupHeader("not logged in", null);
             setupDrawer(view);
         }
 
         return view;
     }
 
-    private void setupHeader(final String emailAddress) {
-        this.accountHeader = new AccountHeaderBuilder()
+    private AbstractDrawerImageLoader abstractDrawerImageLoader = new AbstractDrawerImageLoader() {
+        @Override
+        public void set(ImageView imageView, Uri uri, Drawable placeholder) {
+            super.set(imageView, uri, placeholder);
+            Picasso
+                    .with(imageView.getContext())
+                    .load(uri).placeholder(placeholder)
+                    .error(R.drawable.user_not_registered)
+                    .into(imageView);
+        }
+
+        @Override
+        public void cancel(ImageView imageView) {
+            super.cancel(imageView);
+            Picasso
+                    .with(imageView.getContext())
+                    .cancelRequest(imageView);
+        }
+    };
+
+    private void setupHeader(final String emailAddress, String photoImageUrl) {
+
+        // TODO refactor with
+        // accountHeader.updateProfile(new ProfileDrawerItem());
+
+        AccountHeaderBuilder accountHeaderBuilder = new AccountHeaderBuilder()
                 .withSelectionListEnabled(false)
                 .withActivity(this.getActivity())
                 .withHeaderBackground(R.drawable.drawer_header_nutrional_dark)
-                .addProfiles(
-                        new ProfileDrawerItem().withEmail(emailAddress)
-                )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
-                        if (firebaseAuth.getLoggedInUserDisplayName() != null) {
+                        if (firebaseAuth.getLoggedInUserEmail() != null) {
                             //see if possible to change the displayed email, without reinstantiating new drawer
                             Integer b = 5;
                         } else {
@@ -91,9 +122,8 @@ public class DrawerFragment extends Fragment {
                     @Override
                     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
                         if (firebaseAuth.getLoggedInUserEmail() != null) {
+                            ActivityUtils.replaceFragmentToActivityWithNoBackStack(getFragmentManager(), new AddUserProfileImageFragment(), R.id.cardStackFragment);
 
-                            Toast.makeText(getActivity(), "logged in", Toast.LENGTH_SHORT).show();
-                            Integer b = 5;
                         } else {
                             Toast.makeText(getActivity(), "not logged in", Toast.LENGTH_SHORT).show();
 
@@ -105,8 +135,19 @@ public class DrawerFragment extends Fragment {
                     public boolean onProfileImageLongClick(View view, IProfile profile, boolean current) {
                         return false;
                     }
-                })
-                .build();
+                });
+
+        if (photoImageUrl != null) {
+            this.accountHeader = accountHeaderBuilder
+                    .addProfiles(
+                            new ProfileDrawerItem().withEmail(emailAddress).withIcon(photoImageUrl)
+                    ).build();
+        } else {
+            this.accountHeader = accountHeaderBuilder
+                    .addProfiles(
+                            new ProfileDrawerItem().withEmail(emailAddress)
+                    ).build();
+        }
     }
 
     private void setupDrawer(View view) {
@@ -138,7 +179,7 @@ public class DrawerFragment extends Fragment {
                                 break;
                             case 4:
                                 firebaseAuth.logTheUserOut();
-                                setupHeader("not logged in");
+                                setupHeader("not logged in", null);
                                 setupDrawer(getView());
                                 break;
                             case 5:
@@ -169,10 +210,18 @@ public class DrawerFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
+            case 0:
+                break;
             case RC_SIGN_IN:
-                setupHeader(firebaseAuth.getLoggedInUserEmail());
+                setupHeader(firebaseAuth.getLoggedInUserEmail(), firebaseAuth.getLoggedInUserImageURL());
                 setupDrawer(getView());
+
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

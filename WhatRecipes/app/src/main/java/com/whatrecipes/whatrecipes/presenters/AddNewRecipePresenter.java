@@ -8,6 +8,7 @@ import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.data.Recipe;
 import com.whatrecipes.whatrecipes.data.common.FirebaseConstants;
 import com.whatrecipes.whatrecipes.data.firebase.FirebaseDatabaseInteractor;
+import com.whatrecipes.whatrecipes.data.firebase.IFirebaseAuthenticationInteractor;
 import com.whatrecipes.whatrecipes.data.firebase.IFirebaseDatabaseInteractor;
 import com.whatrecipes.whatrecipes.utils.CameraUtils;
 import com.whatrecipes.whatrecipes.utils.Validator;
@@ -22,14 +23,20 @@ import javax.inject.Inject;
  */
 
 public class AddNewRecipePresenter implements IPresenter.AddRecipePresenter {
+    private final IFirebaseAuthenticationInteractor firebaseAuth;
     public IFirebaseDatabaseInteractor firebaseDb;
     public IView.AddNewRecipeView mView;
 
     @Inject
-    public AddNewRecipePresenter(IFirebaseDatabaseInteractor firebaseDb) {
+    public AddNewRecipePresenter(IFirebaseDatabaseInteractor firebaseDb, IFirebaseAuthenticationInteractor firebaseAuth) {
         this.firebaseDb = firebaseDb;
+        this.firebaseAuth = firebaseAuth;
     }
 
+    @Override
+    public String getLoggedUserEmail(){
+        return firebaseAuth.getLoggedInUserEmail();
+    }
 
     @Override
     public void saveRecipeToFirebaseDb(String recipeTitle, String recipeSummary, Map<String, String> ingredients, Integer cookingTime, String encodedBitmap, String howToPrepare, Integer servings, List<String> tags, String author) {

@@ -112,6 +112,6 @@ public class FirebaseAuthenticationInteractor implements IFirebaseAuthentication
         if (user != null && user.getPhotoUrl() != null) {
             return user.getPhotoUrl().toString();
         }
-        return null;
+        return "";
     }
 }

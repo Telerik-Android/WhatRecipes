@@ -12,6 +12,8 @@ import com.commonsware.cwac.cam2.Facing;
 import com.commonsware.cwac.cam2.ZoomStyle;
 import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.view.fragments.AddNewRecipeFragment;
+import com.whatrecipes.whatrecipes.view.fragments.AddUserProfileImageFragment;
+import com.whatrecipes.whatrecipes.view.fragments.RegisterUserFragment;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -25,6 +27,8 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
  */
 
 public class CameraUtils {
+
+    private static final int REQUEST_PORTRAIT_USER = 1336;
     private static final int REQUEST_PORTRAIT_RFC = 1337;
     private static final int REQUEST_PORTRAIT_FFC = REQUEST_PORTRAIT_RFC + 1;
     public static void takeRecipeCameraPhoto(AddNewRecipeFragment fragment){
@@ -48,7 +52,7 @@ public class CameraUtils {
         fragment.startActivityForResult(i, REQUEST_PORTRAIT_FFC);
     }
 
-    public static void takeUserProfileCameraPhoto(AddNewRecipeFragment fragment){
+    public static void takeUserProfileCameraPhoto(AddUserProfileImageFragment fragment){
 
         String filename = "cam2_" + Build.MANUFACTURER + "_" + Build.PRODUCT
                 + "_" + new SimpleDateFormat("yyyyMMdd'-'HHmmss").format(new Date());
@@ -66,6 +70,6 @@ public class CameraUtils {
                 .build();
         i.putExtra(fragment.getString(R.string.PhotoPath),testRoot.getAbsolutePath());
 
-        fragment.startActivityForResult(i, REQUEST_PORTRAIT_FFC);
+        fragment.startActivityForResult(i, REQUEST_PORTRAIT_USER);
     }
 }

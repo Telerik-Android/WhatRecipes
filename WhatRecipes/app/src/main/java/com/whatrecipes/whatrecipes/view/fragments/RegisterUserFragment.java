@@ -1,5 +1,9 @@
 package com.whatrecipes.whatrecipes.view.fragments;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -7,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -15,6 +20,7 @@ import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.presenters.RegisterUserPresenter;
 import com.whatrecipes.whatrecipes.utils.CameraUtils;
+import com.whatrecipes.whatrecipes.utils.ImageHelper;
 import com.whatrecipes.whatrecipes.utils.Validator;
 
 import javax.inject.Inject;
@@ -125,24 +131,5 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
         getActivity().finish();
     }
 
-    @Override
 
-    public void startTakeAPhotoActivity() {
-        //CameraUtils.takeRecipeCameraPhoto(this);
-    }
-
-    @Override
-    public void loadImageFromResources() {
-
-    }
-
-    @Override
-    public void showOnSuccessfulUploadToast() {
-
-    }
-
-    @Override
-    public void showFailedUploadToast() {
-
-    }
 }

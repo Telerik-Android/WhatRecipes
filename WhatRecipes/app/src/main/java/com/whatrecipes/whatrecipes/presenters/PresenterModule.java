@@ -14,14 +14,5 @@ import dagger.Provides;
 @Module(includes = FirebaseModule.class)
 public class PresenterModule {
 
-    @Provides
-    public IPresenter.AddRecipePresenter providesAddNewRecipePresenter(FirebaseDatabaseInteractor firebaseDatabaseInteractor){
-        return new AddNewRecipePresenter(firebaseDatabaseInteractor);
-    }
-
-    @Provides
-    public IPresenter.RecipeStackPresenter providesRecipeStackView(FirebaseDatabaseInteractor firebaseDatabaseInteractor){
-        return new RecipesStackPresenter(firebaseDatabaseInteractor);
-    }
 }
 

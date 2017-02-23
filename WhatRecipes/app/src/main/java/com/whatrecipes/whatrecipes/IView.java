@@ -52,14 +52,6 @@ public interface IView {
         void showAllFieldsMustBeFilledMessage();
 
         void finishActivity();
-
-        void startTakeAPhotoActivity();
-
-        void loadImageFromResources();
-
-        void showOnSuccessfulUploadToast();
-
-        void showFailedUploadToast();
     }
 
     interface LogInUserView {
@@ -80,5 +72,22 @@ public interface IView {
         void showAllFieldsMustBeFilledMessage();
 
         void finishActivity();
+    }
+
+    interface AddUserProfileImage{
+        void finishActivity();
+
+        void startTakeAPhotoActivity();
+
+        void loadImageFromResources();
+
+        void showOnSuccessfulUploadToast();
+
+        void showFailedUploadToast();
+
+        void showProgressBar();
+
+        void hideProgressBar();
+
     }
 }

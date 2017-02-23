@@ -138,8 +138,12 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         }
 
         encodedBitmap = RecipeViewUtils.setEncodedImage(this.RecipeThumbnail);
+        String author = "anonymous";
 
-        String author = "Not implemented";
+        if (presenter.getLoggedUserEmail() != null) {
+            author = presenter.getLoggedUserEmail();
+        }
+
 
         presenter.saveRecipeToFirebaseDb(recipeTitle, recipeSummary, ingredients, cookingTime, encodedBitmap, howToPrepare, servings, Arrays.asList(tags), author);
 

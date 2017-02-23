@@ -15,11 +15,19 @@
       },
       "oauth_client": [
         {
+          "client_id": "865232834615-s8rjq6o765hp4060udqoget60442l0f7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.whatrecipes.whatrecipes",
+            "certificate_hash": "211131bfe006dd4fe99b38c6ae32e97c45aa2ea4"
+          }
+        },
+        {
           "client_id": "865232834615-olnm4ameg6ilehr7bp6kuaivl2sc8mf1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.whatrecipes.whatrecipes",
-            "certificate_hash": "E2774A7AECEEED43B5EF80610C19F19F665FD9D6"
+            "certificate_hash": "e2774a7aeceeed43b5ef80610c19f19f665fd9d6"
           }
         },
         {
@@ -27,7 +35,7 @@
           "client_type": 1,
           "android_info": {
             "package_name": "com.whatrecipes.whatrecipes",
-            "certificate_hash": "A35854F8E5DBC4AC5E8B1499479CF08043AC4ADC"
+            "certificate_hash": "a35854f8e5dbc4ac5e8b1499479cf08043ac4adc"
           }
         },
         {
