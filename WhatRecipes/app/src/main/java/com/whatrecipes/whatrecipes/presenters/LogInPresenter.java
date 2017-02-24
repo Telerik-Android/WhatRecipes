@@ -8,6 +8,9 @@ import com.whatrecipes.whatrecipes.utils.Validator;
 
 import javax.inject.Inject;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by fatal on 2/21/2017.
  */
@@ -44,7 +47,7 @@ public class LogInPresenter implements IPresenter.LogInPresenter {
             public void onSuccessfulAuthentication() {
                 mView.hideProgressBar();
                 mView.showSuccessfulLogInMessage();
-                mView.finishActivity();
+                mView.finishActivity(RESULT_OK);
 
             }
 
@@ -52,6 +55,7 @@ public class LogInPresenter implements IPresenter.LogInPresenter {
             public void onFailedAuthentication() {
                 mView.hideProgressBar();
                 mView.showInvalidLogInMessage();
+                mView.finishActivity(RESULT_CANCELED);
 
             }
         };

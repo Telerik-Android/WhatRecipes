@@ -127,7 +127,8 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
     }
 
     @Override
-    public void finishActivity() {
+    public void finishActivity(int result) {
+        getActivity().setResult(result);
         getActivity().finish();
     }
 

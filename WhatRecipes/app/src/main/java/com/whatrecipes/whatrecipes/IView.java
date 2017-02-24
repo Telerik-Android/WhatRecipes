@@ -51,7 +51,7 @@ public interface IView {
 
         void showAllFieldsMustBeFilledMessage();
 
-        void finishActivity();
+        void finishActivity(int result);
     }
 
     interface LogInUserView {
@@ -71,15 +71,19 @@ public interface IView {
 
         void showAllFieldsMustBeFilledMessage();
 
-        void finishActivity();
+        void finishActivity(int result);
+
+        boolean validate();
     }
 
-    interface AddUserProfileImage{
-        void finishActivity();
+    interface AddUserProfileImage {
+        void finishActivity(int result);
 
         void startTakeAPhotoActivity();
 
         void loadImageFromResources();
+
+        void handleCancelButtonClick();
 
         void showOnSuccessfulUploadToast();
 

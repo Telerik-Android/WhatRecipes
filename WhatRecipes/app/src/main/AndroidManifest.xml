@@ -22,6 +22,7 @@
         </activity>
         <activity android:name=".view.ActivityRegister" />
         <activity android:name=".view.ActivityLogIn"></activity>
+        <activity android:name=".view.ActivityAddUserImage"></activity>
     </application>
 
 </manifest>

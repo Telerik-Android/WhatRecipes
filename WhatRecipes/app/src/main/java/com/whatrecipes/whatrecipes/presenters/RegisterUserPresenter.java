@@ -12,6 +12,9 @@ import com.whatrecipes.whatrecipes.utils.Validator;
 
 import javax.inject.Inject;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by fatal on 2/21/2017.
  */
@@ -51,13 +54,15 @@ public class RegisterUserPresenter implements IPresenter.RegisterUserPresenter {
             public void onSuccessfulAuthentication() {
                 mView.hideProgressBar();
                 mView.showSuccessfulRegisterMessage();
-                mView.finishActivity();
+                firebaseAuth.logTheUserOut();
+                mView.finishActivity(RESULT_OK);
             }
 
             @Override
             public void onFailedAuthentication() {
                 mView.hideProgressBar();
                 mView.showInvalidRegisterMessage();
+                mView.finishActivity(RESULT_CANCELED);
             }
         };
     }

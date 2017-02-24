@@ -10,6 +10,9 @@ import com.whatrecipes.whatrecipes.data.firebase.RequestListener;
 
 import javax.inject.Inject;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by fatal on 23.2.2017 г..
  */
@@ -52,12 +55,14 @@ public class AddUserProfileImagePresenter implements IPresenter.AddUserProfileIm
                 saveImageToCurrentUser();
                 mView.hideProgressBar();
                 mView.showOnSuccessfulUploadToast();
+                mView.finishActivity(RESULT_OK);
             }
 
             @Override
             public void onFailedRequest() {
                 mView.showProgressBar();
                 mView.showFailedUploadToast();
+                mView.finishActivity(RESULT_CANCELED);
             }
         };
     }

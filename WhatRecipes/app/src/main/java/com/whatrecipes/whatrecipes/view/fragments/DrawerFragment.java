@@ -31,17 +31,21 @@ import com.whatrecipes.whatrecipes.App;
 import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.data.firebase.FirebaseAuthenticationInteractor;
 import com.whatrecipes.whatrecipes.utils.ActivityUtils;
+import com.whatrecipes.whatrecipes.utils.Validator;
+import com.whatrecipes.whatrecipes.view.ActivityAddUserImage;
 import com.whatrecipes.whatrecipes.view.ActivityLogIn;
 import com.whatrecipes.whatrecipes.view.ActivityRegister;
 
 import javax.inject.Inject;
 
+import static android.app.Activity.RESULT_OK;
 import static java.lang.Integer.parseInt;
 
 public class DrawerFragment extends Fragment {
     private static final int RC_SIGN_OUT = 121;
     private static final int RC_SIGN_UP = 123;
     private static final int RC_SIGN_IN = 122;
+    private static final int RC_ADD_USER_IMAGE = 124;
 
     AccountHeader accountHeader;
     Drawer drawer;
@@ -65,6 +69,7 @@ public class DrawerFragment extends Fragment {
             String imageUrl = firebaseAuth.getLoggedInUserImageURL();
 
             setupHeader(firebaseAuth.getLoggedInUserEmail(), imageUrl);
+
             setupDrawer(view);
 
         } else {
@@ -96,6 +101,7 @@ public class DrawerFragment extends Fragment {
         }
     };
 
+
     private void setupHeader(final String emailAddress, String photoImageUrl) {
 
         // TODO refactor with
@@ -122,8 +128,7 @@ public class DrawerFragment extends Fragment {
                     @Override
                     public boolean onProfileImageClick(View view, IProfile profile, boolean current) {
                         if (firebaseAuth.getLoggedInUserEmail() != null) {
-                            ActivityUtils.replaceFragmentToActivityWithNoBackStack(getFragmentManager(), new AddUserProfileImageFragment(), R.id.cardStackFragment);
-
+                            startActivityForResult(new Intent(getActivity(), ActivityAddUserImage.class), RC_ADD_USER_IMAGE);
                         } else {
                             Toast.makeText(getActivity(), "not logged in", Toast.LENGTH_SHORT).show();
 
@@ -137,15 +142,16 @@ public class DrawerFragment extends Fragment {
                     }
                 });
 
-        if (photoImageUrl != null) {
+        if (!Validator.stringEmptyOrNull(photoImageUrl)) {
             this.accountHeader = accountHeaderBuilder
                     .addProfiles(
                             new ProfileDrawerItem().withEmail(emailAddress).withIcon(photoImageUrl)
                     ).build();
         } else {
+
             this.accountHeader = accountHeaderBuilder
                     .addProfiles(
-                            new ProfileDrawerItem().withEmail(emailAddress)
+                            new ProfileDrawerItem().withEmail(emailAddress).withIcon(R.drawable.user_not_registered)
                     ).build();
         }
     }
@@ -186,7 +192,6 @@ public class DrawerFragment extends Fragment {
                                 startActivityForResult(new Intent(getActivity(), ActivityRegister.class), RC_SIGN_UP);
                                 break;
                             case 6:
-                                Toast.makeText(getActivity(), "registered fail", Toast.LENGTH_SHORT).show();
                                 startActivityForResult(new Intent(getActivity(), ActivityLogIn.class), RC_SIGN_IN);
                                 break;
                         }
@@ -213,8 +218,22 @@ public class DrawerFragment extends Fragment {
             case 0:
                 break;
             case RC_SIGN_IN:
-                setupHeader(firebaseAuth.getLoggedInUserEmail(), firebaseAuth.getLoggedInUserImageURL());
-                setupDrawer(getView());
+                if (resultCode == RESULT_OK) {
+                    updateProfile();
+                    {
+                        setupDrawer(getView());
+                    }
+
+                }
+                break;
+            case RC_ADD_USER_IMAGE:
+                if (resultCode == RESULT_OK) {
+                    updateProfile();
+                    {
+                        setupDrawer(getView());
+                    }
+
+                }
 
                 break;
         }
@@ -223,5 +242,25 @@ public class DrawerFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    public void updateProfile() {
+        String imageUrl = firebaseAuth.getLoggedInUserImageURL();
+        ProfileDrawerItem profile = new ProfileDrawerItem();
+
+        if (!Validator.stringEmptyOrNull(imageUrl)) {
+            profile
+                    .withName(firebaseAuth.getLoggedInUserEmail())
+                    .withIcon(imageUrl)
+                    .withIdentifier(this.accountHeader.getActiveProfile().getIdentifier());
+        } else {
+            profile
+                    .withName(firebaseAuth.getLoggedInUserEmail())
+                    .withIcon(R.drawable.user_not_registered)
+                    .withIdentifier(this.accountHeader.getActiveProfile().getIdentifier());
+        }
+
+
+        this.accountHeader.updateProfile(profile);
     }
 }

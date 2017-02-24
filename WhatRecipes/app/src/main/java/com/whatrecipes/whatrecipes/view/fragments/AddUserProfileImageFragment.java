@@ -19,6 +19,7 @@ import com.whatrecipes.whatrecipes.App;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.presenters.AddUserProfileImagePresenter;
+import com.whatrecipes.whatrecipes.utils.ActivityUtils;
 import com.whatrecipes.whatrecipes.utils.CameraUtils;
 import com.whatrecipes.whatrecipes.utils.ImageHelper;
 
@@ -30,11 +31,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by fatal on 23.2.2017 г..
  */
 
-public class AddUserProfileImageFragment extends Fragment implements IView.AddUserProfileImage{
+public class AddUserProfileImageFragment extends Fragment implements IView.AddUserProfileImage {
     private final static int REQUEST_MEDIA_USER = 101;
 
     private static final int REQUEST_PORTRAIT_USER = 1336;
@@ -55,11 +59,10 @@ public class AddUserProfileImageFragment extends Fragment implements IView.AddUs
     AddUserProfileImagePresenter presenter;
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_user_profile_image,container,false);
+        View view = inflater.inflate(R.layout.fragment_add_user_profile_image, container, false);
 
         App.get().component().inject(this);
         presenter.setView(this);
@@ -71,8 +74,9 @@ public class AddUserProfileImageFragment extends Fragment implements IView.AddUs
     }
 
     @Override
-    public void finishActivity() {
-
+    public void finishActivity(int result) {
+        getActivity().setResult(result);
+        getActivity().finish();
     }
 
     @OnClick(R.id.camera_button)
@@ -83,11 +87,17 @@ public class AddUserProfileImageFragment extends Fragment implements IView.AddUs
     }
 
     @OnClick(R.id.gallery_button)
-    public void startTakeFromGalleryPhotoActivity(){
+    public void startTakeFromGalleryPhotoActivity() {
         btnCamera.setEnabled(false);
         Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhoto , REQUEST_MEDIA_USER);
+        startActivityForResult(pickPhoto, REQUEST_MEDIA_USER);
+    }
+
+    @Override
+    @OnClick(R.id.cancel_button)
+    public void handleCancelButtonClick() {
+        ActivityUtils.replaceFragmentToActivity(getFragmentManager(), new RecipesStackFragment(), R.id.cardStackFragment);
     }
 
     @Override
@@ -118,38 +128,42 @@ public class AddUserProfileImageFragment extends Fragment implements IView.AddUs
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode!=0){
-            switch(requestCode){
+        if (resultCode != 0) {
+            switch (requestCode) {
                 case REQUEST_PORTRAIT_USER:
+                    if (resultCode == RESULT_OK) {
+                        Uri rootPath = data.getData();
+                        Bitmap bitmap = BitmapFactory.decodeFile(rootPath.getPath());
 
-                    Uri rootPath = data.getData();
-                    Bitmap bitmap = BitmapFactory.decodeFile(rootPath.getPath());
+                        //Preview photo
+                        imageView.setImageBitmap(bitmap);
+                        presenter.uploadImageToStorage(getActivity(), ImageHelper.getImageByteArray(bitmap));
 
-                    //Preview photo
-                    imageView.setImageBitmap(bitmap);
-                    presenter.uploadImageToStorage(getActivity(), ImageHelper.getImageByteArray(bitmap));
+                    }
                     break;
 
                 case REQUEST_MEDIA_USER:
-                    Uri rootPath2 = data.getData();
-                    Bitmap bitmap2 = null;
-                    try {
-                        bitmap2 = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),rootPath2);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    if (resultCode == RESULT_OK) {
+                        Uri rootPath2 = data.getData();
+                        Bitmap bitmap2 = null;
+                        try {
+                            bitmap2 = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), rootPath2);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-                    imageView.setImageBitmap(bitmap2);
-                    presenter.uploadImageToStorage(getActivity(), ImageHelper.getImageByteArray(bitmap2));
+                        imageView.setImageBitmap(bitmap2);
+                        presenter.uploadImageToStorage(getActivity(), ImageHelper.getImageByteArray(bitmap2));
+                    }
                     break;
             }
         }
 
     }
 
-    public void pickImageFromGallery(){
+    public void pickImageFromGallery() {
         Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhoto , 1);
+        startActivityForResult(pickPhoto, 1);
     }
 }

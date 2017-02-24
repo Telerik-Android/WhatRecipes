@@ -68,6 +68,13 @@ public class LogInFragment extends Fragment implements IView.LogInUserView {
     }
 
     @Override
+    public boolean validate(){
+        boolean valid = true;
+
+        return valid;
+    }
+
+    @Override
     public void LogInUser() {
         presenter.logInUser(etEmail.getText().toString(), etPassword.getText().toString());
     }
@@ -116,7 +123,8 @@ public class LogInFragment extends Fragment implements IView.LogInUserView {
     }
 
     @Override
-    public void finishActivity() {
+    public void finishActivity(int result) {
+        getActivity().setResult(result);
         getActivity().finish();
     }
 }
