@@ -2,6 +2,8 @@ package com.whatrecipes.whatrecipes.data.firebase;
 
 import android.app.Activity;
 
+import com.whatrecipes.whatrecipes.data.firebase.listeners.RequestListener;
+
 /**
  * Created by fatal on 2/20/2017.
  */

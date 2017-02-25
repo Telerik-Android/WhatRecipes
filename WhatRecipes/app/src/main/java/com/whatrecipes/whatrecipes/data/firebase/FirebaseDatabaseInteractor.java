@@ -7,8 +7,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.whatrecipes.whatrecipes.data.Recipe;
 import com.whatrecipes.whatrecipes.data.common.FirebaseConstants;
-
-import javax.inject.Inject;
+import com.whatrecipes.whatrecipes.data.firebase.listeners.RequestListener;
 
 /**
  * Created by fatal on 2/19/2017.

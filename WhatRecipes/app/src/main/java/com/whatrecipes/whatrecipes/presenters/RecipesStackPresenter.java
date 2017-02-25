@@ -27,7 +27,7 @@ import javax.inject.Inject;
  * Created by dnt on 13.2.2017 г..
  */
 
-public class RecipesStackPresenter implements IPresenter.RecipeStackPresenter {
+public class RecipesStackPresenter implements IPresenter.RecipeStackPresenter, ChildEventListener {
     private IView.RecipeStackView mView;
     private final IFirebaseDatabaseInteractor db;
 
@@ -38,44 +38,40 @@ public class RecipesStackPresenter implements IPresenter.RecipeStackPresenter {
 
     @Override
     public void loadRecipesStack() {
-        db.getAllRecipes(bindRecipeListener());
+        db.getAllRecipes(this);
 
     }
 
-    private ChildEventListener bindRecipeListener() {
-        return new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (dataSnapshot != null) {
-                    Recipe model = dataSnapshot.getValue(Recipe.class);
-                    if (model != null) {
-                        String bitmapR = model.getEncodedImage();
-                        model.setBitmap(RecipeViewUtils.getEncodedImage(bitmapR));
-                        mView.addRecipeToAdapter(model);
-                    }
-                }
+    @Override
+    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+        if (dataSnapshot != null) {
+            Recipe model = dataSnapshot.getValue(Recipe.class);
+            if (model != null) {
+                String bitmapR = model.getEncodedImage();
+                model.setBitmap(RecipeViewUtils.getEncodedImage(bitmapR));
+                mView.addRecipeToAdapter(model);
             }
+        }
+    }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+    @Override
+    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-            }
+    }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
+    @Override
+    public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-            }
+    }
 
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+    @Override
+    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-            }
+    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
 
-            }
-        };
     }
 
 

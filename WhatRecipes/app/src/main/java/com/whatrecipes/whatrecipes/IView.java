@@ -35,7 +35,7 @@ public interface IView {
     }
 
     interface RegisterUserView {
-        void registerUser();
+        void registerUser(String email, String password);
 
         void handleRegisterButtonClick();
 

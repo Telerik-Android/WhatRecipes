@@ -1,5 +1,7 @@
 package com.whatrecipes.whatrecipes.data.firebase;
 
+import com.whatrecipes.whatrecipes.data.firebase.listeners.ResponseListener;
+
 /**
  * Created by fatal on 2/19/2017.
  */

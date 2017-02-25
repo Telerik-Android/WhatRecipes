@@ -1,4 +1,4 @@
-package com.whatrecipes.whatrecipes.data.firebase;
+package com.whatrecipes.whatrecipes.data.firebase.listeners;
 
 /**
  * Created by fatal on 2/19/2017.

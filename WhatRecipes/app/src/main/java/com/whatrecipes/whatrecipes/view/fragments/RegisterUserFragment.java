@@ -64,11 +64,7 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
         return view;
     }
 
-    public void registerUser() {
-
-        //getting email and password from edit texts
-        String email = etEmail.getText().toString().trim();
-        String password = etPassword.getText().toString().trim();
+    public void registerUser(String email, String password) {
 
         //checking if email and passwords are empty
         if (Validator.stringEmptyOrNull(email)) {
@@ -88,7 +84,10 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
     @Override
     @OnClick(R.id.button_register)
     public void handleRegisterButtonClick() {
-        registerUser();
+
+        String email = etEmail.getText().toString().trim();
+        String password = etPassword.getText().toString().trim();
+        registerUser(email,password);
     }
 
     @Override

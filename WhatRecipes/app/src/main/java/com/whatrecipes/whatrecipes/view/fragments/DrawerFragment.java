@@ -206,6 +206,7 @@ public class DrawerFragment extends Fragment {
         }
 
         drawer = drawerBuilder.build();
+        
 
 
     }

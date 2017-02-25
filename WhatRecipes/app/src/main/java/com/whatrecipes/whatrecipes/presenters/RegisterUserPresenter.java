@@ -1,13 +1,10 @@
 package com.whatrecipes.whatrecipes.presenters;
 
-import android.app.Activity;
-
 import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
-import com.whatrecipes.whatrecipes.data.firebase.FirebaseAuthenticationInteractor;
-import com.whatrecipes.whatrecipes.data.firebase.FirebaseStorageInteractor;
-import com.whatrecipes.whatrecipes.data.firebase.RequestListener;
-import com.whatrecipes.whatrecipes.data.firebase.ResponseListener;
+import com.whatrecipes.whatrecipes.data.firebase.IFirebaseAuthenticationInteractor;
+import com.whatrecipes.whatrecipes.data.firebase.IFirebaseStorageInteractor;
+import com.whatrecipes.whatrecipes.data.firebase.listeners.ResponseListener;
 import com.whatrecipes.whatrecipes.utils.Validator;
 
 import javax.inject.Inject;
@@ -19,14 +16,13 @@ import static android.app.Activity.RESULT_OK;
  * Created by fatal on 2/21/2017.
  */
 
-public class RegisterUserPresenter implements IPresenter.RegisterUserPresenter {
-    private final FirebaseAuthenticationInteractor firebaseAuth;
-    private final FirebaseStorageInteractor firebaseStore;
+public class RegisterUserPresenter implements IPresenter.RegisterUserPresenter, ResponseListener {
+    private final IFirebaseAuthenticationInteractor firebaseAuth;
+    private final IFirebaseStorageInteractor firebaseStore;
     private IView.RegisterUserView mView;
-    private String tempUserImageUrl;
 
     @Inject
-    public RegisterUserPresenter(FirebaseAuthenticationInteractor firebaseAuth, FirebaseStorageInteractor firebaseStore) {
+    public RegisterUserPresenter(IFirebaseAuthenticationInteractor firebaseAuth, IFirebaseStorageInteractor firebaseStore) {
         this.firebaseAuth = firebaseAuth;
         this.firebaseStore = firebaseStore;
     }
@@ -40,30 +36,25 @@ public class RegisterUserPresenter implements IPresenter.RegisterUserPresenter {
     public void registerUser(String email, String password) {
         if (!Validator.stringEmptyOrNull(email, password)) {
             mView.showProgressBar();
-            firebaseAuth.registerUser(email, password, bindUserRegisterListener());
+            firebaseAuth.registerUser(email, password,this);
             //set user profile image url
         } else {
             mView.showAllFieldsMustBeFilledMessage();
         }
     }
 
+    @Override
+    public void onSuccessfulAuthentication() {
+        mView.hideProgressBar();
+        mView.showSuccessfulRegisterMessage();
+        firebaseAuth.logTheUserOut();
+        mView.finishActivity(RESULT_OK);
+    }
 
-    private ResponseListener bindUserRegisterListener() {
-        return new ResponseListener() {
-            @Override
-            public void onSuccessfulAuthentication() {
-                mView.hideProgressBar();
-                mView.showSuccessfulRegisterMessage();
-                firebaseAuth.logTheUserOut();
-                mView.finishActivity(RESULT_OK);
-            }
-
-            @Override
-            public void onFailedAuthentication() {
-                mView.hideProgressBar();
-                mView.showInvalidRegisterMessage();
-                mView.finishActivity(RESULT_CANCELED);
-            }
-        };
+    @Override
+    public void onFailedAuthentication() {
+        mView.hideProgressBar();
+        mView.showInvalidRegisterMessage();
+        mView.finishActivity(RESULT_CANCELED);
     }
 }

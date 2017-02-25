@@ -6,7 +6,9 @@ import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.data.firebase.FirebaseAuthenticationInteractor;
 import com.whatrecipes.whatrecipes.data.firebase.FirebaseStorageInteractor;
-import com.whatrecipes.whatrecipes.data.firebase.RequestListener;
+import com.whatrecipes.whatrecipes.data.firebase.IFirebaseAuthenticationInteractor;
+import com.whatrecipes.whatrecipes.data.firebase.IFirebaseStorageInteractor;
+import com.whatrecipes.whatrecipes.data.firebase.listeners.RequestListener;
 
 import javax.inject.Inject;
 
@@ -17,16 +19,15 @@ import static android.app.Activity.RESULT_OK;
  * Created by fatal on 23.2.2017 г..
  */
 
-public class AddUserProfileImagePresenter implements IPresenter.AddUserProfileImagePresenter{
+public class AddUserProfileImagePresenter implements IPresenter.AddUserProfileImagePresenter,RequestListener<String>{
 
-    private final FirebaseStorageInteractor firebaseStore;
-    private final FirebaseAuthenticationInteractor firebaseAuth;
+    private final IFirebaseStorageInteractor firebaseStore;
+    private final IFirebaseAuthenticationInteractor firebaseAuth;
     private IView.AddUserProfileImage mView;
 
-    public String tempUserImageUrl;
 
     @Inject
-    public AddUserProfileImagePresenter(FirebaseAuthenticationInteractor firebaseAuth, FirebaseStorageInteractor firebaseStore){
+    public AddUserProfileImagePresenter(IFirebaseAuthenticationInteractor firebaseAuth, IFirebaseStorageInteractor firebaseStore){
         this.firebaseAuth = firebaseAuth;
         this.firebaseStore = firebaseStore;
     }
@@ -42,32 +43,23 @@ public class AddUserProfileImagePresenter implements IPresenter.AddUserProfileIm
     public void uploadImageToStorage(Activity activity, byte[] imageByteArray) {
         if (imageByteArray != null) {
             mView.showProgressBar();
-            firebaseStore.uploadImageToStorage(activity,imageByteArray, bindImageUploadResponseListener());
+            firebaseStore.uploadImageToStorage(activity,imageByteArray, this);
         }
     }
 
-    protected RequestListener<String> bindImageUploadResponseListener() {
-        return new RequestListener<String>() {
-
-            @Override
-            public void onSuccessfulRequest(String callback) {
-                tempUserImageUrl=callback;
-                saveImageToCurrentUser();
-                mView.hideProgressBar();
-                mView.showOnSuccessfulUploadToast();
-                mView.finishActivity(RESULT_OK);
-            }
-
-            @Override
-            public void onFailedRequest() {
-                mView.showProgressBar();
-                mView.showFailedUploadToast();
-                mView.finishActivity(RESULT_CANCELED);
-            }
-        };
+    @Override
+    public void onSuccessfulRequest(String callback) {
+        firebaseAuth.changeUserImageUrl(callback);
+        mView.hideProgressBar();
+        mView.showOnSuccessfulUploadToast();
+        mView.finishActivity(RESULT_OK);
     }
 
-    public void saveImageToCurrentUser() {
-        firebaseAuth.changeUserImageUrl(tempUserImageUrl);
+    @Override
+    public void onFailedRequest() {
+        mView.hideProgressBar();
+        mView.showFailedUploadToast();
+        mView.finishActivity(RESULT_CANCELED);
     }
+
 }

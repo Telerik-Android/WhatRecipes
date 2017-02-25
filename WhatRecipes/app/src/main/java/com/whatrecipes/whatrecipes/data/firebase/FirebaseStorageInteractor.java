@@ -1,15 +1,13 @@
 package com.whatrecipes.whatrecipes.data.firebase;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
-import com.whatrecipes.whatrecipes.view.ActivityRegister;
+import com.whatrecipes.whatrecipes.data.firebase.listeners.RequestListener;
 
 import java.util.UUID;
 
