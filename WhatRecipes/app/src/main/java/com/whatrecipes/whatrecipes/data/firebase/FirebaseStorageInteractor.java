@@ -26,8 +26,29 @@ public class FirebaseStorageInteractor implements IFirebaseStorageInteractor {
     }
 
     @Override
-    public void uploadImageToStorage(final Activity activity, byte[] imageBytes, final RequestListener<String> listener) {
+    public void uploadUserProfileImageToStorage(final Activity activity, byte[] imageBytes, final RequestListener<String> listener) {
         String path = "profileImages/" + UUID.randomUUID()+".jpg";
+        //if memory leak, attach upload task to activity scope
+        UploadTask uploadTask = firebaseStorage.getReference(path).putBytes(imageBytes); //reference should be unique each time so the file isn't overwritten
+        uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                if(taskSnapshot.getDownloadUrl()!=null){
+                    listener.onSuccessfulRequest(taskSnapshot.getDownloadUrl().toString());
+                }
+            }
+        });
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                listener.onFailedRequest();
+            }
+        });
+    }
+
+    @Override
+    public void uploadRecipeImageToStorage(Activity activity, byte[] imageBytes, final RequestListener<String> listener) {
+        String path = "recipeImages/" + UUID.randomUUID()+".jpg";
         //if memory leak, attach upload task to activity scope
         UploadTask uploadTask = firebaseStorage.getReference(path).putBytes(imageBytes); //reference should be unique each time so the file isn't overwritten
         uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {

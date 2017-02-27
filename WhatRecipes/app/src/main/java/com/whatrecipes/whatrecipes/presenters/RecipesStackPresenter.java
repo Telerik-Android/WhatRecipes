@@ -1,23 +1,14 @@
 package com.whatrecipes.whatrecipes.presenters;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.data.Recipe;
-import com.whatrecipes.whatrecipes.data.firebase.FirebaseDatabaseInteractor;
 import com.whatrecipes.whatrecipes.data.firebase.IFirebaseDatabaseInteractor;
 import com.whatrecipes.whatrecipes.utils.RecipeViewUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -47,8 +38,6 @@ public class RecipesStackPresenter implements IPresenter.RecipeStackPresenter, C
         if (dataSnapshot != null) {
             Recipe model = dataSnapshot.getValue(Recipe.class);
             if (model != null) {
-                String bitmapR = model.getEncodedImage();
-                model.setBitmap(RecipeViewUtils.getEncodedImage(bitmapR));
                 mView.addRecipeToAdapter(model);
             }
         }

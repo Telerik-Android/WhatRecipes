@@ -1,12 +1,8 @@
 package com.whatrecipes.whatrecipes.presenters;
 
-import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
-import com.whatrecipes.whatrecipes.data.firebase.FirebaseAuthenticationInteractor;
-import com.whatrecipes.whatrecipes.data.firebase.FirebaseDatabaseInteractor;
 import com.whatrecipes.whatrecipes.data.firebase.IFirebaseAuthenticationInteractor;
 import com.whatrecipes.whatrecipes.data.firebase.IFirebaseStorageInteractor;
-import com.whatrecipes.whatrecipes.presenters.RegisterUserPresenter;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +10,6 @@ import org.mockito.MockitoAnnotations;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -93,7 +88,7 @@ public class RegisterUserPresenterTests {
 
     @Test
     public void bindUserRegisterListener_onSuccessfulAuthentication_shouldPerform_properCalls() throws Exception {
-        this.presenter.onSuccessfulAuthentication();
+        this.presenter.onSuccessListener();
         verify(mView).hideProgressBar();
         verify(mView).showSuccessfulRegisterMessage();
         verify(firebaseAuth).logTheUserOut();
@@ -103,7 +98,7 @@ public class RegisterUserPresenterTests {
 
     @Test
     public void bindUserRegisterListener_onFailedAuthentication_shouldPerform_properCalls() throws Exception {
-        presenter.onFailedAuthentication();
+        presenter.onFailedListener();
         verify(mView).hideProgressBar();
         verify(mView).showInvalidRegisterMessage();
         verify(mView).finishActivity(RESULT_CANCELED);

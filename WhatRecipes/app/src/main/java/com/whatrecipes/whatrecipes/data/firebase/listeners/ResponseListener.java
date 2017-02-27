@@ -5,7 +5,7 @@ package com.whatrecipes.whatrecipes.data.firebase.listeners;
  */
 
 public interface ResponseListener {
-    void onSuccessfulAuthentication();
+    void onSuccessListener();
 
-    void onFailedAuthentication();
+    void onFailedListener();
 }

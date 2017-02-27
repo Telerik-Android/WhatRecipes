@@ -4,8 +4,6 @@ import android.app.Activity;
 
 import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
-import com.whatrecipes.whatrecipes.data.firebase.FirebaseAuthenticationInteractor;
-import com.whatrecipes.whatrecipes.data.firebase.FirebaseStorageInteractor;
 import com.whatrecipes.whatrecipes.data.firebase.IFirebaseAuthenticationInteractor;
 import com.whatrecipes.whatrecipes.data.firebase.IFirebaseStorageInteractor;
 import com.whatrecipes.whatrecipes.data.firebase.listeners.RequestListener;
@@ -43,7 +41,7 @@ public class AddUserProfileImagePresenter implements IPresenter.AddUserProfileIm
     public void uploadImageToStorage(Activity activity, byte[] imageByteArray) {
         if (imageByteArray != null) {
             mView.showProgressBar();
-            firebaseStore.uploadImageToStorage(activity,imageByteArray, this);
+            firebaseStore.uploadUserProfileImageToStorage(activity,imageByteArray, this);
         }
     }
 

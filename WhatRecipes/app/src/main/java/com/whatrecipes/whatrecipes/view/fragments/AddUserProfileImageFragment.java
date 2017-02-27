@@ -97,7 +97,7 @@ public class AddUserProfileImageFragment extends Fragment implements IView.AddUs
     @Override
     @OnClick(R.id.cancel_button)
     public void handleCancelButtonClick() {
-        ActivityUtils.replaceFragmentToActivity(getFragmentManager(), new RecipesStackFragment(), R.id.cardStackFragment);
+        getActivity().finish();
     }
 
     @Override

@@ -77,7 +77,7 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
             Toast.makeText(getActivity(), "Please enter password", Toast.LENGTH_LONG).show();
             return;
         }
-        if(Validator.isValidPasswordLength(password)){
+        if(!Validator.isValidPasswordLength(password)){
             Toast.makeText(getActivity(), "Please enter longer password", Toast.LENGTH_SHORT).show();
             return;
         }

@@ -32,6 +32,15 @@ public interface IView {
         void handleSubmitButtonClick();
 
         boolean parseRecipeForm();
+
+        void showOnSuccessfulUploadToast();
+
+        void showFailedUploadToast();
+
+        void showProgressBar();
+
+        void hideProgressBar();
+
     }
 
     interface RegisterUserView {

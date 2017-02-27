@@ -9,5 +9,7 @@ import com.whatrecipes.whatrecipes.data.firebase.listeners.RequestListener;
  */
 
 public interface IFirebaseStorageInteractor {
-    void uploadImageToStorage(Activity activity, byte[] imageBytes, RequestListener<String> listener);
+    void uploadUserProfileImageToStorage(Activity activity, byte[] imageBytes, RequestListener<String> listener);
+
+    void uploadRecipeImageToStorage(Activity activity, byte[] imageBytes, RequestListener<String> listener);
 }

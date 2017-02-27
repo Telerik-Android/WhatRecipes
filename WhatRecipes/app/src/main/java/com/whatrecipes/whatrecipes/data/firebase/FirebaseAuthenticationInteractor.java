@@ -31,12 +31,13 @@ public class FirebaseAuthenticationInteractor implements IFirebaseAuthentication
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful() && firebaseAuth.getCurrentUser() != null) {
-                    listener.onSuccessfulAuthentication();
+                    listener.onSuccessListener();
                 } else {
-                    listener.onFailedAuthentication();
+                    listener.onFailedListener();
                 }
             }
         });
+
     }
 
     @Override
@@ -45,9 +46,9 @@ public class FirebaseAuthenticationInteractor implements IFirebaseAuthentication
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful() && firebaseAuth.getCurrentUser() != null) {
-                    listener.onSuccessfulAuthentication();
+                    listener.onSuccessListener();
                 } else {
-                    listener.onFailedAuthentication();
+                    listener.onFailedListener();
                 }
             }
         });

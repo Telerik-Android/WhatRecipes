@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.presenters.AddNewRecipePresenter;
 import com.whatrecipes.whatrecipes.utils.ActivityUtils;
 import com.whatrecipes.whatrecipes.utils.CameraUtils;
+import com.whatrecipes.whatrecipes.utils.ImageHelper;
 import com.whatrecipes.whatrecipes.utils.RecipeViewUtils;
 import com.whatrecipes.whatrecipes.utils.Validator;
 
@@ -82,6 +84,9 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
 
     @BindView(R.id.EditTextRecipeTags)
     EditText edtagsToSplit;
+
+    @BindView(R.id.progress_bar)
+    ProgressBar mProgressBar;
 
     @Inject
     AddNewRecipePresenter presenter;
@@ -144,8 +149,13 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
             author = presenter.getLoggedUserEmail();
         }
 
+        String authorImageUrl = "https://firebasestorage.googleapis.com/v0/b/whatrecipes.appspot.com/o/user_not_registered.jpg?alt=media&token=26007317-d9f6-43db-82e7-e8767a8ccede";
 
-        presenter.saveRecipeToFirebaseDb(recipeTitle, recipeSummary, ingredients, cookingTime, encodedBitmap, howToPrepare, servings, Arrays.asList(tags), author);
+        if(presenter.getLoggedUserImageUrl()!=null){
+            authorImageUrl = presenter.getLoggedUserImageUrl();
+        }
+
+        presenter.saveRecipeToFirebaseDb(recipeTitle, recipeSummary, ingredients, cookingTime, encodedBitmap, howToPrepare, servings, Arrays.asList(tags), author,authorImageUrl);
 
 
         return true;
@@ -177,14 +187,17 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         super.onActivityResult(requestCode, resultCode, data);
         // check if the request code is same as what is passed  here it is 2
         // TODO refactor this!
-        if (resultCode == 0) {
-            return;
-        }
-        Uri rootPath = data.getData();
-        this.RecipeThumbnail = BitmapFactory.decodeFile(rootPath.getPath());
+        if (resultCode != 0) {
+            if(requestCode==1338){
+                Uri rootPath = data.getData();
+                this.RecipeThumbnail = BitmapFactory.decodeFile(rootPath.getPath());
 
-        //Preview photo
-        imageView.setImageBitmap(RecipeThumbnail);
+                //Preview photo
+                imageView.setImageBitmap(RecipeThumbnail);
+                presenter.uploadImageToStorage(getActivity(), ImageHelper.getImageByteArray(RecipeThumbnail));
+            }
+        }
+
     }
 
 
@@ -234,5 +247,26 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         layout.addView(layoutChild2);
 
         return layout;
+    }
+
+
+    @Override
+    public void showOnSuccessfulUploadToast() {
+
+    }
+
+    @Override
+    public void showFailedUploadToast() {
+
+    }
+
+    @Override
+    public void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 }

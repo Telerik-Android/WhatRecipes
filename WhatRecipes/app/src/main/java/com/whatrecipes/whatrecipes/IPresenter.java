@@ -17,6 +17,10 @@ public interface IPresenter {
     interface AddRecipePresenter extends Presenter<IView.AddNewRecipeView> {
         String getLoggedUserEmail();
 
+        String getLoggedUserImageUrl();
+
+        void uploadImageToStorage(Activity activity, byte[] imageByteArray);
+
         void saveRecipeToFirebaseDb(
                 String recipeTitle,
                 String recipeSummary,
@@ -26,7 +30,8 @@ public interface IPresenter {
                 String howToPrepare,
                 Integer servings,
                 List<String> tags,
-                String author
+                String author,
+                String authorImageUrl
         );
     }
 

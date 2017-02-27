@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 import com.whatrecipes.whatrecipes.R;
+import com.whatrecipes.whatrecipes.utils.CircleTransform;
 
 import java.util.List;
 
@@ -34,6 +36,13 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
     @BindView(R.id.EditTextRecipeCookingTime)
     TextView etCookingTime;
 
+    @BindView(R.id.textViewAuthor)
+    TextView tvAuthor;
+
+    @BindView(R.id.textViewAuthorProfileImage)
+    ImageView ivAuthorProfileImage;
+
+
     public RecipeAdapter(Context context, int resource) {
         super(context, resource);
     }
@@ -46,15 +55,23 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         String text = getItem(position).getName();
         tvTitle.setText(text);
 
-        Bitmap bitmap = getItem(position).getBitmap();
-        recipeImage.setImageBitmap(bitmap);
+        String imageUrl = getItem(position).getImageUrl();
+        Picasso.with(getContext()).load(getItem(position).getImageUrl()).into(recipeImage);
+
+
         String author = getItem(position).getAuthor();
+        tvAuthor.setText(author);
+
+        Picasso.with(getContext()).load(getItem(position).getAuthorImageUrl()).transform(new CircleTransform()).into(ivAuthorProfileImage);
+
         String recipeSummary = getItem(position).getRecipeSummary();
 
 
         String cookingTime = Integer.toString(getItem(position).getCookingTime());
         etCookingTime.setText(cookingTime);
         Integer servings = getItem(position).getServings();
+
+        ///TODO
         List<String> tags = getItem(position).getTags();
         return convertView;
     }

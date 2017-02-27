@@ -85,7 +85,7 @@ public class LogInPresenterTests {
 
     @Test
     public void logInUserListener_onSuccessfulAuthentication_shouldPerform_properCalls() throws Exception {
-        this.presenter.onSuccessfulAuthentication();
+        this.presenter.onSuccessListener();
         verify(mView).hideProgressBar();
         verify(mView).showSuccessfulLogInMessage();
         verify(mView).finishActivity(RESULT_OK);
@@ -94,7 +94,7 @@ public class LogInPresenterTests {
 
     @Test
     public void logInUserListener_onFailedAuthentication_shouldPerform_properCalls() throws Exception {
-        presenter.onFailedAuthentication();
+        presenter.onFailedListener();
         verify(mView).hideProgressBar();
         verify(mView).showInvalidLogInMessage();
         verify(mView).finishActivity(RESULT_CANCELED);

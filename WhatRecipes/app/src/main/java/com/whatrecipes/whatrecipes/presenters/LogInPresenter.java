@@ -43,7 +43,7 @@ public class LogInPresenter implements IPresenter.LogInPresenter, ResponseListen
     }
 
     @Override
-    public void onSuccessfulAuthentication() {
+    public void onSuccessListener() {
         mView.hideProgressBar();
         mView.showSuccessfulLogInMessage();
         mView.finishActivity(RESULT_OK);
@@ -51,7 +51,7 @@ public class LogInPresenter implements IPresenter.LogInPresenter, ResponseListen
     }
 
     @Override
-    public void onFailedAuthentication() {
+    public void onFailedListener() {
         mView.hideProgressBar();
         mView.showInvalidLogInMessage();
         mView.finishActivity(RESULT_CANCELED);

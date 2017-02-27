@@ -2,7 +2,6 @@ package com.whatrecipes.whatrecipes.presenters;
 
 import android.app.Activity;
 
-import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.data.firebase.IFirebaseAuthenticationInteractor;
 import com.whatrecipes.whatrecipes.data.firebase.IFirebaseStorageInteractor;
@@ -64,7 +63,7 @@ public class AddUserProfileImagePresenterTests {
         final byte[] validImageByteArray = null;
         this.presenter.uploadImageToStorage(this.activity,validImageByteArray);
         verify(mView).showProgressBar();
-        verify(firebaseStore,times(1)).uploadImageToStorage(this.activity,validImageByteArray,this.presenter);
+        verify(firebaseStore,times(1)).uploadUserProfileImageToStorage(this.activity,validImageByteArray,this.presenter);
     }
 
     @Test

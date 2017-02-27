@@ -1,15 +1,9 @@
 package com.whatrecipes.whatrecipes.data;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Map;
-
-import static android.R.attr.bitmap;
-import static android.R.attr.tag;
 
 /**
  * Created by dnt on 13.2.2017 г..
@@ -20,25 +14,27 @@ public class Recipe {
     private String recipeSummary;
     private Map<String,String> ingredients;
     private Integer cookingTime;
-    private String encodedImage;
+    private String imageUrl;
     private String stepsToPrepare;
     private Integer servings;
     private List<String> tags;
     private String author;
+    private String authorImageUrl;
     private Bitmap bitmap;
 
     public Recipe(){}
 
-    public Recipe(String name, String recipeSummary, Map<String,String> ingredients, Integer cookingTime, String bitmap,String stepsToPrepare, Integer servings, List<String> tags, String Author){
+    public Recipe(String name, String recipeSummary, Map<String,String> ingredients, Integer cookingTime, String bitmap,String stepsToPrepare, Integer servings, List<String> tags, String Author,String authorImageUrl){
         this.setName(name);
         this.setRecipeSummary(recipeSummary);
         this.setIngredients(ingredients);
         this.setCookingTime(cookingTime);
-        this.setEncodedImage(bitmap);
+        this.setImageUrl(bitmap);
         this.setStepsToPrepare(stepsToPrepare);
         this.setServings(servings);
         this.setTags(tags);
         this.setAuthor(Author);
+        this.setAuthorImageUrl(authorImageUrl);
     }
 
     public String getName() {
@@ -105,12 +101,12 @@ public class Recipe {
         this.tags = tags;
     }
 
-    public String getEncodedImage() {
-        return encodedImage;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setEncodedImage(String encodedImage) {
-        this.encodedImage = encodedImage;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Bitmap getBitmap() {
@@ -119,5 +115,13 @@ public class Recipe {
 
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
+    }
+
+    public String getAuthorImageUrl() {
+        return authorImageUrl;
+    }
+
+    public void setAuthorImageUrl(String authorImageUrl) {
+        this.authorImageUrl = authorImageUrl;
     }
 }

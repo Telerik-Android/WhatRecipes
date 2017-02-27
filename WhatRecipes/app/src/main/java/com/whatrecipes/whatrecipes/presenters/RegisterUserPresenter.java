@@ -44,7 +44,7 @@ public class RegisterUserPresenter implements IPresenter.RegisterUserPresenter, 
     }
 
     @Override
-    public void onSuccessfulAuthentication() {
+    public void onSuccessListener() {
         mView.hideProgressBar();
         mView.showSuccessfulRegisterMessage();
         firebaseAuth.logTheUserOut();
@@ -52,7 +52,7 @@ public class RegisterUserPresenter implements IPresenter.RegisterUserPresenter, 
     }
 
     @Override
-    public void onFailedAuthentication() {
+    public void onFailedListener() {
         mView.hideProgressBar();
         mView.showInvalidRegisterMessage();
         mView.finishActivity(RESULT_CANCELED);
