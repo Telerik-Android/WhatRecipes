@@ -27,6 +27,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.app.Activity.RESULT_CANCELED;
+
 /**
  * Created by fatal on 2/21/2017.
  */
@@ -89,7 +91,7 @@ public class LogInFragment extends Fragment implements IView.LogInUserView {
     @OnClick(R.id.button_cancel)
     @Override
     public void handleCancelButtonClick() {
-        getActivity().finish();
+        finishActivity(RESULT_CANCELED);
     }
 
     @Override

@@ -29,6 +29,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.app.Activity.RESULT_CANCELED;
+
 
 public class RegisterUserFragment extends Fragment implements IView.RegisterUserView {
 
@@ -67,13 +69,16 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
     public void registerUser(String email, String password) {
 
         //checking if email and passwords are empty
-        if (Validator.stringEmptyOrNull(email)) {
-            Toast.makeText(getActivity(), "Please enter email", Toast.LENGTH_LONG).show();
+        if (Validator.isValidEmail(email)) {
+            Toast.makeText(getActivity(), "Please enter valid email", Toast.LENGTH_LONG).show();
             return;
         }
-
         if (Validator.stringEmptyOrNull(password)) {
             Toast.makeText(getActivity(), "Please enter password", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(Validator.isValidPasswordLength(password)){
+            Toast.makeText(getActivity(), "Please enter longer password", Toast.LENGTH_SHORT).show();
             return;
         }
         presenter.registerUser(email, password);
@@ -87,13 +92,13 @@ public class RegisterUserFragment extends Fragment implements IView.RegisterUser
 
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
-        registerUser(email,password);
+        registerUser(email, password);
     }
 
     @Override
     @OnClick(R.id.button_cancel)
     public void handleCancelButtonClick() {
-        getActivity().finish();
+        finishActivity(RESULT_CANCELED);
     }
 
     @Override

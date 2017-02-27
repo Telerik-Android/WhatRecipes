@@ -87,6 +87,12 @@ dependencies {
     compile 'com.jakewharton:butterknife:8.0.1'
     compile 'com.commonsware.cwac:cam2:0.7.4'
 
+
+    //Dagger mocks
+    testCompile 'com.github.fabioCollini:DaggerMock:0.6.4'
+    //and/or
+    androidTestCompile 'com.github.fabioCollini:DaggerMock:0.6.4'
+
     testCompile "org.mockito:mockito-core:2.0.57-beta"
     testCompile 'junit:junit:4.12'
     // Set this dependency to use JUnit 4 rules

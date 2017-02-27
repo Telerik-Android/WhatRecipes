@@ -1,7 +1,6 @@
 package com.whatrecipes.whatrecipes.utils;
 
 import android.widget.EditText;
-
 /**
  * Created by fatal on 2/17/2017.
  */
@@ -23,6 +22,22 @@ public class Validator {
             return false;
         }
         return true;
+    }
+
+    public final static boolean isValidEmail(String target) {
+        if (stringEmptyOrNull(target)) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
+    }
+
+    public static boolean isValidPasswordLength(String password){
+        if(password.length()<= 5) {
+            return false;
+        }else{
+            return true;
+        }
     }
 
 }

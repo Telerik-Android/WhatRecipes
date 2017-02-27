@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     card_view:cardCornerRadius="6dp"
     card_view:cardElevation="10dp">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:orientation="vertical"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/recipeImageView"
@@ -23,65 +21,66 @@
             android:src="@drawable/user_not_registered" />
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/list_text_bg_color"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/EditTextRecipeTextTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:textAppearance="@style/RecipeHugeFont" />
-
-            <TextView
-                android:id="@+id/EditTextRecipeTextSummary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:textAppearance="@style/RecipeSummaryFont" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/ingredientsHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:text="@string/ingredients"
-            android:textAppearance="@style/RecipeTitleFont"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/textIngredients"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:textAppearance="@style/RecipeSummaryFont" />
-
-        <TextView
-            android:id="@+id/stepsHeader"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="8dp"
-            android:text="@string/steps"
-            android:textAppearance="@style/RecipeTitleFont"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:id="@+id/layoutSteps"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:orientation="vertical"
-            android:textAppearance="@style/RecipeSummaryFont" >
-        </LinearLayout>
+            android:layout_height="fill_parent"
+            android:background="@color/list_text_bg_color"
+            android:orientation="horizontal">
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/EditTextRecipeTextTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="2"
+                    android:textAppearance="@style/RecipeHugeFont" />
+
+                <TextView
+                    android:id="@+id/EditTextRecipeCookingTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:textAppearance="@style/RecipeHugeFont" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/EditTextViewRecipe"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:text="View Recipe"
+                    android:textAppearance="@style/RecipeHugeFont"
+                    android:textSize="35sp" />
+                <TextView
+                    android:id="@+id/EditTextExtra"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:text="Extra Space"
+                    android:textAppearance="@style/RecipeHugeFont"
+                    android:textSize="35sp" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.v7.widget.CardView>
