@@ -20,6 +20,10 @@ public interface IView {
         void addRecipeToAdapter(Recipe recipe);
     }
 
+    interface RecipeDetailsView{
+        void showRecipe(Recipe recipe);
+    }
+
     interface AddNewRecipeView {
         void handleAddNewIngredientForm();
 

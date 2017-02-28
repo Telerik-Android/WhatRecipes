@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -33,14 +34,23 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
     @BindView(R.id.EditTextRecipeTextTitle)
     TextView tvTitle;
 
-    @BindView(R.id.EditTextRecipeCookingTime)
+    @BindView(R.id.TextViewRecipeCookingTime)
     TextView etCookingTime;
 
     @BindView(R.id.textViewAuthor)
     TextView tvAuthor;
 
+    @BindView(R.id.textViewRecipeSummary)
+    TextView tvRecipeSummary;
+
     @BindView(R.id.textViewAuthorProfileImage)
     ImageView ivAuthorProfileImage;
+
+    @BindView(R.id.TextViewRecipeServings)
+    TextView tvRecipeServings;
+
+    @BindView(R.id.TextViewRecipeLoves)
+    TextView tvRecipeLoves;
 
 
     public RecipeAdapter(Context context, int resource) {
@@ -56,7 +66,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         tvTitle.setText(text);
 
         String imageUrl = getItem(position).getImageUrl();
-        Picasso.with(getContext()).load(getItem(position).getImageUrl()).into(recipeImage);
+        Picasso.with(getContext()).load(getItem(position).getImageUrl()).fit().into(recipeImage);
 
 
         String author = getItem(position).getAuthor();
@@ -65,11 +75,23 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         Picasso.with(getContext()).load(getItem(position).getAuthorImageUrl()).transform(new CircleTransform()).into(ivAuthorProfileImage);
 
         String recipeSummary = getItem(position).getRecipeSummary();
-
+        if (recipeSummary.length() > 250) {
+            recipeSummary = recipeSummary.substring(0, 200);
+        }
+        tvRecipeSummary.setText(recipeSummary);
+        tvRecipeSummary.setEllipsize(TextUtils.TruncateAt.END);
 
         String cookingTime = Integer.toString(getItem(position).getCookingTime());
         etCookingTime.setText(cookingTime);
+
         Integer servings = getItem(position).getServings();
+        tvRecipeServings.setText(servings.toString());
+
+        Integer loves = getItem(position).getLoves();
+        if (loves == null)
+            loves = 0;
+
+        tvRecipeLoves.setText(loves.toString());
 
         ///TODO
         List<String> tags = getItem(position).getTags();
@@ -77,7 +99,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
     }
 
     @OnClick(R.id.EditTextViewRecipe)
-    public void onViewRecipeClick(){
+    public void onViewRecipeClick() {
         Toast.makeText(getContext(), "View details", Toast.LENGTH_SHORT).show();
     }
 }

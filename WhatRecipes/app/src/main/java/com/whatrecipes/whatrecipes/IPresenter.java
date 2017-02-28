@@ -14,6 +14,10 @@ public interface IPresenter {
         void loadRecipesStack();
     }
 
+    interface RecipeDetailsPresenter extends Presenter<IView.RecipeDetailsView>{
+        void loadRecipe(String id);
+    }
+
     interface AddRecipePresenter extends Presenter<IView.AddNewRecipeView> {
         String getLoggedUserEmail();
 

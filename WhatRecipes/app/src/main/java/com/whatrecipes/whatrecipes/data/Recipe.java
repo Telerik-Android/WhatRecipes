@@ -18,6 +18,7 @@ public class Recipe {
     private String stepsToPrepare;
     private Integer servings;
     private List<String> tags;
+    private Integer loves;
     private String author;
     private String authorImageUrl;
     private Bitmap bitmap;
@@ -35,6 +36,7 @@ public class Recipe {
         this.setTags(tags);
         this.setAuthor(Author);
         this.setAuthorImageUrl(authorImageUrl);
+        this.loves = 0;
     }
 
     public String getName() {
@@ -123,5 +125,13 @@ public class Recipe {
 
     public void setAuthorImageUrl(String authorImageUrl) {
         this.authorImageUrl = authorImageUrl;
+    }
+
+    public Integer getLoves() {
+        return loves;
+    }
+
+    public void setLoves(Integer loves) {
+        this.loves = loves;
     }
 }
