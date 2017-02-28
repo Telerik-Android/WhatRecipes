@@ -4,12 +4,14 @@ import com.whatrecipes.whatrecipes.data.firebase.FirebaseAuthenticationInteracto
 import com.whatrecipes.whatrecipes.presenters.AddUserProfileImagePresenter;
 import com.whatrecipes.whatrecipes.presenters.PresenterModule;
 import com.whatrecipes.whatrecipes.view.ActivityLogIn;
+import com.whatrecipes.whatrecipes.view.ActivityRecipeDetails;
 import com.whatrecipes.whatrecipes.view.ActivityRegister;
 import com.whatrecipes.whatrecipes.view.MainActivity;
 import com.whatrecipes.whatrecipes.view.fragments.AddNewRecipeFragment;
 import com.whatrecipes.whatrecipes.view.fragments.AddUserProfileImageFragment;
 import com.whatrecipes.whatrecipes.view.fragments.DrawerFragment;
 import com.whatrecipes.whatrecipes.view.fragments.LogInFragment;
+import com.whatrecipes.whatrecipes.view.fragments.RecipeDetailsFragment;
 import com.whatrecipes.whatrecipes.view.fragments.RecipesStackFragment;
 import com.whatrecipes.whatrecipes.view.fragments.RegisterUserFragment;
 
@@ -42,4 +44,8 @@ public interface AppComponent {
     void inject(LogInFragment fragment);
 
     void inject(AddUserProfileImageFragment fragment);
+
+    void inject(RecipeDetailsFragment fragment);
+
+    void inject(ActivityRecipeDetails activity);
 }

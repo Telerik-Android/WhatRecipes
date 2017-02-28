@@ -1,8 +1,10 @@
 package com.whatrecipes.whatrecipes.data;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,9 +14,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.utils.CircleTransform;
+import com.whatrecipes.whatrecipes.view.ActivityRecipeDetails;
 
 import java.util.List;
 
@@ -22,12 +26,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.app.PendingIntent.getActivity;
+import static android.support.v4.content.ContextCompat.startActivity;
+
 /**
  * Created by dnt on 13.2.2017 г..
  */
 
 public class RecipeAdapter extends ArrayAdapter<Recipe> {
-
+    Integer recipePosition;
     @BindView(R.id.recipeImageView)
     ImageView recipeImage;
 
@@ -61,7 +68,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ButterKnife.bind(this, convertView);
-
+        this.recipePosition = position;
         String text = getItem(position).getName();
         tvTitle.setText(text);
 
@@ -98,8 +105,15 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         return convertView;
     }
 
+
+
     @OnClick(R.id.EditTextViewRecipe)
     public void onViewRecipeClick() {
-        Toast.makeText(getContext(), "View details", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this.getContext(), ActivityRecipeDetails.class);
+        Recipe recipe = getItem(recipePosition);
+        Gson gson = new Gson();
+        String recipeJson = gson.toJson(recipe);
+        intent.putExtra("Recipe",recipeJson);
+        getContext().startActivity(intent);
     }
 }

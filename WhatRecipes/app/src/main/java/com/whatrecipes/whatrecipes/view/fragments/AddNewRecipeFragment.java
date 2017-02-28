@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -222,26 +223,24 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         layoutChild2.setOrientation(LinearLayout.VERTICAL);
         layoutChild2.setLayoutParams(layoutParams3);
 
-        TextView tv1 = new TextView(getContext());
-        tv1.setText("Ingredient:");
+        TextInputLayout tv1 = new TextInputLayout(getContext());
 
         EditText ingredientEditText = new EditText(getContext());
         ingredientEditText.setTag(TAG_INGREDIENT_NAME);
         ingredientEditText.setLayoutParams(layoutParams);
         ingredientEditText.setHint("Ingredient");
+        tv1.addView(ingredientEditText);
 
-        TextView tv2 = new TextView(getContext());
-        tv2.setText("Quantity:");
+        TextInputLayout tv2 = new TextInputLayout(getContext());
 
         EditText ingredientEditTextQuantity = new EditText(getContext());
         ingredientEditTextQuantity.setTag(TAG_INGREDIENT_QUANITY);
         ingredientEditTextQuantity.setLayoutParams(layoutParams);
         ingredientEditTextQuantity.setHint("Quantity");
+        tv2.addView(ingredientEditTextQuantity);
 
         layoutChild1.addView(tv1);
-        layoutChild1.addView(ingredientEditText);
         layoutChild2.addView(tv2);
-        layoutChild2.addView(ingredientEditTextQuantity);
 
         layout.addView(layoutChild1);
         layout.addView(layoutChild2);
