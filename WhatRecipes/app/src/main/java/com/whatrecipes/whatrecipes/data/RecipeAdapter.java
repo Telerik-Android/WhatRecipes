@@ -113,7 +113,7 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         Recipe recipe = getItem(recipePosition);
         Gson gson = new Gson();
         String recipeJson = gson.toJson(recipe);
-        intent.putExtra("Recipe",recipeJson);
+        intent.putExtra("Recipe", recipeJson);
         getContext().startActivity(intent);
     }
 }
