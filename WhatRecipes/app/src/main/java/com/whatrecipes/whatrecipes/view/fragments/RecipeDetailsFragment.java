@@ -3,13 +3,16 @@ package com.whatrecipes.whatrecipes.view.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 import com.whatrecipes.whatrecipes.App;
 import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
@@ -17,6 +20,9 @@ import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.data.Recipe;
 import com.whatrecipes.whatrecipes.presenters.LogInPresenter;
 import com.whatrecipes.whatrecipes.presenters.RecipeDetailsPresenter;
+import com.whatrecipes.whatrecipes.utils.CircleTransform;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -27,24 +33,34 @@ import butterknife.ButterKnife;
  * Created by dnt on 13.2.2017 г..
  */
 
-public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetailsView{
+public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetailsView {
     @Inject
     RecipeDetailsPresenter presenter;
 
-    @BindView(R.id.recipeName)
-    TextView recipeNameText;
+    @BindView(R.id.recipeImageView)
+    ImageView recipeImage;
 
-    @BindView(R.id.recipeAuthor)
-    TextView recipeAuthorText;
+    @BindView(R.id.EditTextRecipeTextTitle)
+    TextView tvTitle;
 
-    @BindView(R.id.recipeCookingTime)
-    TextView recipeCookingTimeText;
+    @BindView(R.id.TextViewRecipeCookingTime)
+    TextView etCookingTime;
 
-    @BindView(R.id.recipeSteps)
-    TextView recipeStepsText;
+    @BindView(R.id.textViewAuthor)
+    TextView tvAuthor;
 
-    @BindView(R.id.recipeSummary)
-    TextView recipeSummaryText;
+    @BindView(R.id.textViewRecipeSummary)
+    TextView tvRecipeSummary;
+
+    @BindView(R.id.textViewAuthorProfileImage)
+    ImageView ivAuthorProfileImage;
+
+    @BindView(R.id.TextViewRecipeServings)
+    TextView tvRecipeServings;
+
+    @BindView(R.id.TextViewRecipeLoves)
+    TextView tvRecipeLoves;
+
 
     @Nullable
     @Override
@@ -69,28 +85,37 @@ public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetai
 
     @Override
     public void showRecipe(Recipe recipe) {
-        String name = recipe.getName();
+        String text = recipe.getName();
+        tvTitle.setText(text);
+
+        String imageUrl = recipe.getImageUrl();
+        Picasso.with(getContext()).load(recipe.getImageUrl()).into(recipeImage);
+
+
         String author = recipe.getAuthor();
-        int cookingTime = recipe.getCookingTime();
-        String steps = recipe.getStepsToPrepare();
-        String summary = recipe.getRecipeSummary();
+        tvAuthor.setText(author);
 
-        if (name != null && !name.isEmpty()) {
-            this.recipeNameText.setText(name);
+        Picasso.with(getContext()).load(recipe.getAuthorImageUrl()).transform(new CircleTransform()).into(ivAuthorProfileImage);
+
+        String recipeSummary =recipe.getRecipeSummary();
+        if (recipeSummary.length() > 250) {
+            recipeSummary = recipeSummary.substring(0, 200);
         }
+        tvRecipeSummary.setText(recipeSummary);
 
-        if (author != null && !author.isEmpty()) {
-            this.recipeAuthorText.setText(String.format("By: %s", author));
-        }
+        String cookingTime = Integer.toString(recipe.getCookingTime());
+        etCookingTime.setText(cookingTime);
 
-        if (steps != null && !steps.isEmpty()) {
-            this.recipeStepsText.setText(String.format("Steps:\n %s", steps));
-        }
+        Integer servings = recipe.getServings();
+        tvRecipeServings.setText(servings.toString());
 
-        if (summary != null && !summary.isEmpty()) {
-            this.recipeSummaryText.setText(String.format("Summary:\n %s", summary));
-        }
+        Integer loves = recipe.getLoves();
+        if (loves == null)
+            loves = 0;
 
-        this.recipeCookingTimeText.setText(String.format("Time to cook: %s", cookingTime));
+        tvRecipeLoves.setText(loves.toString());
+
+        ///TODO
+        List<String> tags = recipe.getTags();
     }
 }

@@ -6,13 +6,11 @@
     android:layout_height="match_parent"
     tools:context="com.whatrecipes.whatrecipes.view.MainActivity">
 
-    <ScrollView
+
+    <FrameLayout
+        android:id="@+id/recipe_details_activity_frame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <FrameLayout
-            android:id="@+id/recipe_details_activity_frame"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </FrameLayout>
-    </ScrollView>
+        android:layout_height="match_parent">
+    </FrameLayout>
+
 </RelativeLayout>
