@@ -28,7 +28,8 @@ public interface IPresenter {
         void saveRecipeToFirebaseDb(
                 String recipeTitle,
                 String recipeSummary,
-                Map<String, String> ingredients,
+                List<String> ingridientsName,
+                List<String> ingridientsQuantity,
                 Integer cookingTime,
                 String encodedBitmap,
                 String howToPrepare,

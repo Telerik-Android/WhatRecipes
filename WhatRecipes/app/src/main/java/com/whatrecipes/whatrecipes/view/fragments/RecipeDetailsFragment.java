@@ -3,6 +3,8 @@ package com.whatrecipes.whatrecipes.view.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +19,14 @@ import com.whatrecipes.whatrecipes.App;
 import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
+import com.whatrecipes.whatrecipes.data.IngredientsAdapter;
 import com.whatrecipes.whatrecipes.data.Recipe;
 import com.whatrecipes.whatrecipes.presenters.LogInPresenter;
 import com.whatrecipes.whatrecipes.presenters.RecipeDetailsPresenter;
 import com.whatrecipes.whatrecipes.utils.CircleTransform;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -61,6 +65,9 @@ public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetai
     @BindView(R.id.TextViewRecipeLoves)
     TextView tvRecipeLoves;
 
+    @BindView(R.id.recycler_view_ingredients_list)
+    RecyclerView rvIngredients;
+
 
     @Nullable
     @Override
@@ -76,6 +83,12 @@ public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetai
         presenter.setView(this);
 
         ButterKnife.bind(this, view);
+
+
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvIngredients.setLayoutManager(mLayoutManager);
+
         Gson gson = new Gson();
         Recipe recipe = gson.fromJson(getActivity().getIntent().getStringExtra("Recipe"), Recipe.class);
         this.showRecipe(recipe);
@@ -114,6 +127,12 @@ public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetai
             loves = 0;
 
         tvRecipeLoves.setText(loves.toString());
+
+        List<String> ingredientsName = recipe.getIngredientsName();
+        List<String> ingredientsQuantity = recipe.getIngredientsQuantity();
+
+        IngredientsAdapter ingredientsAdapter = new IngredientsAdapter(getContext(),ingredientsName,ingredientsQuantity);
+        rvIngredients.setAdapter(ingredientsAdapter);
 
         ///TODO
         List<String> tags = recipe.getTags();

@@ -67,7 +67,8 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
     @BindView(R.id.cancel_recipe)
     Button cancelButton;
 
-    Map<String, String> ingredients;
+    List<String> ingredientsName;
+    List<String> ingredientsQuantity;
     @BindView(R.id.EditTextRecipeTextTitle)
     EditText edrecipeTitle;
 
@@ -134,9 +135,11 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         String[] tags = tagsToSplit.split(" ");
         ViewGroup parent = (ViewGroup) getView().getParent();
 
-        List<View> ingredientsName = RecipeViewUtils.findViewWithTagRecursively(parent, TAG_INGREDIENT_NAME);
-        List<View> ingredientsQuantity = RecipeViewUtils.findViewWithTagRecursively(parent, TAG_INGREDIENT_QUANITY);
-        ingredients = RecipeViewUtils.parseIngredientsByViews(ingredientsName, ingredientsQuantity);
+        List<View> ingredientsNameV = RecipeViewUtils.findViewWithTagRecursively(parent, TAG_INGREDIENT_NAME);
+        List<View> ingredientsQuantityV = RecipeViewUtils.findViewWithTagRecursively(parent, TAG_INGREDIENT_QUANITY);
+        ingredientsName = RecipeViewUtils.parseIngredientsByViews(ingredientsNameV);
+        ingredientsQuantity =  RecipeViewUtils.parseIngredientsByViews(ingredientsQuantityV);
+
 
         if (this.RecipeThumbnail == null) {
             Toast.makeText(getActivity(), "Image is required", Toast.LENGTH_LONG).show();
@@ -156,7 +159,7 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
             authorImageUrl = presenter.getLoggedUserImageUrl();
         }
 
-        presenter.saveRecipeToFirebaseDb(recipeTitle, recipeSummary, ingredients, cookingTime, encodedBitmap, howToPrepare, servings, Arrays.asList(tags), author,authorImageUrl);
+        presenter.saveRecipeToFirebaseDb(recipeTitle, recipeSummary, ingredientsName, ingredientsQuantity, cookingTime, encodedBitmap, howToPrepare, servings, Arrays.asList(tags), author,authorImageUrl);
 
 
         return true;

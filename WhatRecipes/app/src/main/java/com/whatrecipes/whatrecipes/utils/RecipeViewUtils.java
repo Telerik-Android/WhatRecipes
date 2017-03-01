@@ -38,20 +38,17 @@ public class RecipeViewUtils {
         return allViews;
     }
 
-    public static Map<String,String> parseIngredientsByViews(List<View> view1, List<View> view2){
-        if(view1.size() != view2.size())
-            throw new IllegalArgumentException("Amount of Ingredients and Quantities must be the same");
+    public static List<String> parseIngredientsByViews(List<View> view1){
 
-        Map<String,String> ingredients = new HashMap<>();
+        List<String> ingredientsName = new ArrayList<>();
 
         for (int i = 0; i< view1.size();i++){
             EditText v1 = (EditText)view1.get(i);
-            EditText v2 = (EditText)view2.get(i);
 
-            ingredients.put(v1.getText().toString(),v2.getText().toString());
+            ingredientsName.add(v1.getText().toString());
         }
 
-        return ingredients;
+        return ingredientsName;
     }
 
     public static Bitmap getEncodedImage(String bitmap) {

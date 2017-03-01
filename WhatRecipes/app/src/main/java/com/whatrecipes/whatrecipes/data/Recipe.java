@@ -12,7 +12,9 @@ import java.util.Map;
 public class Recipe {
     private String name;
     private String recipeSummary;
-    private Map<String,String> ingredients;
+    private List<String> ingredientsName;
+    private List<String> ingredientsQuantity;
+    private Map<String, String> ingredients;
     private Integer cookingTime;
     private String imageUrl;
     private String stepsToPrepare;
@@ -23,12 +25,14 @@ public class Recipe {
     private String authorImageUrl;
     private Bitmap bitmap;
 
-    public Recipe(){}
+    public Recipe() {
+    }
 
-    public Recipe(String name, String recipeSummary, Map<String,String> ingredients, Integer cookingTime, String bitmap,String stepsToPrepare, Integer servings, List<String> tags, String Author,String authorImageUrl){
+    public Recipe(String name, String recipeSummary, List<String> ingredientsName, List<String> ingredientsQuantity, Integer cookingTime, String bitmap, String stepsToPrepare, Integer servings, List<String> tags, String Author, String authorImageUrl) {
         this.setName(name);
         this.setRecipeSummary(recipeSummary);
-        this.setIngredients(ingredients);
+        this.setIngredientsName(ingredientsName);
+        this.setIngredientsQuantity(ingredientsQuantity);
         this.setCookingTime(cookingTime);
         this.setImageUrl(bitmap);
         this.setStepsToPrepare(stepsToPrepare);
@@ -133,5 +137,21 @@ public class Recipe {
 
     public void setLoves(Integer loves) {
         this.loves = loves;
+    }
+
+    public List<String> getIngredientsQuantity() {
+        return ingredientsQuantity;
+    }
+
+    public void setIngredientsQuantity(List<String> ingredientsQuantity) {
+        this.ingredientsQuantity = ingredientsQuantity;
+    }
+
+    public List<String> getIngredientsName() {
+        return ingredientsName;
+    }
+
+    public void setIngredientsName(List<String> ingredientsName) {
+        this.ingredientsName = ingredientsName;
     }
 }

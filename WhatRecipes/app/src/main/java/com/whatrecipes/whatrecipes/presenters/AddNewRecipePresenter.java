@@ -55,7 +55,7 @@ public class AddNewRecipePresenter implements IPresenter.AddRecipePresenter, Req
     }
 
     @Override
-    public void saveRecipeToFirebaseDb(String recipeTitle, String recipeSummary, Map<String, String> ingredients, Integer cookingTime, String imageUrl, String howToPrepare, Integer servings, List<String> tags, String author, String authorImageUrl) {
+    public void saveRecipeToFirebaseDb(String recipeTitle, String recipeSummary, List<String> ingredientsName, List<String> ingredientsQuantity, Integer cookingTime, String imageUrl, String howToPrepare, Integer servings, List<String> tags, String author, String authorImageUrl) {
         if (Validator.stringEmptyOrNull(recipeTitle, recipeSummary, this.imageUrl, howToPrepare, author)) {
             throw new IllegalArgumentException("String cannot be null");
         }
@@ -66,7 +66,7 @@ public class AddNewRecipePresenter implements IPresenter.AddRecipePresenter, Req
             }
         }
 
-        Recipe recipe = new Recipe(recipeTitle, recipeSummary, ingredients, cookingTime, this.imageUrl, howToPrepare, servings, tags, author, authorImageUrl);
+        Recipe recipe = new Recipe(recipeTitle, recipeSummary, ingredientsName, ingredientsQuantity, cookingTime, this.imageUrl, howToPrepare, servings, tags, author, authorImageUrl);
 
         firebaseDb.pushRecipe(recipe);
     }
