@@ -36,7 +36,16 @@ public class RecipesStackPresenter implements IPresenter.RecipeStackPresenter, C
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         if (dataSnapshot != null) {
+            String uid = dataSnapshot.getKey();
             Recipe model = dataSnapshot.getValue(Recipe.class);
+
+            try {
+                model.getLovedBy().size();
+            } catch (NullPointerException ex) {
+                model.initLovedByArrayBecauseFuckFirebase();
+            }
+
+            model.setUid(uid);
             if (model != null) {
                 mView.addRecipeToAdapter(model);
             }
@@ -45,7 +54,12 @@ public class RecipesStackPresenter implements IPresenter.RecipeStackPresenter, C
 
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+        if (dataSnapshot != null) {
+            Recipe model = dataSnapshot.getValue(Recipe.class);
+            if (model != null) {
+                mView.addRecipeToAdapter(model);
+            }
+        }
     }
 
     @Override
@@ -67,7 +81,7 @@ public class RecipesStackPresenter implements IPresenter.RecipeStackPresenter, C
     private ArrayList<Recipe> collectStackRecipes(Map<String, Object> recipes) {
         ArrayList<Recipe> recipesStack = new ArrayList<>();
 
-        for (Map.Entry<String,Object> entry: recipes.entrySet()) {
+        for (Map.Entry<String, Object> entry : recipes.entrySet()) {
 //            recipesStack.add(entry.getValue());
         }
 

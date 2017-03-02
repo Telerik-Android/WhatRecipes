@@ -2,6 +2,7 @@ package com.whatrecipes.whatrecipes.data;
 
 import android.graphics.Bitmap;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +10,7 @@ import java.util.Map;
  * Created by dnt on 13.2.2017 г..
  */
 
-public class Recipe {
+public class Recipe extends FirebaseObject {
     private String name;
     private String recipeSummary;
     private List<String> ingredientsName;
@@ -20,13 +21,11 @@ public class Recipe {
     private String stepsToPrepare;
     private Integer servings;
     private List<String> tags;
-    private Integer loves;
+    private List<String> lovedBy;
     private String author;
     private String authorImageUrl;
     private Bitmap bitmap;
 
-    public Recipe() {
-    }
 
     public Recipe(String name, String recipeSummary, List<String> ingredientsName, List<String> ingredientsQuantity, Integer cookingTime, String bitmap, String stepsToPrepare, Integer servings, List<String> tags, String Author, String authorImageUrl) {
         this.setName(name);
@@ -40,8 +39,12 @@ public class Recipe {
         this.setTags(tags);
         this.setAuthor(Author);
         this.setAuthorImageUrl(authorImageUrl);
-        this.loves = 0;
+        this.lovedBy = new ArrayList<>();
     }
+
+    protected Recipe() {
+    }
+
 
     public String getName() {
         return name;
@@ -131,13 +134,6 @@ public class Recipe {
         this.authorImageUrl = authorImageUrl;
     }
 
-    public Integer getLoves() {
-        return loves;
-    }
-
-    public void setLoves(Integer loves) {
-        this.loves = loves;
-    }
 
     public List<String> getIngredientsQuantity() {
         return ingredientsQuantity;
@@ -153,5 +149,17 @@ public class Recipe {
 
     public void setIngredientsName(List<String> ingredientsName) {
         this.ingredientsName = ingredientsName;
+    }
+
+    public List<String> getLovedBy() {
+        return lovedBy;
+    }
+
+    public void setLovedBy(List<String> lovedBy) {
+        this.lovedBy = lovedBy;
+    }
+
+    public void initLovedByArrayBecauseFuckFirebase(){
+        this.lovedBy = new ArrayList<String>();
     }
 }

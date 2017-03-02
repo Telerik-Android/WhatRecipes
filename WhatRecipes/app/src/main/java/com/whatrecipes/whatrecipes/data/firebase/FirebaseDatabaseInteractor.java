@@ -9,6 +9,8 @@ import com.whatrecipes.whatrecipes.data.Recipe;
 import com.whatrecipes.whatrecipes.data.common.FirebaseConstants;
 import com.whatrecipes.whatrecipes.data.firebase.listeners.RequestListener;
 
+import java.util.List;
+
 /**
  * Created by fatal on 2/19/2017.
  */
@@ -17,7 +19,7 @@ public class FirebaseDatabaseInteractor implements IFirebaseDatabaseInteractor {
 
 
     public FirebaseDatabaseInteractor(FirebaseDatabase firebaseDatabase) {
-        this.firebaseDatabase=firebaseDatabase;
+        this.firebaseDatabase = firebaseDatabase;
     }
 
     @Override
@@ -62,6 +64,17 @@ public class FirebaseDatabaseInteractor implements IFirebaseDatabaseInteractor {
 
     @Override
     public void getAllRecipes(ChildEventListener listener) {
-       firebaseDatabase.getReference(FirebaseConstants.RECIPE_REFERENCE).addChildEventListener(listener);
+        firebaseDatabase.getReference(FirebaseConstants.RECIPE_REFERENCE).addChildEventListener(listener);
+    }
+
+    @Override
+    public void updateRecipe(String uid, String field, String Value) {
+        firebaseDatabase.getReference(FirebaseConstants.RECIPE_REFERENCE + "/" + uid).child(field).setValue(Value);
+
+    }
+
+    @Override
+    public void updateRecipe(String uid, String field, List<String> Value) {
+        firebaseDatabase.getReference(FirebaseConstants.RECIPE_REFERENCE + "/" + uid).child(field).setValue(Value);
     }
 }

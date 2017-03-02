@@ -16,6 +16,7 @@ public interface IPresenter {
 
     interface RecipeDetailsPresenter extends Presenter<IView.RecipeDetailsView>{
         void loadRecipe(String id);
+        void updateLoves(Recipe recipe);
     }
 
     interface AddRecipePresenter extends Presenter<IView.AddNewRecipeView> {

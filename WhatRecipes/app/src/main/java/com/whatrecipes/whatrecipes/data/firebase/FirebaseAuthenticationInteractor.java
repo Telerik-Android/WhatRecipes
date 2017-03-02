@@ -26,7 +26,7 @@ public class FirebaseAuthenticationInteractor implements IFirebaseAuthentication
 
 
     @Override
-    public void logTheUserIn(String email, String password,final ResponseListener listener) {
+    public void logTheUserIn(String email, String password, final ResponseListener listener) {
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -41,7 +41,7 @@ public class FirebaseAuthenticationInteractor implements IFirebaseAuthentication
     }
 
     @Override
-    public void registerUser(String email, String password,final ResponseListener listener) {
+    public void registerUser(String email, String password, final ResponseListener listener) {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -70,8 +70,12 @@ public class FirebaseAuthenticationInteractor implements IFirebaseAuthentication
         return null;
     }
 
+    public String getLoggedInUserUID() {
+        return firebaseAuth.getCurrentUser().getUid();
+    }
+
     @Override
-    public String getLoggedInUserEmail(){
+    public String getLoggedInUserEmail() {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null && firebaseUser.getEmail() != null) {
             return firebaseUser.getEmail();

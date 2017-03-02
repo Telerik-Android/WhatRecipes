@@ -34,7 +34,6 @@ import static android.support.v4.content.ContextCompat.startActivity;
  */
 
 public class RecipeAdapter extends ArrayAdapter<Recipe> {
-    Integer recipePosition;
     @BindView(R.id.recipeImageView)
     ImageView recipeImage;
 
@@ -72,13 +71,13 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ButterKnife.bind(this, convertView);
         editTextViewRecipe.setTag(position);
+
         String text = getItem(position).getName();
         tvTitle.setText(text);
         tvTitle.setTag(position);
 
         String imageUrl = getItem(position).getImageUrl();
         Picasso.with(getContext()).load(getItem(position).getImageUrl()).fit().into(recipeImage);
-
 
         String author = getItem(position).getAuthor();
         tvAuthor.setText(author);
@@ -98,9 +97,14 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
         Integer servings = getItem(position).getServings();
         tvRecipeServings.setText(servings.toString());
 
-        Integer loves = getItem(position).getLoves();
-        if (loves == null)
-            loves = 0;
+        Integer loves = 0;
+
+        try {
+
+            loves = getItem(position).getLovedBy().size();
+        }  catch (NullPointerException ex) {
+            // handle exception
+        }
 
         tvRecipeLoves.setText(loves.toString());
 
@@ -110,11 +114,10 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
     }
 
 
-
     @OnClick(R.id.EditTextViewRecipe)
     public void onViewRecipeClick(View view) {
         Intent intent = new Intent(this.getContext(), ActivityRecipeDetails.class);
-        Recipe recipe = getItem((Integer)view.getTag());
+        Recipe recipe = getItem((Integer) view.getTag());
         Gson gson = new Gson();
         String recipeJson = gson.toJson(recipe);
         intent.putExtra("Recipe", recipeJson);

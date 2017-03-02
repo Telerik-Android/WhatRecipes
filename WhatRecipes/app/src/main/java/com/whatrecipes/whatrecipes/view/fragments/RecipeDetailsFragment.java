@@ -10,10 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.whatrecipes.whatrecipes.App;
 import com.whatrecipes.whatrecipes.IPresenter;
@@ -32,12 +35,16 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by dnt on 13.2.2017 г..
  */
 
 public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetailsView {
+    private String uid;
+    private Recipe recipe;
+
     @Inject
     RecipeDetailsPresenter presenter;
 
@@ -69,6 +76,10 @@ public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetai
     RecyclerView rvIngredients;
 
 
+    @BindView(R.id.progress_bar)
+    ProgressBar mProgressBar;
+
+
     @Nullable
     @Override
     public View onCreateView(
@@ -90,27 +101,58 @@ public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetai
         rvIngredients.setLayoutManager(mLayoutManager);
 
         Gson gson = new Gson();
-        Recipe recipe = gson.fromJson(getActivity().getIntent().getStringExtra("Recipe"), Recipe.class);
+        this.recipe = gson.fromJson(getActivity().getIntent().getStringExtra("Recipe"), Recipe.class);
         this.showRecipe(recipe);
 
         return view;
     }
 
+    @OnClick(R.id.TextViewRecipeLoves)
+    public void onLoveClicked() {
+        presenter.updateLoves(this.recipe);
+    }
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
     @Override
     public void showRecipe(Recipe recipe) {
+        this.uid = recipe.getUid();
+
         String text = recipe.getName();
         tvTitle.setText(text);
 
+        Picasso.with(getContext()).setLoggingEnabled(true);
         String imageUrl = recipe.getImageUrl();
-        Picasso.with(getContext()).load(recipe.getImageUrl()).into(recipeImage);
 
+        Picasso.with(getContext()).load(recipe.getImageUrl()).into(recipeImage);
+        recipeImage.setScaleType(ImageView.ScaleType.FIT_XY);
+        // Glide.with(getContext()).load(recipe.getImageUrl()).into(recipeImage);
 
         String author = recipe.getAuthor();
         tvAuthor.setText(author);
 
-        Picasso.with(getContext()).load(recipe.getAuthorImageUrl()).transform(new CircleTransform()).into(ivAuthorProfileImage);
+        mProgressBar.setVisibility(View.VISIBLE);
+        Picasso.with(getContext())
+                .load(recipe.getAuthorImageUrl())
+                .transform(new CircleTransform())
+                .into(ivAuthorProfileImage, new Callback() {
 
-        String recipeSummary =recipe.getRecipeSummary();
+            @Override
+            public void onSuccess() {
+                // TODO Auto-generated method stub
+                mProgressBar.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onError() {
+                // TODO Auto-generated method stub
+
+            }
+        });
+
+        String recipeSummary = recipe.getRecipeSummary();
         if (recipeSummary.length() > 250) {
             recipeSummary = recipeSummary.substring(0, 200);
         }
@@ -122,19 +164,30 @@ public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetai
         Integer servings = recipe.getServings();
         tvRecipeServings.setText(servings.toString());
 
-        Integer loves = recipe.getLoves();
-        if (loves == null)
-            loves = 0;
+
+        Integer loves = 0;
+        try {
+
+            loves = recipe.getLovedBy().size();
+        } catch (NullPointerException ex) {
+            // handle exception
+        }
+
 
         tvRecipeLoves.setText(loves.toString());
 
         List<String> ingredientsName = recipe.getIngredientsName();
         List<String> ingredientsQuantity = recipe.getIngredientsQuantity();
 
-        IngredientsAdapter ingredientsAdapter = new IngredientsAdapter(getContext(),ingredientsName,ingredientsQuantity);
+        IngredientsAdapter ingredientsAdapter = new IngredientsAdapter(getContext(), ingredientsName, ingredientsQuantity);
         rvIngredients.setAdapter(ingredientsAdapter);
 
         ///TODO
         List<String> tags = recipe.getTags();
+    }
+
+    @Override
+    public void showYouMustBeLogged() {
+        Toast.makeText(getContext(), "You must be logged to do that", Toast.LENGTH_SHORT).show();
     }
 }

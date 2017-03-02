@@ -50,13 +50,13 @@ public class AddNewRecipePresenter implements IPresenter.AddRecipePresenter, Req
     public void uploadImageToStorage(Activity activity, byte[] imageByteArray) {
         if (imageByteArray != null) {
             mView.showProgressBar();
-            firebaseStore.uploadRecipeImageToStorage(activity,imageByteArray, this);
+            firebaseStore.uploadRecipeImageToStorage(activity, imageByteArray, this);
         }
     }
 
     @Override
     public void saveRecipeToFirebaseDb(String recipeTitle, String recipeSummary, List<String> ingredientsName, List<String> ingredientsQuantity, Integer cookingTime, String imageUrl, String howToPrepare, Integer servings, List<String> tags, String author, String authorImageUrl) {
-        if (Validator.stringEmptyOrNull(recipeTitle, recipeSummary, this.imageUrl, howToPrepare, author,authorImageUrl)) {
+        if (Validator.stringEmptyOrNull(recipeTitle, recipeSummary, this.imageUrl, howToPrepare, author, authorImageUrl)) {
             throw new IllegalArgumentException("String cannot be null");
         }
 
@@ -65,9 +65,13 @@ public class AddNewRecipePresenter implements IPresenter.AddRecipePresenter, Req
                 throw new IllegalArgumentException("String cannot be null");
             }
         }
+        String AuthorLove = "Anonymous";
+        if (this.getLoggedUserEmail() != "") {
+            AuthorLove =getLoggedUserEmail();
+        }
 
         Recipe recipe = new Recipe(recipeTitle, recipeSummary, ingredientsName, ingredientsQuantity, cookingTime, this.imageUrl, howToPrepare, servings, tags, author, authorImageUrl);
-
+        recipe.getLovedBy().add(AuthorLove);
         firebaseDb.pushRecipe(recipe);
     }
 

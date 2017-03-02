@@ -22,6 +22,8 @@ public interface IView {
 
     interface RecipeDetailsView{
         void showRecipe(Recipe recipe);
+
+        void showYouMustBeLogged();
     }
 
     interface AddNewRecipeView {
