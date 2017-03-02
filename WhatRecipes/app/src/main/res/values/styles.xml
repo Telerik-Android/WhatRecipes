@@ -18,7 +18,14 @@
         <item name="android:textColor">@color/colorGhostWhite</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">28sp</item>
+    </style>
 
+    <style name="RecipeTitleFontLand" parent="@android:style/TextAppearance.DeviceDefault.Large">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorGhostWhite</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">42sp</item>
     </style>
 
     <style name="RecipeCookingTimeFont" parent="@android:style/TextAppearance.DeviceDefault.Medium">
@@ -27,6 +34,16 @@
         <item name="android:textColor">@color/colorGhostWhite</item>
         <item name="android:fontFamily">sans-serif</item>
     </style>
+
+
+    <style name="RecipeCookingTimeFontLand" parent="@android:style/TextAppearance.DeviceDefault.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorGhostWhite</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">36sp</item>
+    </style>
+
 
     <style name="RecipeHugeFont" parent="@android:style/TextAppearance.Large">
         <item name="android:layout_width">fill_parent</item>

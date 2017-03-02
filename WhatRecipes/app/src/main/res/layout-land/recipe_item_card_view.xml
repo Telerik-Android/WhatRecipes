@@ -89,7 +89,7 @@
                         android:layout_height="0dp"
                         android:layout_weight="3"
                         android:gravity="center"
-                        android:textAppearance="@style/RecipeTitleFont" />
+                        android:textAppearance="@style/RecipeTitleFontLand" />
 
                     <include
                         layout="@layout/recipe_header_info"

@@ -7,7 +7,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="380dp"
             android:layout_weight="0"
             android:orientation="horizontal">
 
@@ -16,7 +16,7 @@
             <ImageView
                 android:id="@+id/recipeImageView"
                 android:layout_width="0dp"
-                android:layout_height="300dp"
+                android:layout_height="match_parent"
                 android:layout_weight="2"
                 android:background="@color/list_image_bg_color"
                 android:src="@drawable/user_not_registered" />
@@ -37,7 +37,8 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
                         android:orientation="horizontal">
 
 
@@ -55,12 +56,12 @@
                                 android:layout_weight="2"
                                 android:gravity="center"
                                 android:text="RECIPE NAME"
-                                android:textAppearance="@style/RecipeTitleFont" />
+                                android:textAppearance="@style/RecipeTitleFontLand" />
 
                             <FrameLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="0dp"
-                                android:layout_weight="1">
+                                android:layout_weight="2">
 
                                 <include
                                     layout="@layout/recipe_header_info"
@@ -96,8 +97,14 @@
 
                     </LinearLayout>
 
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
 
-                    <include layout="@layout/recipe_summary" />
+                        <include
+                            layout="@layout/recipe_summary" />
+                    </FrameLayout>
 
 
                     <!--<TextView-->
