@@ -56,7 +56,7 @@ public class AddNewRecipePresenter implements IPresenter.AddRecipePresenter, Req
 
     @Override
     public void saveRecipeToFirebaseDb(String recipeTitle, String recipeSummary, List<String> ingredientsName, List<String> ingredientsQuantity, Integer cookingTime, String imageUrl, String howToPrepare, Integer servings, List<String> tags, String author, String authorImageUrl) {
-        if (Validator.stringEmptyOrNull(recipeTitle, recipeSummary, this.imageUrl, howToPrepare, author)) {
+        if (Validator.stringEmptyOrNull(recipeTitle, recipeSummary, this.imageUrl, howToPrepare, author,authorImageUrl)) {
             throw new IllegalArgumentException("String cannot be null");
         }
 

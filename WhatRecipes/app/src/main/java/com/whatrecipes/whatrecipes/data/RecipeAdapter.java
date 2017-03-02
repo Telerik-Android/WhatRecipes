@@ -59,6 +59,9 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
     @BindView(R.id.TextViewRecipeLoves)
     TextView tvRecipeLoves;
 
+    @BindView(R.id.EditTextViewRecipe)
+    TextView editTextViewRecipe;
+
 
     public RecipeAdapter(Context context, int resource) {
         super(context, resource);
@@ -68,9 +71,10 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ButterKnife.bind(this, convertView);
-        this.recipePosition = position;
+        editTextViewRecipe.setTag(position);
         String text = getItem(position).getName();
         tvTitle.setText(text);
+        tvTitle.setTag(position);
 
         String imageUrl = getItem(position).getImageUrl();
         Picasso.with(getContext()).load(getItem(position).getImageUrl()).fit().into(recipeImage);
@@ -108,9 +112,9 @@ public class RecipeAdapter extends ArrayAdapter<Recipe> {
 
 
     @OnClick(R.id.EditTextViewRecipe)
-    public void onViewRecipeClick() {
+    public void onViewRecipeClick(View view) {
         Intent intent = new Intent(this.getContext(), ActivityRecipeDetails.class);
-        Recipe recipe = getItem(recipePosition);
+        Recipe recipe = getItem((Integer)view.getTag());
         Gson gson = new Gson();
         String recipeJson = gson.toJson(recipe);
         intent.putExtra("Recipe", recipeJson);

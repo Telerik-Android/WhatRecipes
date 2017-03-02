@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import android.view.LayoutInflater;
 import com.whatrecipes.whatrecipes.R;
 
 import java.util.ArrayList;
@@ -24,11 +25,7 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
     private List<String> ingredientsName;
     private List<String> ingredientsQuantity;
 
-
     private final Context context;
-
-    @BindView(R.id.text_view_ingredient_name)
-    TextView tvIngredientName;
 
     public IngredientsAdapter(Context context, List<String> ingredientsName, List<String> ingredientsQuantity) {
         this.ingredientsName = ingredientsName;
@@ -38,31 +35,32 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
     @Override
     public IngredientsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ButterKnife.bind(this, parent);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recipe_ingredient_card_view, parent, false);
+        ViewHolder holder = new ViewHolder(view);
 
-        return null;
+        return holder;
     }
 
     @Override
     public void onBindViewHolder(IngredientsAdapter.ViewHolder holder, int position) {
-
         holder.tvIngredientName.setText(ingredientsName.get(position));
-        holder.tvIngredientQuality.setText(ingredientsQuantity.get(position));
+        holder.tvIngredientQuantity.setText(ingredientsQuantity.get(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return ingredientsName.size();
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvIngredientName;
-        public TextView tvIngredientQuality;
+        @BindView(R.id.text_view_ingredient_name) TextView tvIngredientName;
+        @BindView(R.id.text_view_ingredient_quality) TextView tvIngredientQuantity;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
 
     }

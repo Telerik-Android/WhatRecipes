@@ -149,7 +149,7 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         encodedBitmap = RecipeViewUtils.setEncodedImage(this.RecipeThumbnail);
         String author = "anonymous";
 
-        if (presenter.getLoggedUserEmail() != null) {
+        if (!Validator.stringEmptyOrNull(presenter.getLoggedUserEmail())) {
             author = presenter.getLoggedUserEmail();
         }
 
