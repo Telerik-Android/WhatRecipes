@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     card_view:cardCornerRadius="6dp"
-    card_view:contentPaddingTop="15dp"
-    card_view:cardElevation="2dp">
+    card_view:cardElevation="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -69,7 +68,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Author"
-                        android:textAppearance="@style/RecipeUserTitleFont"/>
+                        android:textAppearance="@style/RecipeUserTitle600dpFont"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -94,7 +93,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="Recipe Title"
-                        android:textAppearance="@style/RecipeTitleFontSmall" />
+                        android:textAppearance="@style/RecipeTitleFont600dpLand" />
 
                     <include
                         layout="@layout/recipe_header_info"

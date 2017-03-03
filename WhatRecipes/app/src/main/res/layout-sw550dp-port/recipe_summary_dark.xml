@@ -10,6 +10,6 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:text="RECIPE SUMMARY"
-        style="@style/RecipeSummaryFontDarkLand"/>
+        style="@style/RecipeSummaryFontDark550dpPort"/>
 
 </LinearLayout>

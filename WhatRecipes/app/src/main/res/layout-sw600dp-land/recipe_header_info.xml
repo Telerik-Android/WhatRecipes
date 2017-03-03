@@ -6,19 +6,19 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:src="@drawable/av_timer"/>
 
     <TextView
         android:id="@+id/TextViewRecipeCookingTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
-        android:textAppearance="@style/RecipeCookingTimeFontSmallLand" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:textAppearance="@style/RecipeCookingTimeFont600dpLand" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -26,37 +26,37 @@
         android:layout_marginLeft="1dp"
         android:layout_marginStart="1dp"
         android:text=" mins"
-        android:textAppearance="@style/RecipeCookingTimeFontSmallLand" />
+        android:textAppearance="@style/RecipeCookingTimeFont600dpLand" />
 
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
         android:src="@drawable/ic_account_multiple"/>
 
     <TextView
         android:id="@+id/TextViewRecipeServings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
-        android:layout_marginStart="7dp"
-        android:textAppearance="@style/RecipeCookingTimeFontSmallLand" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:textAppearance="@style/RecipeCookingTimeFont600dpLand" />
 
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:src="@drawable/ic_heart"/>
 
     <TextView
         android:id="@+id/TextViewRecipeLoves"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
-        android:textAppearance="@style/RecipeCookingTimeFontSmallLand" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:textAppearance="@style/RecipeCookingTimeFont600dpLand" />
 
 
 

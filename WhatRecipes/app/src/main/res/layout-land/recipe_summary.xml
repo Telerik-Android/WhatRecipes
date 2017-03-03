@@ -8,12 +8,10 @@
     <TextView
         android:id="@+id/textViewRecipeSummary"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:padding="5dp"
         android:paddingLeft="10dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
         android:text="RECIPE SUMMARY"
-        style="@style/RecipeSummaryFontLand"/>
+        style="@style/RecipeSummaryFontSmallLand"/>
 
 </LinearLayout>

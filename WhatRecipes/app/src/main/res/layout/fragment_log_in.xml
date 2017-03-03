@@ -13,12 +13,6 @@
         android:paddingRight="24dp"
         android:paddingTop="56dp">
 
-        <TextView
-            android:id="@+id/test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hello, World!"></TextView>
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -46,13 +46,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_weight="3"
-                        android:maxLines="2"
                         android:gravity="center"
                         android:textAppearance="@style/RecipeTitleFont" />
 
                     <include
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         layout="@layout/recipe_header_info" />
 
                 </LinearLayout>
@@ -98,22 +98,20 @@
                     <ImageButton
                         android:id="@+id/textViewAuthorProfileImage"
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
+                        android:layout_height="match_parent"
                         android:background="@drawable/profile_circular_border_imageview"
                         android:padding="10dp"
-                        android:layout_weight="4"
+                        android:layout_weight="3"
                         android:scaleType="centerCrop"
                         android:src="@drawable/user_not_registered" />
 
                     <TextView
                         android:id="@+id/textViewAuthor"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:maxLines="1"
-                        android:textAlignment="center"
-                        android:layout_marginBottom="3dp"
-                        android:textAppearance="@style/RecipeUserTitleFont"
+                        android:textAppearance="@style/RecipeUserTitleFont550dpPort"
                         android:text="Author" />
 
                 </LinearLayout>

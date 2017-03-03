@@ -47,6 +47,7 @@ public class RecipesStackFragment extends Fragment implements IView.RecipeStackV
         mCardAdapter = new RecipeAdapter(getContext(),R.layout.recipe_item_card_view);
         mCardStack.setContentResource(R.layout.recipe_item_card_view);
         mCardStack.setAdapter(mCardAdapter);
+        mCardStack.setStackMargin(0);
         presenter.loadRecipesStack();
 
         return view;

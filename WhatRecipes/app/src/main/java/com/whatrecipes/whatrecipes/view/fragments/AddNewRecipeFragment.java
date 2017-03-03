@@ -112,18 +112,33 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
     @OnClick(R.id.submit_recipe)
     public void handleSubmitButtonClick() {
         //reads,validates and submits data
-        if (parseRecipeForm()) {
+        if (validateRecipeForm() && parseRecipeForm()) {
             ActivityUtils.replaceFragmentToActivity(getFragmentManager(), new RecipesStackFragment(), R.id.cardStackFragment);
         }
 
     }
 
-    @Override
-    public boolean parseRecipeForm() {
-        if (!Validator.validateRequiredEditTextFields("Field is required", edrecipeTitle, edrecipeSummary, edcookingTime, edservings, edcookingTime, edhowToPrepare, edtagsToSplit)) {
+    public boolean validateRecipeForm(){
+        if (!Validator.validateRequiredEditTextFields("Field is required", edrecipeTitle, edcookingTime, edservings, edcookingTime, edhowToPrepare, edtagsToSplit)) {
             return false;
         }
 
+        if(!Validator.validateRequiredEditTextFields("Recipe summary must be below 200 chars and not empty",edrecipeSummary)){
+            return false;
+        }
+
+        if (this.RecipeThumbnail == null) {
+            Toast.makeText(getActivity(), "Image is required", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+    @Override
+    public boolean parseRecipeForm() {
         String recipeTitle = edrecipeTitle.getText().toString();
         String recipeSummary = edrecipeSummary.getText().toString();
         Integer cookingTime = Integer.valueOf(edcookingTime.getText().toString());
@@ -141,13 +156,9 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         ingredientsQuantity =  RecipeViewUtils.parseIngredientsByViews(ingredientsQuantityV);
 
 
-        if (this.RecipeThumbnail == null) {
-            Toast.makeText(getActivity(), "Image is required", Toast.LENGTH_LONG).show();
-            return false;
-        }
-
         encodedBitmap = RecipeViewUtils.setEncodedImage(this.RecipeThumbnail);
         String author = "anonymous";
+
 
         if (!Validator.stringEmptyOrNull(presenter.getLoggedUserEmail())) {
             author = presenter.getLoggedUserEmail();
@@ -155,9 +166,10 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
 
         String authorImageUrl = "https://firebasestorage.googleapis.com/v0/b/whatrecipes.appspot.com/o/user_not_registered.jpg?alt=media&token=26007317-d9f6-43db-82e7-e8767a8ccede";
 
-        if(presenter.getLoggedUserImageUrl()!=null){
+        if(!Validator.stringEmptyOrNull( presenter.getLoggedUserImageUrl())){
             authorImageUrl = presenter.getLoggedUserImageUrl();
         }
+
 
         presenter.saveRecipeToFirebaseDb(recipeTitle, recipeSummary, ingredientsName, ingredientsQuantity, cookingTime, encodedBitmap, howToPrepare, servings, Arrays.asList(tags), author,authorImageUrl);
 

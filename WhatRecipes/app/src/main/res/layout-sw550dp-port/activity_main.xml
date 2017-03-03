@@ -8,6 +8,7 @@
     android:orientation="vertical"
     tools:context="com.whatrecipes.whatrecipes.view.MainActivity">
 
+
     <FrameLayout
         android:id="@+id/drawerFragment"
         android:layout_width="match_parent"
@@ -16,7 +17,8 @@
     <FrameLayout
         android:id="@+id/cardStackFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content" />
+
 
     <TextView
         android:layout_width="match_parent"
@@ -24,7 +26,8 @@
         android:paddingTop="150dp"
         android:textAlignment="center"
         android:textSize="32sp"
-        android:text="Nexus 4-5 Land">
+        android:text="Nexus 7 Port">
     </TextView>
+
 
 </LinearLayout>
