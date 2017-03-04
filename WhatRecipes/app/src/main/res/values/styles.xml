@@ -39,6 +39,16 @@
         <item name="android:textSize">42sp</item>
     </style>
 
+
+    <style name="RecipeTitleFont550dpPort" parent="@android:style/TextAppearance.DeviceDefault.Large">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorGhostWhite</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+
     <style name="RecipeTitleFont600dpLand" parent="@android:style/TextAppearance.DeviceDefault.Large">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -111,7 +121,7 @@
     <style name="RecipeUserTitle600dpFont" parent="@android:style/TextAppearance.Large">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">#333333</item>
+        <item name="android:textColor">@color/colorGhostWhite</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">28sp</item>
     </style>
@@ -120,7 +130,7 @@
     <style name="RecipeUserTitle800dpFont" parent="@android:style/TextAppearance.Large">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">#333333</item>
+        <item name="android:textColor">@color/colorGhostWhite</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textSize">32sp</item>
     </style>
@@ -163,7 +173,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/colorGhostWhite</item>
         <item name="android:fontFamily">sans-serif</item>
-        <item name="android:textSize">32sp</item>
+        <item name="android:textSize">28sp</item>
     </style>
 
     <style name="RecipeSummaryFontDark550dpPort" parent="@android:style/TextAppearance.Large">
@@ -198,6 +208,22 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/colorDarkText</item>
         <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="RecipeInstructionsFont550dpPort" parent="@android:style/TextAppearance.Large">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="RecipeInstructionsFont600dpLand" parent="@android:style/TextAppearance.Large">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#000</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textSize">28sp</item>
     </style>
 
     <style name="RecipeInstructionsFont800dpLand" parent="@android:style/TextAppearance.Large">
