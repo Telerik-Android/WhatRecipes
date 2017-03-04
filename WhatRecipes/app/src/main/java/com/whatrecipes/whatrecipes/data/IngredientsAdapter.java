@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import android.view.LayoutInflater;
+
 import com.whatrecipes.whatrecipes.R;
 
 import java.util.ArrayList;
@@ -50,13 +51,19 @@ public class IngredientsAdapter extends RecyclerView.Adapter<IngredientsAdapter.
 
     @Override
     public int getItemCount() {
-        return ingredientsName.size();
+        try {
+            return ingredientsName.size();
+        } catch(NullPointerException ex){
+            return 0;
+        }
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.text_view_ingredient_name) TextView tvIngredientName;
-        @BindView(R.id.text_view_ingredient_quality) TextView tvIngredientQuantity;
+        @BindView(R.id.text_view_ingredient_name)
+        TextView tvIngredientName;
+        @BindView(R.id.text_view_ingredient_quality)
+        TextView tvIngredientQuantity;
 
         public ViewHolder(View itemView) {
             super(itemView);

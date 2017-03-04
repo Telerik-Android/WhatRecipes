@@ -22,6 +22,7 @@ import com.whatrecipes.whatrecipes.presenters.AddUserProfileImagePresenter;
 import com.whatrecipes.whatrecipes.utils.ActivityUtils;
 import com.whatrecipes.whatrecipes.utils.CameraUtils;
 import com.whatrecipes.whatrecipes.utils.ImageHelper;
+import com.whatrecipes.whatrecipes.view.IPhoto;
 
 import java.io.IOException;
 
@@ -33,15 +34,14 @@ import butterknife.OnClick;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static com.whatrecipes.whatrecipes.utils.CameraUtils.REQUEST_MEDIA_USER;
+import static com.whatrecipes.whatrecipes.utils.CameraUtils.REQUEST_PORTRAIT_USER;
 
 /**
  * Created by fatal on 23.2.2017 г..
  */
 
-public class AddUserProfileImageFragment extends Fragment implements IView.AddUserProfileImage {
-    private final static int REQUEST_MEDIA_USER = 101;
-
-    private static final int REQUEST_PORTRAIT_USER = 1336;
+public class AddUserProfileImageFragment extends Fragment implements IView.AddUserProfileImage, IPhoto {
 
     @BindView(R.id.imageViewProfile)
     ImageView imageView;
@@ -86,6 +86,7 @@ public class AddUserProfileImageFragment extends Fragment implements IView.AddUs
         CameraUtils.takeUserProfileCameraPhoto(this);
     }
 
+    @Override
     @OnClick(R.id.gallery_button)
     public void startTakeFromGalleryPhotoActivity() {
         btnCamera.setEnabled(false);
@@ -100,9 +101,15 @@ public class AddUserProfileImageFragment extends Fragment implements IView.AddUs
         getActivity().finish();
     }
 
-    @Override
-    public void loadImageFromResources() {
 
+    @Override
+    public void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -113,16 +120,6 @@ public class AddUserProfileImageFragment extends Fragment implements IView.AddUs
     @Override
     public void showFailedUploadToast() {
 
-    }
-
-    @Override
-    public void showProgressBar() {
-        mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void hideProgressBar() {
-        mProgressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override

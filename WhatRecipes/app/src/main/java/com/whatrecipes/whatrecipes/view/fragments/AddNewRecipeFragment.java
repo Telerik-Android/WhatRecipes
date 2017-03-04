@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.Picasso;
 import com.whatrecipes.whatrecipes.App;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
@@ -28,7 +31,9 @@ import com.whatrecipes.whatrecipes.utils.CameraUtils;
 import com.whatrecipes.whatrecipes.utils.ImageHelper;
 import com.whatrecipes.whatrecipes.utils.RecipeViewUtils;
 import com.whatrecipes.whatrecipes.utils.Validator;
+import com.whatrecipes.whatrecipes.view.IPhoto;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,11 +45,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.app.Activity.RESULT_OK;
+import static com.whatrecipes.whatrecipes.utils.CameraUtils.REQUEST_MEDIA_USER;
+import static com.whatrecipes.whatrecipes.utils.CameraUtils.REQUEST_PORTRAIT_FFC;
+
 /**
  * Created by dnt on 13.2.2017 г..
  */
 
-public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipeView {
+public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipeView, IPhoto {
     public static final int TAG_INGREDIENT_NAME = 2001;
     public static final int TAG_INGREDIENT_QUANITY = 2002;
 
@@ -53,7 +62,10 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
     private String encodedBitmap;
 
     @BindView(R.id.camera_button)
-    Button cameraButton;
+    Button btnCamera;
+
+    @BindView(R.id.gallery_button)
+    Button btnGallery;
 
     @BindView(R.id.iVRecipeImage)
     public ImageView imageView;
@@ -118,12 +130,13 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
 
     }
 
-    public boolean validateRecipeForm(){
+    @Override
+    public boolean validateRecipeForm() {
         if (!Validator.validateRequiredEditTextFields("Field is required", edrecipeTitle, edcookingTime, edservings, edcookingTime, edhowToPrepare, edtagsToSplit)) {
             return false;
         }
 
-        if(!Validator.validateRequiredEditTextFields("Recipe summary must be below 200 chars and not empty",edrecipeSummary)){
+        if (!Validator.validateRequiredEditTextFields("Recipe summary must be below 200 chars and not empty", edrecipeSummary)) {
             return false;
         }
 
@@ -153,7 +166,7 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         List<View> ingredientsNameV = RecipeViewUtils.findViewWithTagRecursively(parent, TAG_INGREDIENT_NAME);
         List<View> ingredientsQuantityV = RecipeViewUtils.findViewWithTagRecursively(parent, TAG_INGREDIENT_QUANITY);
         ingredientsName = RecipeViewUtils.parseIngredientsByViews(ingredientsNameV);
-        ingredientsQuantity =  RecipeViewUtils.parseIngredientsByViews(ingredientsQuantityV);
+        ingredientsQuantity = RecipeViewUtils.parseIngredientsByViews(ingredientsQuantityV);
 
 
         encodedBitmap = RecipeViewUtils.setEncodedImage(this.RecipeThumbnail);
@@ -166,15 +179,31 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
 
         String authorImageUrl = "https://firebasestorage.googleapis.com/v0/b/whatrecipes.appspot.com/o/user_not_registered.jpg?alt=media&token=26007317-d9f6-43db-82e7-e8767a8ccede";
 
-        if(!Validator.stringEmptyOrNull( presenter.getLoggedUserImageUrl())){
+        if (!Validator.stringEmptyOrNull(presenter.getLoggedUserImageUrl())) {
             authorImageUrl = presenter.getLoggedUserImageUrl();
         }
 
 
-        presenter.saveRecipeToFirebaseDb(recipeTitle, recipeSummary, ingredientsName, ingredientsQuantity, cookingTime, encodedBitmap, howToPrepare, servings, Arrays.asList(tags), author,authorImageUrl);
+        presenter.saveRecipeToFirebaseDb(recipeTitle, recipeSummary, ingredientsName, ingredientsQuantity, cookingTime, encodedBitmap, howToPrepare, servings, Arrays.asList(tags), author, authorImageUrl);
 
 
         return true;
+    }
+
+    @Override
+    @OnClick(R.id.gallery_button)
+    public void startTakeFromGalleryPhotoActivity() {
+        btnCamera.setEnabled(false);
+        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(pickPhoto, REQUEST_MEDIA_USER);
+    }
+
+    @OnClick(R.id.camera_button)
+    @Override
+    public void startTakeAPhotoActivity() {
+        btnGallery.setEnabled(false);
+        CameraUtils.takeRecipeCameraPhoto(this);
     }
 
     @OnClick(R.id.cancel_recipe)
@@ -182,10 +211,6 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         ActivityUtils.replaceFragmentToActivity(getFragmentManager(), new RecipesStackFragment(), R.id.cardStackFragment);
     }
 
-    @OnClick(R.id.camera_button)
-    public void takeCameraPhoto() {
-        CameraUtils.takeRecipeCameraPhoto(this);
-    }
 
     @OnClick(R.id.add_ingredient_field_button)
     public void handleAddNewIngredientForm() {
@@ -204,16 +229,34 @@ public class AddNewRecipeFragment extends Fragment implements IView.AddNewRecipe
         // check if the request code is same as what is passed  here it is 2
         // TODO refactor this!
         if (resultCode != 0) {
-            if(requestCode==1338){
-                Uri rootPath = data.getData();
-                this.RecipeThumbnail = BitmapFactory.decodeFile(rootPath.getPath());
+            switch (requestCode) {
+                case REQUEST_PORTRAIT_FFC:
+                    if (resultCode == RESULT_OK) {
+                        Uri rootPath = data.getData();
+                        this.RecipeThumbnail = BitmapFactory.decodeFile(rootPath.getPath());
 
-                //Preview photo
-                imageView.setImageBitmap(RecipeThumbnail);
-                presenter.uploadImageToStorage(getActivity(), ImageHelper.getImageByteArray(RecipeThumbnail));
+                        //Preview photo
+                        imageView.setImageBitmap(RecipeThumbnail);
+                        presenter.uploadImageToStorage(getActivity(), ImageHelper.getImageByteArray(RecipeThumbnail));
+                    }
+                case REQUEST_MEDIA_USER:
+                    if (resultCode == RESULT_OK) {
+                        Uri rootPath2 = data.getData();
+                        Bitmap btm = null;
+                        RecipeThumbnail = null;
+                        try {
+                            RecipeThumbnail = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), rootPath2);
+                            btm =ImageHelper.scaleDown(RecipeThumbnail,650,true);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        imageView.setImageBitmap(btm);
+                        presenter.uploadImageToStorage(getActivity(), ImageHelper.getImageByteArray(btm));
+                    }
+                    break;
             }
         }
-
     }
 
 

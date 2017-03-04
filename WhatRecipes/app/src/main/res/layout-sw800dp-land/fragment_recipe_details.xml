@@ -2,148 +2,166 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:focusableInTouchMode="true">
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="380dp"
-            android:layout_weight="0"
-            android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
 
-            <include layout="@layout/progressbar" />
+        <include layout="@layout/progressbar" />
+
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/recipeImageView"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
                 android:background="@color/list_image_bg_color"
                 android:src="@drawable/user_not_registered" />
 
+            <android.support.v7.widget.AppCompatButton
+                android:layout_alignBottom="@+id/recipeImageView"
+                android:id="@+id/viewSwitcherButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:text="View instructions" />
+
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:background="@color/list_text_bg_color"
+            android:orientation="vertical">
+
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_weight="2"
-                android:background="@color/list_text_bg_color"
+                android:background="@color/primary"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:background="@color/primary"
-                    android:orientation="vertical">
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="2"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                        <TextView
+                            android:id="@+id/EditTextRecipeTextTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
                             android:layout_weight="2"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:text="RECIPE NAME"
+                            android:textAppearance="@style/RecipeTitleFontLand" />
 
-                            <TextView
-                                android:id="@+id/EditTextRecipeTextTitle"
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="2">
+
+                            <include
+                                layout="@layout/recipe_header_info"
                                 android:layout_width="match_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="2"
-                                android:gravity="center"
-                                android:text="RECIPE NAME"
-                                android:textAppearance="@style/RecipeTitleFontLand" />
-
-                            <FrameLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="2">
-
-                                <include
-                                    layout="@layout/recipe_header_info"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="fill_parent" />
-                            </FrameLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="center"
-                            android:orientation="vertical">
-                            <ImageButton
-                                android:id="@+id/textViewAuthorProfileImage"
-                                android:layout_width="140dp"
-                                android:layout_height="0dp"
-                                android:background="@drawable/profile_circular_border_imageview"
-                                android:padding="10dp"
-                                android:paddingTop="5dp"
-                                android:scaleType="centerCrop"
-                                android:layout_weight="2"
-                                android:src="@drawable/user_not_registered" />
-
-                            <TextView
-                                android:id="@+id/textViewAuthor"
-                                android:layout_width="wrap_content"
-                                android:layout_height="0dp"
-                                android:text="Author"
-                                android:layout_weight="1"
-                                android:textAppearance="@style/RecipeUserTitle800dpFont"/>
-
-                        </LinearLayout>
+                                android:layout_height="fill_parent" />
+                        </FrameLayout>
 
                     </LinearLayout>
 
-                    <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                        <include
-                            layout="@layout/recipe_summary" />
-                    </FrameLayout>
+                        <ImageButton
+                            android:id="@+id/textViewAuthorProfileImage"
+                            android:layout_width="140dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="2"
+                            android:background="@drawable/profile_circular_border_imageview"
+                            android:padding="10dp"
+                            android:paddingTop="5dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/user_not_registered" />
 
+                        <TextView
+                            android:id="@+id/textViewAuthor"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="Author"
+                            android:textAppearance="@style/RecipeUserTitle800dpFont" />
 
-                    <!--<TextView-->
-                    <!--android:id="@+id/EditTextViewRecipe"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="0dp"-->
-                    <!--android:layout_weight="2"-->
-                    <!--android:background="@color/colorGhostWhite"-->
-                    <!--android:text="EMPTY BOX"-->
-                    <!--android:textAlignment="center"-->
-                    <!--android:textAppearance="@style/RecipeHugeFont"-->
-                    <!--android:textSize="35sp" />-->
+                    </LinearLayout>
 
                 </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <include layout="@layout/recipe_summary" />
+                </FrameLayout>
+
+
+                <!--<TextView-->
+                <!--android:id="@+id/EditTextViewRecipe"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="0dp"-->
+                <!--android:layout_weight="2"-->
+                <!--android:background="@color/colorGhostWhite"-->
+                <!--android:text="EMPTY BOX"-->
+                <!--android:textAlignment="center"-->
+                <!--android:textAppearance="@style/RecipeHugeFont"-->
+                <!--android:textSize="35sp" />-->
+
             </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
 
-        <LinearLayout
+
+    <ViewSwitcher
+        android:id="@+id/viewSwitcher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="2"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/recipe_instructions"/>
+        </ScrollView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view_ingredients_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </ViewSwitcher>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-
-            </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view_ingredients_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
 </LinearLayout>

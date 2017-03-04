@@ -9,10 +9,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -75,9 +79,17 @@ public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetai
     @BindView(R.id.recycler_view_ingredients_list)
     RecyclerView rvIngredients;
 
+    @BindView(R.id.textViewRecipeInstructions)
+    TextView tvHoToPrepare;
+
+    @BindView(R.id.viewSwitcher)
+    ViewSwitcher viewSwitcher;
 
     @BindView(R.id.progress_bar)
     ProgressBar mProgressBar;
+
+    @BindView(R.id.viewSwitcherButton2)
+    Button buttonSwitch;
 
 
     @Nullable
@@ -103,6 +115,16 @@ public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetai
         Gson gson = new Gson();
         this.recipe = gson.fromJson(getActivity().getIntent().getStringExtra("Recipe"), Recipe.class);
         this.showRecipe(recipe);
+
+        //setup animation
+
+        Animation in = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_in_left);
+        Animation out = AnimationUtils.loadAnimation(getContext(), android.R.anim.slide_out_right);
+
+        // set the animation type to ViewSwitcher
+        viewSwitcher.setInAnimation(in);
+        viewSwitcher.setOutAnimation(out);
+
 
         return view;
     }
@@ -139,18 +161,18 @@ public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetai
                 .transform(new CircleTransform())
                 .into(ivAuthorProfileImage, new Callback() {
 
-            @Override
-            public void onSuccess() {
-                // TODO Auto-generated method stub
-                mProgressBar.setVisibility(View.GONE);
-            }
+                    @Override
+                    public void onSuccess() {
+                        // TODO Auto-generated method stub
+                        mProgressBar.setVisibility(View.GONE);
+                    }
 
-            @Override
-            public void onError() {
-                // TODO Auto-generated method stub
+                    @Override
+                    public void onError() {
+                        // TODO Auto-generated method stub
 
-            }
-        });
+                    }
+                });
 
         String recipeSummary = recipe.getRecipeSummary();
         if (recipeSummary.length() > 250) {
@@ -164,7 +186,6 @@ public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetai
         Integer servings = recipe.getServings();
         tvRecipeServings.setText(servings.toString());
 
-
         Integer loves = 0;
         try {
 
@@ -176,6 +197,11 @@ public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetai
 
         tvRecipeLoves.setText(loves.toString());
 
+        String howToPrep = recipe.getStepsToPrepare();
+
+        tvHoToPrepare.setText(howToPrep);
+
+
         List<String> ingredientsName = recipe.getIngredientsName();
         List<String> ingredientsQuantity = recipe.getIngredientsQuantity();
 
@@ -184,6 +210,15 @@ public class RecipeDetailsFragment extends Fragment implements IView.RecipeDetai
 
         ///TODO
         List<String> tags = recipe.getTags();
+    }
+
+    @OnClick(R.id.viewSwitcherButton2)
+    public void onClickViewSwitchButton() {
+        if (buttonSwitch.getText() == "View instructions")
+            this.buttonSwitch.setText("View ingredients");
+        else
+            this.buttonSwitch.setText("View instructions");
+        this.viewSwitcher.showNext();
     }
 
     @Override

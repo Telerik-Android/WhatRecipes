@@ -59,7 +59,7 @@ public class RecipeViewUtils {
 
     public static String setEncodedImage(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream);
         byte[] byteFormat = stream.toByteArray();
         String encodedImage = Base64.encodeToString(byteFormat, Base64.NO_WRAP);
 

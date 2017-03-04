@@ -28,9 +28,10 @@ import static android.support.v4.app.ActivityCompat.startActivityForResult;
 
 public class CameraUtils {
 
-    private static final int REQUEST_PORTRAIT_USER = 1336;
-    private static final int REQUEST_PORTRAIT_RFC = 1337;
-    private static final int REQUEST_PORTRAIT_FFC = REQUEST_PORTRAIT_RFC + 1;
+    public static final int REQUEST_PORTRAIT_USER = 1336;
+    public static final int REQUEST_PORTRAIT_RFC = 1337;
+    public static final int REQUEST_PORTRAIT_FFC = REQUEST_PORTRAIT_RFC + 1;
+    public final static int REQUEST_MEDIA_USER = 101;
     public static void takeRecipeCameraPhoto(AddNewRecipeFragment fragment){
 
         String filename = "cam2_" + Build.MANUFACTURER + "_" + Build.PRODUCT

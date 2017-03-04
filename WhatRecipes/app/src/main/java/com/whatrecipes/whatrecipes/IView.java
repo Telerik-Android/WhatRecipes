@@ -31,13 +31,13 @@ public interface IView {
 
         LinearLayout addIngridientFormView();
 
-        void takeCameraPhoto();
-
         void handleCancelButtonClick();
 
         void handleSubmitButtonClick();
 
         boolean parseRecipeForm();
+
+        boolean validateRecipeForm();
 
         void showOnSuccessfulUploadToast();
 
@@ -92,21 +92,16 @@ public interface IView {
     }
 
     interface AddUserProfileImage {
-        void finishActivity(int result);
 
-        void startTakeAPhotoActivity();
+        void showProgressBar();
 
-        void loadImageFromResources();
-
-        void handleCancelButtonClick();
+        void hideProgressBar();
 
         void showOnSuccessfulUploadToast();
 
         void showFailedUploadToast();
 
-        void showProgressBar();
-
-        void hideProgressBar();
+        void finishActivity(int result);
 
     }
 }
