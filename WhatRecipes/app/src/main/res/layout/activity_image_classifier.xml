@@ -55,14 +55,22 @@
                 android:width="@dimen/material_drawer_width"
                 android:textColor="@android:color/black"
                 android:textAlignment="center"
-                android:text="Give us a pricture from your gallery and we will give you the recipe for it!"/>
+                android:text="Give us a pricture and we will give you the recipe for it!"/>
 
             <Button
                 android:textAlignment="center"
-                android:id="@+id/take_picture"
+                android:id="@+id/take_gallery_picture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="GET IMAGE FROM GALLERY"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp" />
+            <Button
+                android:textAlignment="center"
+                android:id="@+id/take_camera_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GET IMAGE FROM CAMERA"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="0dp" />
         </LinearLayout>

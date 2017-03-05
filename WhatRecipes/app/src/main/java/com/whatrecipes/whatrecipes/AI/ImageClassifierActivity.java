@@ -18,11 +18,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.commonsware.cwac.cam2.CameraActivity;
+import com.commonsware.cwac.cam2.Facing;
+import com.commonsware.cwac.cam2.ZoomStyle;
 import com.whatrecipes.whatrecipes.AI.Classification.Classifier;
 import com.whatrecipes.whatrecipes.AI.Classification.TensorFlowImageClassifier;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -66,15 +72,44 @@ public class ImageClassifierActivity extends AppCompatActivity {
             requestPermission();
         }
 
-        Button cameraButton = (Button)findViewById(R.id.take_picture);
+        Button galleryButton = (Button)findViewById(R.id.take_gallery_picture);
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mReady.get()) {
+                    setReady(false);
+                    Intent pickPhoto = new Intent(
+                            Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto, REQUEST_MEDIA_USER);
+                } else {
+                    Toast.makeText(getBaseContext(), "Wait a bit!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        Button cameraButton = (Button)findViewById(R.id.take_camera_picture);
         cameraButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mReady.get()) {
                     setReady(false);
-                    Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(pickPhoto, REQUEST_MEDIA_USER);
+                    String filename = "cam2_" + Build.MANUFACTURER + "_" + Build.PRODUCT
+                            + "_" + new SimpleDateFormat("yyyyMMdd'-'HHmmss").format(new Date());
+                    File testRoot = new File(getExternalFilesDir(null), filename);
+
+                    Intent i = new CameraActivity.IntentBuilder(getBaseContext())
+                            .requestPermissions()
+                            .skipConfirm()
+                            .facing(Facing.BACK)
+                            .to(new File(testRoot, getString(R.string.screenshot)))
+                            .debug()
+                            .zoomStyle(ZoomStyle.SEEKBAR)
+                            .updateMediaStore()
+                            .build();
+                    i.putExtra(getString(R.string.PhotoPath), testRoot.getAbsolutePath());
+
+                    startActivityForResult(i, REQUEST_MEDIA_USER);
                 } else {
                     Toast.makeText(getBaseContext(), "Wait a bit!", Toast.LENGTH_SHORT).show();
                 }
