@@ -1,18 +1,16 @@
 package com.whatrecipes.whatrecipes.AI;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.Image;
-import android.media.ImageReader;
 import android.os.Build;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.speech.tts.UtteranceProgressListener;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -23,37 +21,34 @@ import android.widget.Toast;
 import com.whatrecipes.whatrecipes.AI.Classification.Classifier;
 import com.whatrecipes.whatrecipes.AI.Classification.TensorFlowImageClassifier;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static com.whatrecipes.whatrecipes.utils.CameraUtils.REQUEST_MEDIA_USER;
 
-import com.whatrecipes.whatrecipes.AI.Utils.CameraHandler;
-import com.whatrecipes.whatrecipes.AI.Utils.ImagePreprocessor;
 import com.whatrecipes.whatrecipes.R;
 
-public class ImageClassifierActivity extends AppCompatActivity
-        implements ImageReader.OnImageAvailableListener {
-
-    private static final String TAG = "ImageClassifierActivity";
+public class ImageClassifierActivity extends AppCompatActivity {
     private static final int PERMISSIONS_REQUEST = 1;
 
-    private ImagePreprocessor mImagePreprocessor;
-    private CameraHandler mCameraHandler;
     private TensorFlowImageClassifier mTensorFlowClassifier;
-
-    private HandlerThread mBackgroundThread;
-    private Handler mBackgroundHandler;
 
     private ImageView mImage;
     private TextView[] mResultViews;
+
+    private Context ctx;
 
     private AtomicBoolean mReady = new AtomicBoolean(false);
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.ctx = getBaseContext();
+
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         setContentView(R.layout.activity_image_classifier);
@@ -77,121 +72,72 @@ public class ImageClassifierActivity extends AppCompatActivity
             public void onClick(View v) {
                 if (mReady.get()) {
                     setReady(false);
-                    mBackgroundHandler.post(mBackgroundClickHandler);
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto, REQUEST_MEDIA_USER);
                 } else {
-                    Log.i(TAG, "Sorry, processing hasn't finished. Try again in a few seconds");
+                    Toast.makeText(getBaseContext(), "Wait a bit!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        //this.mReady = new AtomicBoolean(true);
     }
 
     private void init() {
-        mBackgroundThread = new HandlerThread("BackgroundThread");
-        mBackgroundThread.start();
-        mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
-        mBackgroundHandler.post(mInitializeOnBackground);
+        mTensorFlowClassifier = new TensorFlowImageClassifier(ImageClassifierActivity.this);
+
+        setReady(true);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_MEDIA_USER && resultCode == Activity.RESULT_OK) {
+            if (data == null) {
+                //Display an error
+                return;
+            }
 
-    private Runnable mInitializeOnBackground = new Runnable() {
-        @Override
-        public void run() {
-            mImagePreprocessor = new ImagePreprocessor(
-                    CameraHandler.IMAGE_WIDTH,
-                    CameraHandler.IMAGE_HEIGHT,
-                    TensorFlowImageClassifier.INPUT_SIZE);
+            try {
+                InputStream inputStream = ctx.getContentResolver().openInputStream(data.getData());
+                Bitmap bmp = BitmapFactory.decodeStream(inputStream);
+                this.classifyImage(bmp);
 
-            mCameraHandler = CameraHandler.getInstance();
-            mCameraHandler.initializeCamera(
-                    ImageClassifierActivity.this,
-                    mBackgroundHandler,
-                    ImageClassifierActivity.this);
-
-            mTensorFlowClassifier = new TensorFlowImageClassifier(ImageClassifierActivity.this);
-
-            setReady(true);
+            } catch (FileNotFoundException e) {
+                // no such file
+            }
         }
-    };
-
-    private Runnable mBackgroundClickHandler = new Runnable() {
-        @Override
-        public void run() {
-            mCameraHandler.takePicture();
-        }
-    };
-
-    private UtteranceProgressListener utteranceListener = new UtteranceProgressListener() {
-        @Override
-        public void onStart(String utteranceId) {
-            setReady(false);
-        }
-
-        @Override
-        public void onDone(String utteranceId) {
-            setReady(true);
-        }
-
-        @Override
-        public void onError(String utteranceId) {
-            setReady(true);
-        }
-    };
+    }
 
     private void setReady(boolean ready) {
         mReady.set(ready);
     }
 
-    @Override
-    public void onImageAvailable(ImageReader reader) {
-        final Bitmap bitmap;
-        try (Image image = reader.acquireNextImage()) {
-            bitmap = mImagePreprocessor.preprocessImage(image);
-        }
+    private void classifyImage(Bitmap image) {
+        Bitmap rescaled = Bitmap.createScaledBitmap(
+                image,
+                TensorFlowImageClassifier.INPUT_SIZE,
+                TensorFlowImageClassifier.INPUT_SIZE,
+                true);
+        mImage.setImageBitmap(rescaled);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mImage.setImageBitmap(bitmap);
-            }
-        });
+        final List<Classifier.Recognition> results = mTensorFlowClassifier.recognizeImage(rescaled);
 
-        final List<Classifier.Recognition> results = mTensorFlowClassifier.recognizeImage(bitmap);
-
-        Log.d(TAG, "Got the following results from Tensorflow: " + results);
         setReady(true);
 
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0; i < mResultViews.length; i++) {
-                    if (results.size() > i) {
-                        Classifier.Recognition r = results.get(i);
-                        mResultViews[i].setText(r.toString());
-                    } else {
-                        mResultViews[i].setText(null);
-                    }
-                }
+        for (int i = 0; i < mResultViews.length; i++) {
+            if (results.size() > i) {
+                Classifier.Recognition r = results.get(i);
+                mResultViews[i].setText(r.toString());
+            } else {
+                mResultViews[i].setText(null);
             }
-        });
+        }
     }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        try {
-            if (mBackgroundThread != null) mBackgroundThread.quit();
-        } catch (Throwable t) {
-            // close quietly
-        }
-        mBackgroundThread = null;
-        mBackgroundHandler = null;
-
-        try {
-            if (mCameraHandler != null) mCameraHandler.shutDown();
-        } catch (Throwable t) {
-            // close quietly
-        }
         try {
             if (mTensorFlowClassifier != null) mTensorFlowClassifier.close();
         } catch (Throwable t) {
@@ -201,8 +147,10 @@ public class ImageClassifierActivity extends AppCompatActivity
 
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
+    public void onRequestPermissionsResult(
+            int requestCode,
+            @NonNull String permissions[],
+            @NonNull int[] grantResults) {
         switch (requestCode) {
             case PERMISSIONS_REQUEST: {
                 if (grantResults.length > 0
