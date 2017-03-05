@@ -7,16 +7,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:focusableInTouchMode="true"
+        android:orientation="vertical"
         android:weightSum="5">
 
-        <include layout="@layout/progressbar"/>
+        <include layout="@layout/progressbar" />
 
         <ImageView
             android:id="@+id/recipeImageView"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="180dp"
             android:layout_weight="5"
             android:background="@color/list_image_bg_color"
             android:src="@drawable/user_not_registered" />
@@ -29,14 +29,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_height="match_parent"
                 android:background="@color/primary"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="120dp"
                     android:orientation="horizontal">
 
 
@@ -49,22 +48,23 @@
 
                         <TextView
                             android:id="@+id/EditTextRecipeTextTitle"
-                            android:layout_width="match_parent"
+                            android:layout_width="233dp"
                             android:layout_height="0dp"
-                            android:layout_weight="2"
+                            android:layout_weight="4.5"
+                            android:maxLines="2"
                             android:gravity="center"
                             android:text="RECIPE NAME"
-                            android:textAppearance="@style/RecipeTitleFont" />
+                            android:textAppearance="@style/RecipeTitleFontMain" />
 
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:layout_weight="1">
+                            android:layout_weight="2">
 
                             <include
                                 layout="@layout/recipe_header_info"
                                 android:layout_width="match_parent"
-                                android:layout_height="fill_parent" />
+                                android:layout_height="53dp" />
                         </FrameLayout>
 
                     </LinearLayout>
@@ -72,68 +72,77 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="1.2"
                         android:gravity="center"
                         android:orientation="vertical">
 
+
                         <ImageButton
                             android:id="@+id/textViewAuthorProfileImage"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
+                            android:layout_width="120dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="3"
                             android:background="@drawable/profile_circular_border_imageview"
                             android:padding="10dp"
+                            android:paddingTop="5dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/user_not_registered" />
 
                         <TextView
                             android:id="@+id/textViewAuthor"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Author" />
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="Author"
+                            android:textAppearance="@style/RecipeUserTitleFontDetails" />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <!--<TextView-->
-                <!--android:id="@+id/EditTextViewRecipe"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="0dp"-->
-                <!--android:layout_weight="2"-->
-                <!--android:background="@color/colorGhostWhite"-->
-                <!--android:text="EMPTY BOX"-->
-                <!--android:textAlignment="center"-->
-                <!--android:textAppearance="@style/RecipeHugeFont"-->
-                <!--android:textSize="35sp" />-->
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
+                    <include layout="@layout/recipe_summary" />
+                </FrameLayout>
             </LinearLayout>
 
 
         </LinearLayout>
 
-        <LinearLayout
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/viewSwitcherButton2"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignBottom="@+id/recipeImageView"
+            android:background="#b4ffffff"
+            android:padding="6dp"
+            android:text="View ingredients"
+            android:textSize="8dp" />
+
+
+        <ViewSwitcher
+            android:id="@+id/viewSwitcher"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:background="@color/colorGhostWhite">
 
-
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <include layout="@layout/recipe_summary_dark" />
-
-            </LinearLayout>
+                <include layout="@layout/recipe_instructions" />
+            </ScrollView>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_view_ingredients_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-        </LinearLayout>
 
+            </android.support.v7.widget.RecyclerView>
+
+        </ViewSwitcher>
     </LinearLayout>
 
 </ScrollView>

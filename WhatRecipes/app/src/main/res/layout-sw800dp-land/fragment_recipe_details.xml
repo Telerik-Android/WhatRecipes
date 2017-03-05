@@ -34,7 +34,7 @@
                 android:background="#b4ffffff"
                 android:padding="12dp"
                 android:textSize="18dp"
-                android:text="View instructions" />
+                android:text="View ingredients"/>
 
         </RelativeLayout>
 
@@ -113,7 +113,7 @@
                             android:layout_height="0dp"
                             android:layout_weight="1"
                             android:text="Author"
-                            android:textAppearance="@style/RecipeUserTitle800dpFont" />
+                            android:textAppearance="@style/RecipeUserTitleDetails800dpFont" />
 
                     </LinearLayout>
 

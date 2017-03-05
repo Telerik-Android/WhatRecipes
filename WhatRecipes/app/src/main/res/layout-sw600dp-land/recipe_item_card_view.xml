@@ -37,19 +37,21 @@
                 <TextView
                     android:id="@+id/EditTextViewRecipe"
                     android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@color/colorGhostWhite"
                     android:text="View Recipe"
-                    android:textAlignment="center"
+                    android:textColor="@color/primary"
+                    android:gravity="center"
                     android:textAppearance="@style/RecipeHugeFont"
-                    android:textSize="35sp" />
+                    android:textSize="30sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:background="@color/primary"
                     android:orientation="vertical">
 
                     <ImageButton
@@ -68,7 +70,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Author"
-                        android:textAppearance="@style/RecipeUserTitle600dpFont"/>
+                        android:textAppearance="@style/RecipeUserTitleDetails600dpFont"/>
 
                 </LinearLayout>
             </LinearLayout>

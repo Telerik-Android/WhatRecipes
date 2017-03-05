@@ -103,8 +103,6 @@ public class DrawerFragment extends Fragment {
 
     private void setupHeader(final String emailAddress, String photoImageUrl) {
 
-        // TODO refactor with
-        // accountHeader.updateProfile(new ProfileDrawerItem());
 
         AccountHeaderBuilder accountHeaderBuilder = new AccountHeaderBuilder()
                 .withSelectionListEnabled(false)
@@ -114,7 +112,6 @@ public class DrawerFragment extends Fragment {
                     @Override
                     public boolean onProfileChanged(View view, IProfile profile, boolean currentProfile) {
                         if (firebaseAuth.getLoggedInUserEmail() != null) {
-                            //see if possible to change the displayed email, without reinstantiating new drawer
                             Integer b = 5;
                         } else {
                             Toast.makeText(getActivity(), "not logged in", Toast.LENGTH_SHORT).show();

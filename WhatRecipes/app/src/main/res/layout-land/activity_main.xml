@@ -18,13 +18,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="150dp"
-        android:textAlignment="center"
-        android:textSize="32sp"
-        android:text="Nexus 4-5 Land">
-    </TextView>
-
 </LinearLayout>
