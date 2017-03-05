@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.utils.ActivityUtils;
 import com.whatrecipes.whatrecipes.view.fragments.DrawerFragment;
+import com.whatrecipes.whatrecipes.view.fragments.RecipesStackFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar mToolbar;
 
     DrawerFragment drawerFragment;
-
+    RecipesStackFragment recipeStackFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +32,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         drawerFragment = new DrawerFragment();
-
+        recipeStackFragment = new RecipesStackFragment();
         ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), drawerFragment, R.id.drawerFragment);
 
+        ActivityUtils.replaceFragmentToActivity(getSupportFragmentManager(), recipeStackFragment, R.id.cardStackFragment);
 
     }
 
