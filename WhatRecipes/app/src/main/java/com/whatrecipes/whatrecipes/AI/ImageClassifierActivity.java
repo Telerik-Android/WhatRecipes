@@ -30,6 +30,7 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static android.Manifest.permission.CAMERA;
@@ -95,7 +96,7 @@ public class ImageClassifierActivity extends AppCompatActivity {
                 if (mReady.get()) {
                     setReady(false);
                     String filename = "cam2_" + Build.MANUFACTURER + "_" + Build.PRODUCT
-                            + "_" + new SimpleDateFormat("yyyyMMdd'-'HHmmss").format(new Date());
+                            + "_" + new SimpleDateFormat("yyyyMMdd'-'HHmmss", Locale.ENGLISH).format(new Date());
                     File testRoot = new File(getExternalFilesDir(null), filename);
 
                     Intent i = new CameraActivity.IntentBuilder(getBaseContext())

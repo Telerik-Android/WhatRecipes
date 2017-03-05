@@ -17,11 +17,7 @@ import java.util.PriorityQueue;
 
 
 public class TensorFlowImageClassifier implements Classifier {
-
-    private static final String TAG = "TFImageClassifier";
-
-
-    // These are the settings for the original v1 Inception model. If you want to
+        // These are the settings for the original v1 Inception model. If you want to
     // use a model that's been produced from the TensorFlow for Poets codelab,
     // you'll need to set IMAGE_SIZE = 299, IMAGE_MEAN = 128, IMAGE_STD = 128,
     // INPUT_NAME = "Mul:0", and OUTPUT_NAME = "final_result:0".
@@ -86,9 +82,17 @@ public class TensorFlowImageClassifier implements Classifier {
      * @param inputName     The label of the image input node.
      * @param outputName    The label of the output node.
      */
-    public TensorFlowImageClassifier(AssetManager assetManager, String modelFilename,
-                                     String labelFilename, int numClasses, int inputSize, int imageMean, float imageStd,
-                                     String inputName, String outputName) {
+    public TensorFlowImageClassifier(
+            AssetManager assetManager,
+            String modelFilename,
+            String labelFilename,
+            int numClasses,
+            int inputSize,
+            int imageMean,
+            float imageStd,
+            String inputName,
+            String outputName) {
+
         this.inputName = inputName;
         this.outputName = outputName;
 
@@ -96,7 +100,6 @@ public class TensorFlowImageClassifier implements Classifier {
         String actualFilename = labelFilename.split("file:///android_asset/")[1];
 
         this.labels = readLabels(assetManager, actualFilename);
-        Log.i(TAG, "Read " + labels.size() + ", " + numClasses + " specified");
 
         this.inputSize = inputSize;
         this.imageMean = imageMean;
@@ -152,7 +155,8 @@ public class TensorFlowImageClassifier implements Classifier {
         inferenceInterface.readNodeFloat(outputName, outputs);
 
         // Find the best classifications.
-        PriorityQueue<Recognition> pq = new PriorityQueue<Recognition>(3,
+        PriorityQueue<Recognition> pq = new PriorityQueue<>(
+                3,
                 new Comparator<Recognition>() {
                     @Override
                     public int compare(Recognition lhs, Recognition rhs) {
