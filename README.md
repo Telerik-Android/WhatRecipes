@@ -1,3 +1,3 @@
 # WhatRecipes
 
-![alt tag](http://imgur.com/Z41vQrL)
+![alt tag](http://i.imgur.com/Z41vQrL.jpg)
