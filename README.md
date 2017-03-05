@@ -1,6 +1,6 @@
 # WhatRecipes
 
-Project for [Android Development](https://github.com/TelerikAcademy/Mobile-Applications-for-Android) course in Telerik Academy [Telerik Academy](www.telerikacademy.com) season 2016/2017.
+Project for [Android Development](https://github.com/TelerikAcademy/Mobile-Applications-for-Android) course in [Telerik Academy](www.telerikacademy.com) season 2016/2017.
 
 WhatRecipes is application created for Android, written on Java. Users can share, discover and like recipes. 
 
