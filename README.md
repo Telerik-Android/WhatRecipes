@@ -1,3 +1,3 @@
 # WhatRecipes
 
-![](http://i.imgur.com/Z41vQrL.jpg=250x)
+<img src="http://i.imgur.com/Z41vQrL.jpg" width="200" height="200" />
