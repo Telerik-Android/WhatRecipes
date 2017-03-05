@@ -1,3 +1,3 @@
 # WhatRecipes
 
-![alt tag](http://i.imgur.com/Z41vQrL.jpg)
+![alt tag](http://i.imgur.com/Z41vQrL.jpg =250x)
