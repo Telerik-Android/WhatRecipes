@@ -25,4 +25,8 @@
     <string name="PhotoPath">PhotoPath</string>
     <string name="fieldRequired">field is required</string>
     <string name="register_activity_title">register</string>
+
+    <string name="description_info">Info</string>
+    <string name="request_permission">This sample needs camera permission.</string>
+    <string name="camera_error">This device doesn\'t support Camera2 API.</string>
 </resources>
