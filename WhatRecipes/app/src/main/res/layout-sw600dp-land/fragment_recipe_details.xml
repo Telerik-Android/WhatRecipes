@@ -34,7 +34,7 @@
                     android:background="#b4ffffff"
                     android:padding="12dp"
                     android:textSize="14dp"
-                    android:text="View instructions" />
+                    android:text="View ingredients"/>
 
             </RelativeLayout>
 

@@ -29,11 +29,11 @@
                 android:layout_alignBottom="@+id/recipeImageView"
                 android:id="@+id/viewSwitcherButton2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:background="#b4ffffff"
                 android:padding="0dp"
                 android:textSize="10sp"
-                android:text="View instructions" />
+                android:text="View ingredients" />
 
         </RelativeLayout>
 

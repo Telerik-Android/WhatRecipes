@@ -19,15 +19,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="150dp"
-        android:textAlignment="center"
-        android:textSize="32sp"
-        android:text="Nexus 5 Port">
-    </TextView>
-
-
 </LinearLayout>

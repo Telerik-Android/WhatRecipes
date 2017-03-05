@@ -118,7 +118,7 @@
             android:layout_alignBottom="@+id/recipeImageView"
             android:background="#b4ffffff"
             android:padding="6dp"
-            android:text="View instructions"
+            android:text="View ingredients"
             android:textSize="8dp" />
 
 

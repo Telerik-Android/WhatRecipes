@@ -83,6 +83,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:background="@color/primary"
                     android:orientation="vertical">
 
                     <ImageButton
@@ -100,7 +101,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
-                        android:textAppearance="@style/RecipeUserTitleFont550dpPort"
+                        android:textAppearance="@style/RecipeUserTitleFontDetails550dpPort"
                         android:text="Author" />
 
                 </LinearLayout>
@@ -112,11 +113,10 @@
                     android:layout_weight="1"
                     android:background="@color/colorGhostWhite"
                     android:text="View Recipe"
-                    android:textAlignment="center"
-                    android:layout_marginTop="10dp"
+                    android:textColor="@color/primary"
+                    android:gravity="center"
                     android:textAppearance="@style/RecipeHugeFont"
-                    android:textSize="35sp" />
-
+                    android:textSize="28sp" />
 
             </LinearLayout>
         </LinearLayout>
