@@ -1,6 +1,7 @@
 package com.whatrecipes.whatrecipes.data.firebase;
 
 import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.ValueEventListener;
 import com.whatrecipes.whatrecipes.data.Recipe;
 import com.whatrecipes.whatrecipes.data.firebase.listeners.RequestListener;
 
@@ -17,6 +18,8 @@ public interface IFirebaseDatabaseInteractor {
     void pushRecipe(Recipe recipe);
 
     void getAllRecipes(ChildEventListener listener);
+
+    void getRecipeNameBeginsWith(ValueEventListener listener, String name);
 
     void updateRecipe(String uid, String field, String Value);
 

@@ -1,7 +1,6 @@
 package com.whatrecipes.whatrecipes.view.fragments;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,7 +25,6 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import com.mikepenz.materialdrawer.util.AbstractDrawerImageLoader;
 import com.mikepenz.materialdrawer.util.DrawerImageLoader;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 import com.whatrecipes.whatrecipes.App;
 import com.whatrecipes.whatrecipes.R;
 import com.whatrecipes.whatrecipes.data.firebase.FirebaseAuthenticationInteractor;
@@ -39,7 +37,8 @@ import com.whatrecipes.whatrecipes.view.ActivityRegister;
 import javax.inject.Inject;
 
 import static android.app.Activity.RESULT_OK;
-import static java.lang.Integer.parseInt;
+
+import com.whatrecipes.whatrecipes.view.ai.ActivityImageClassifier;
 
 public class DrawerFragment extends Fragment {
     private static final int RC_SIGN_OUT = 121;
@@ -161,7 +160,8 @@ public class DrawerFragment extends Fragment {
         SecondaryDrawerItem item3 = new SecondaryDrawerItem().withIdentifier(3).withName(R.string.drawer_discover_recipes);
         SecondaryDrawerItem signOut = new SecondaryDrawerItem().withIdentifier(4).withName("Sign out");
         SecondaryDrawerItem signUp = new SecondaryDrawerItem().withIdentifier(5).withName("Sign up");
-        final SecondaryDrawerItem signIn = new SecondaryDrawerItem().withIdentifier(6).withName("Sign in");
+        SecondaryDrawerItem signIn = new SecondaryDrawerItem().withIdentifier(6).withName("Sign in");
+        final SecondaryDrawerItem aiClassifier = new SecondaryDrawerItem().withIdentifier(7).withName("Intelligent recipes ;)");
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         //create the drawer and remember the `Drawer` result object
@@ -169,7 +169,7 @@ public class DrawerFragment extends Fragment {
                 .withActivity(this.getActivity())
                 .withToolbar(toolbar)
                 .withAccountHeader(this.accountHeader)
-                .addDrawerItems(new DividerDrawerItem(), item2, item3)
+                .addDrawerItems(new DividerDrawerItem(), item2, item3, aiClassifier)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -190,6 +190,9 @@ public class DrawerFragment extends Fragment {
                                 break;
                             case 6:
                                 startActivityForResult(new Intent(getActivity(), ActivityLogIn.class), RC_SIGN_IN);
+                                break;
+                            case 7:
+                                startActivityForResult(new Intent(getActivity(), ActivityImageClassifier.class), -1);
                                 break;
                         }
                         return false;

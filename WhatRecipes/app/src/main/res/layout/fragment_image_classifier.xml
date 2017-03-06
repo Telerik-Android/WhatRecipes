@@ -1,0 +1,78 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.whatrecipes.whatrecipes.view.ai.ImageClassifierFragment">
+
+    <ScrollView
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_marginTop="20dp"
+                android:id="@+id/classifier_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorGhostWhite"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:id="@+id/result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                tools:text="something: 0.343535"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="@dimen/material_drawer_width"
+                android:textColor="@android:color/black"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:layout_marginBottom="10dp"
+                android:text="Give us a pricture and we will give you the recipe for it!"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:textAlignment="center"
+                android:id="@+id/take_gallery_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GET IMAGE FROM GALLERY"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp"
+                android:layout_marginBottom="10dp"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:textAlignment="center"
+                android:id="@+id/take_camera_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GET IMAGE FROM CAMERA"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:width="@dimen/material_drawer_width"
+                android:textColor="@android:color/black"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:layout_marginBottom="20dp"
+                android:text="POWERED BY TENSORFLOW"/>
+
+
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

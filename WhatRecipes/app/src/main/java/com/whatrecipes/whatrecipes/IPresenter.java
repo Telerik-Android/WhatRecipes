@@ -1,6 +1,9 @@
 package com.whatrecipes.whatrecipes;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
 
 import com.whatrecipes.whatrecipes.data.Recipe;
 import com.whatrecipes.whatrecipes.presenters.Presenter;
@@ -9,6 +12,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface IPresenter {
+
+    interface ImageClassifierPresenter extends Presenter<IView.ImageClassifierView> {
+        void initClassifier(AssetManager assetManager, Context ctx);
+
+        void classifyImage(Bitmap bmp);
+
+        void setReady(boolean ready);
+
+        boolean getReady();
+    }
 
     interface RecipeStackPresenter extends Presenter<IView.RecipeStackView> {
         void loadRecipesStack();
