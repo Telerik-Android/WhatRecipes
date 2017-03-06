@@ -10,6 +10,10 @@ import java.util.Map;
 
 public interface IPresenter {
 
+    interface ImageClassifierPresenter extends Presenter<IView.ImageClassifierView> {
+        void getRecipeWithName(String name);
+    }
+
     interface RecipeStackPresenter extends Presenter<IView.RecipeStackView> {
         void loadRecipesStack();
     }

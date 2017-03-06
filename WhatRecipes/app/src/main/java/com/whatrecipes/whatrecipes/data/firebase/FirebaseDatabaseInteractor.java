@@ -4,7 +4,9 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.data.Recipe;
 import com.whatrecipes.whatrecipes.data.common.FirebaseConstants;
 import com.whatrecipes.whatrecipes.data.firebase.listeners.RequestListener;
@@ -14,7 +16,7 @@ import java.util.List;
 /**
  * Created by fatal on 2/19/2017.
  */
-public class FirebaseDatabaseInteractor implements IFirebaseDatabaseInteractor {
+public class FirebaseDatabaseInteractor implements IFirebaseDatabaseInteractor{
     public final FirebaseDatabase firebaseDatabase;
 
 
@@ -65,6 +67,14 @@ public class FirebaseDatabaseInteractor implements IFirebaseDatabaseInteractor {
     @Override
     public void getAllRecipes(ChildEventListener listener) {
         firebaseDatabase.getReference(FirebaseConstants.RECIPE_REFERENCE).addChildEventListener(listener);
+    }
+
+    @Override
+    public void getRecipeNameBeginsWith(ValueEventListener listener, String name) {
+        firebaseDatabase.getReference(FirebaseConstants.RECIPE_REFERENCE)
+                .orderByChild("name")
+                .startAt(name)
+                .addListenerForSingleValueEvent(listener);
     }
 
     @Override

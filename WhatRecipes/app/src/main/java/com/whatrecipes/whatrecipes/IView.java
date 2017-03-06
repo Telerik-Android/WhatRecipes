@@ -14,6 +14,10 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 public interface IView {
 
+    interface ImageClassifierView {
+        void setClassificationName(String name);
+    }
+
     interface RecipeStackView {
         void showRecipesStack(ArrayList<Recipe> recipes);
 

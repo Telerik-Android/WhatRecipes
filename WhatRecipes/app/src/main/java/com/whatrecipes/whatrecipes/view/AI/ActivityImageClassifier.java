@@ -1,4 +1,4 @@
-package com.whatrecipes.whatrecipes.AI;
+package com.whatrecipes.whatrecipes.view.AI;
 
 import android.app.Activity;
 import android.content.Context;
@@ -37,9 +37,16 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.whatrecipes.whatrecipes.utils.CameraUtils.REQUEST_MEDIA_USER;
 
+import com.whatrecipes.whatrecipes.App;
+import com.whatrecipes.whatrecipes.IPresenter;
+import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
+import com.whatrecipes.whatrecipes.presenters.ImageClassifierPresenter;
+import com.whatrecipes.whatrecipes.presenters.RecipesStackPresenter;
 
-public class ImageClassifierActivity extends AppCompatActivity {
+import javax.inject.Inject;
+
+public class ActivityImageClassifier extends AppCompatActivity implements IView.ImageClassifierView {
     private static final int PERMISSIONS_REQUEST = 1;
 
     private TensorFlowImageClassifier mTensorFlowClassifier;
@@ -50,6 +57,9 @@ public class ImageClassifierActivity extends AppCompatActivity {
     private Context ctx;
 
     private AtomicBoolean mReady = new AtomicBoolean(false);
+
+    @Inject
+    ImageClassifierPresenter presenter;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -116,10 +126,14 @@ public class ImageClassifierActivity extends AppCompatActivity {
                 }
             }
         });
+
+        App.get().component().inject(this);
+        this.presenter.setView(this);
+        this.presenter.getRecipeWithName("Chicken");
     }
 
     private void init() {
-        mTensorFlowClassifier = new TensorFlowImageClassifier(ImageClassifierActivity.this);
+        mTensorFlowClassifier = new TensorFlowImageClassifier(ActivityImageClassifier.this);
 
         setReady(true);
     }
@@ -217,5 +231,11 @@ public class ImageClassifierActivity extends AppCompatActivity {
             }
             requestPermissions(new String[]{CAMERA, WRITE_EXTERNAL_STORAGE}, PERMISSIONS_REQUEST);
         }
+    }
+
+    @Override
+    public void setClassificationName(String name) {
+        TextView classificationResultText = (TextView)findViewById(R.id.recipe_result);
+        classificationResultText.setText(name);
     }
 }

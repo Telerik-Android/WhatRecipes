@@ -123,5 +123,7 @@ dependencies {
     annotationProcessor 'javax.annotation:jsr250-api:1.0'
     apt 'com.google.dagger:dagger-compiler:2.2'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
+
+    compile 'com.google.guava:guava:20.0'
 }
 apply plugin: 'com.google.gms.google-services'

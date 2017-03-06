@@ -5,7 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.whatrecipes.whatrecipes.AI.ImageClassifierActivity">
+    tools:context="com.whatrecipes.whatrecipes.view.AI.ActivityImageClassifier">
 
     <ScrollView
         android:orientation="vertical"
@@ -73,6 +73,13 @@
                 android:text="GET IMAGE FROM CAMERA"
                 tools:layout_editor_absoluteX="0dp"
                 tools:layout_editor_absoluteY="0dp" />
+
+            <TextView
+                android:id="@+id/recipe_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="THE RECIPE"/>
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

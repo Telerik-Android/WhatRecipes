@@ -24,7 +24,7 @@
         <activity android:name=".view.ActivityLogIn" />
         <activity android:name=".view.ActivityAddUserImage" />
         <activity android:name=".view.ActivityRecipeDetails" />
-        <activity android:name=".AI.ImageClassifierActivity"></activity>
+        <activity android:name=".view.AI.ActivityImageClassifier"></activity>
     </application>
 
 </manifest>

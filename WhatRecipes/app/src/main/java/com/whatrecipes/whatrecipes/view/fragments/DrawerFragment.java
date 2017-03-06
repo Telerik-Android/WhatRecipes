@@ -38,7 +38,7 @@ import javax.inject.Inject;
 
 import static android.app.Activity.RESULT_OK;
 
-import com.whatrecipes.whatrecipes.AI.ImageClassifierActivity;
+import com.whatrecipes.whatrecipes.view.AI.ActivityImageClassifier;
 
 public class DrawerFragment extends Fragment {
     private static final int RC_SIGN_OUT = 121;
@@ -192,7 +192,7 @@ public class DrawerFragment extends Fragment {
                                 startActivityForResult(new Intent(getActivity(), ActivityLogIn.class), RC_SIGN_IN);
                                 break;
                             case 7:
-                                startActivityForResult(new Intent(getActivity(), ImageClassifierActivity.class), RC_SIGN_IN);
+                                startActivityForResult(new Intent(getActivity(), ActivityImageClassifier.class), RC_SIGN_IN);
                                 break;
                         }
                         return false;
