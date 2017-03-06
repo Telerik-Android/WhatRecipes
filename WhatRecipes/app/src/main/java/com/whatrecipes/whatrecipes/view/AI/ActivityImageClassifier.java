@@ -3,6 +3,7 @@ package com.whatrecipes.whatrecipes.view.AI;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.whatrecipes.whatrecipes.AI.Classification.TensorFlowImageClassifier;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,6 +50,16 @@ import javax.inject.Inject;
 
 public class ActivityImageClassifier extends AppCompatActivity implements IView.ImageClassifierView {
     private static final int PERMISSIONS_REQUEST = 1;
+    private static final int NUM_CLASSES = 1008;
+    private static final int IMAGE_MEAN = 128;
+    private static final float IMAGE_STD = 128;
+    private static final String INPUT_NAME = "Mul";
+    private static final String OUTPUT_NAME = "final_result";
+    public static final int INPUT_SIZE = 299;
+    private static final String MODEL_FILE =
+            "file:///android_asset/tensorflow_inception_graph.pb";
+    private static final String LABEL_FILE =
+            "file:///android_asset/imagenet_comp_graph_label_strings.txt";
 
     private TensorFlowImageClassifier mTensorFlowClassifier;
 
@@ -133,8 +145,21 @@ public class ActivityImageClassifier extends AppCompatActivity implements IView.
     }
 
     private void init() {
-        mTensorFlowClassifier = new TensorFlowImageClassifier(ActivityImageClassifier.this);
+        try {
+            this.mTensorFlowClassifier = (TensorFlowImageClassifier) TensorFlowImageClassifier.create(
+                    getAssets(),
+                    MODEL_FILE,
+                    LABEL_FILE,
+                    INPUT_SIZE,
+                    IMAGE_MEAN,
+                    IMAGE_STD,
+                    INPUT_NAME,
+                    OUTPUT_NAME
+            );
 
+        } catch (IOException e) {
+            Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
         setReady(true);
     }
 
@@ -162,11 +187,11 @@ public class ActivityImageClassifier extends AppCompatActivity implements IView.
         mReady.set(ready);
     }
 
-    private void classifyImage(Bitmap image) {
+    private void classifyImage(Bitmap bmp) {
         Bitmap rescaled = Bitmap.createScaledBitmap(
-                image,
-                TensorFlowImageClassifier.INPUT_SIZE,
-                TensorFlowImageClassifier.INPUT_SIZE,
+                bmp,
+                INPUT_SIZE,
+                INPUT_SIZE,
                 true);
         mImage.setImageBitmap(rescaled);
 
