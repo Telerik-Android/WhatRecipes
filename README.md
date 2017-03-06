@@ -2,6 +2,8 @@
 
 Project for [Android Development](https://github.com/TelerikAcademy/Mobile-Applications-for-Android) course in [Telerik Academy](www.telerikacademy.com) season 2016/2017.
 
+[Youtube Video](https://www.youtube.com/watch?v=NNwbYde0-KI)
+
 WhatRecipes is application created for Android, written on Java. Users can share, discover and like recipes. 
 
 What recipes is build while using MVP <=> Model View Presenter Pattern, Dagger 2 as Dependency Injection Framework and Data Layer, which wraps Firebase as cloud hosted database, while using the best practices learned from [Telerik Academy](www.telerikacademy.com) to the best of my ability. What Recipes also supports different screen sizes.
