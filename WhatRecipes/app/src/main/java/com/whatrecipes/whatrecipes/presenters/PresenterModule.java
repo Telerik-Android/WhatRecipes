@@ -1,6 +1,8 @@
 package com.whatrecipes.whatrecipes.presenters;
 
 import com.whatrecipes.whatrecipes.IPresenter;
+import com.whatrecipes.whatrecipes.data.ai.Classifier;
+import com.whatrecipes.whatrecipes.data.ai.TensorFlowImageClassifier;
 import com.whatrecipes.whatrecipes.data.firebase.FirebaseDatabaseInteractor;
 import com.whatrecipes.whatrecipes.data.firebase.FirebaseModule;
 import com.whatrecipes.whatrecipes.view.fragments.RecipesStackFragment;
@@ -13,6 +15,5 @@ import dagger.Provides;
  */
 @Module(includes = FirebaseModule.class)
 public class PresenterModule {
-
 }
 

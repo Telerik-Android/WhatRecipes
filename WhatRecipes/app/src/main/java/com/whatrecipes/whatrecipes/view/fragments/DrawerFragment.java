@@ -161,7 +161,7 @@ public class DrawerFragment extends Fragment {
         SecondaryDrawerItem signOut = new SecondaryDrawerItem().withIdentifier(4).withName("Sign out");
         SecondaryDrawerItem signUp = new SecondaryDrawerItem().withIdentifier(5).withName("Sign up");
         SecondaryDrawerItem signIn = new SecondaryDrawerItem().withIdentifier(6).withName("Sign in");
-        final SecondaryDrawerItem aiClassifier = new SecondaryDrawerItem().withIdentifier(7).withName("ai");
+        final SecondaryDrawerItem aiClassifier = new SecondaryDrawerItem().withIdentifier(7).withName("Intelligent recipes ;)");
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         //create the drawer and remember the `Drawer` result object

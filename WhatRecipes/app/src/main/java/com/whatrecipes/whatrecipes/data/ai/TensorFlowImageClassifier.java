@@ -40,34 +40,16 @@ public class TensorFlowImageClassifier implements Classifier {
 
     private TensorFlowInferenceInterface inferenceInterface;
 
-    private TensorFlowImageClassifier() {}
-
-    /**
-     * Initializes a native TensorFlow session for classifying images.
-     *
-     * @param assetManager The asset manager to be used to load assets.
-     * @param modelFilename The filepath of the model GraphDef protocol buffer.
-     * @param labelFilename The filepath of label file for classes.
-     * @param inputSize The input size. A square image of inputSize x inputSize is assumed.
-     * @param imageMean The assumed mean of the image values.
-     * @param imageStd The assumed std of the image values.
-     * @param inputName The label of the image input node.
-     * @param outputName The label of the output node.
-     * @throws IOException
-     */
-    public static Classifier create(
-            AssetManager assetManager,
-            String modelFilename,
-            String labelFilename,
-            int inputSize,
-            int imageMean,
-            float imageStd,
-            String inputName,
-            String outputName)
-            throws IOException {
-        TensorFlowImageClassifier c = new TensorFlowImageClassifier();
-        c.inputName = inputName;
-        c.outputName = outputName;
+    public TensorFlowImageClassifier(AssetManager assetManager,
+                                     String modelFilename,
+                                     String labelFilename,
+                                     int inputSize,
+                                     int imageMean,
+                                     float imageStd,
+                                     String inputName,
+                                     String outputName) throws IOException {
+        this.inputName = inputName;
+        this.outputName = outputName;
 
         // Read the label names into memory.
         // TODO(andrewharp): make this handle non-assets.
@@ -76,18 +58,18 @@ public class TensorFlowImageClassifier implements Classifier {
         br = new BufferedReader(new InputStreamReader(assetManager.open(actualFilename)));
         String line;
         while ((line = br.readLine()) != null) {
-            c.labels.add(line);
+            this.labels.add(line);
         }
         br.close();
 
-        c.inferenceInterface = new TensorFlowInferenceInterface();
-        if (c.inferenceInterface.initializeTensorFlow(assetManager, modelFilename) != 0) {
+        this.inferenceInterface = new TensorFlowInferenceInterface();
+        if (this.inferenceInterface.initializeTensorFlow(assetManager, modelFilename) != 0) {
             throw new RuntimeException("TF initialization failed");
         }
         // The shape of the output is [N, NUM_CLASSES], where N is the batch size.
 //        int numClasses =
 //                (int) c.inferenceInterface.graph().operation(outputName).output(0).shape().size(1);
-        Graph gr = c.inferenceInterface.graph();
+        Graph gr = this.inferenceInterface.graph();
         Operation opr = gr.operation(outputName);
         Output out = opr.output(0);
         Shape sh = out.shape();
@@ -96,17 +78,15 @@ public class TensorFlowImageClassifier implements Classifier {
         // Ideally, inputSize could have been retrieved from the shape of the input operation.  Alas,
         // the placeholder node for input in the graphdef typically used does not specify a shape, so it
         // must be passed in as a parameter.
-        c.inputSize = inputSize;
-        c.imageMean = imageMean;
-        c.imageStd = imageStd;
+        this.inputSize = inputSize;
+        this.imageMean = imageMean;
+        this.imageStd = imageStd;
 
         // Pre-allocate buffers.
-        c.outputNames = new String[] {outputName};
-        c.intValues = new int[inputSize * inputSize];
-        c.floatValues = new float[inputSize * inputSize * 3];
-        c.outputs = new float[numClasses];
-
-        return c;
+        this.outputNames = new String[] {outputName};
+        this.intValues = new int[inputSize * inputSize];
+        this.floatValues = new float[inputSize * inputSize * 3];
+        this.outputs = new float[numClasses];
     }
 
     @Override

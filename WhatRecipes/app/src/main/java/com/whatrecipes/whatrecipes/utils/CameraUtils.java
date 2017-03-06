@@ -10,7 +10,9 @@ import android.support.v4.app.Fragment;
 import com.commonsware.cwac.cam2.CameraActivity;
 import com.commonsware.cwac.cam2.Facing;
 import com.commonsware.cwac.cam2.ZoomStyle;
+import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
+import com.whatrecipes.whatrecipes.view.ai.ImageClassifierFragment;
 import com.whatrecipes.whatrecipes.view.fragments.AddNewRecipeFragment;
 import com.whatrecipes.whatrecipes.view.fragments.AddUserProfileImageFragment;
 import com.whatrecipes.whatrecipes.view.fragments.RegisterUserFragment;
@@ -18,6 +20,7 @@ import com.whatrecipes.whatrecipes.view.fragments.RegisterUserFragment;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import static android.provider.Settings.Global.getString;
 import static android.support.v4.app.ActivityCompat.startActivityForResult;
@@ -32,6 +35,26 @@ public class CameraUtils {
     public static final int REQUEST_PORTRAIT_RFC = 1337;
     public static final int REQUEST_PORTRAIT_FFC = REQUEST_PORTRAIT_RFC + 1;
     public final static int REQUEST_MEDIA_USER = 101;
+
+    public static void takePhotoForAi(ImageClassifierFragment fragment) {
+        String filename = "cam2_" + Build.MANUFACTURER + "_" + Build.PRODUCT
+                + "_" + new SimpleDateFormat("yyyyMMdd'-'HHmmss", Locale.ENGLISH).format(new Date());
+        File testRoot = new File(fragment.getActivity().getExternalFilesDir(null), filename);
+
+        Intent i = new CameraActivity.IntentBuilder(fragment.getContext())
+                .requestPermissions()
+                .skipConfirm()
+                .facing(Facing.BACK)
+                .to(new File(testRoot, fragment.getString(R.string.screenshot)))
+                .debug()
+                .zoomStyle(ZoomStyle.SEEKBAR)
+                .updateMediaStore()
+                .build();
+        i.putExtra(fragment.getString(R.string.PhotoPath), testRoot.getAbsolutePath());
+
+        fragment.startActivityForResult(i, REQUEST_MEDIA_USER);
+    }
+
     public static void takeRecipeCameraPhoto(AddNewRecipeFragment fragment){
 
         String filename = "cam2_" + Build.MANUFACTURER + "_" + Build.PRODUCT

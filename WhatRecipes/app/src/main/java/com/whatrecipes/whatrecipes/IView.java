@@ -1,5 +1,6 @@
 package com.whatrecipes.whatrecipes;
 
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -15,9 +16,9 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 public interface IView {
 
     interface ImageClassifierView {
-        void setClassificationName(String name);
-
         void openRecipeDetails(Recipe recipe);
+
+        void setClassifiedImageData(Bitmap bmp, String resultString);
     }
 
     interface RecipeStackView {

@@ -18,28 +18,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.commonsware.cwac.cam2.CameraActivity;
-import com.commonsware.cwac.cam2.Facing;
-import com.commonsware.cwac.cam2.ZoomStyle;
 import com.google.gson.Gson;
 import com.whatrecipes.whatrecipes.App;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
-import com.whatrecipes.whatrecipes.data.ai.Classifier;
-import com.whatrecipes.whatrecipes.data.ai.TensorFlowImageClassifier;
 import com.whatrecipes.whatrecipes.data.Recipe;
 import com.whatrecipes.whatrecipes.presenters.ImageClassifierPresenter;
+import com.whatrecipes.whatrecipes.utils.CameraUtils;
 import com.whatrecipes.whatrecipes.view.ActivityRecipeDetails;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.inject.Inject;
 
@@ -53,28 +42,12 @@ import static com.whatrecipes.whatrecipes.utils.CameraUtils.REQUEST_MEDIA_USER;
 
 public class ImageClassifierFragment extends Fragment implements IView.ImageClassifierView {
     private static final int PERMISSIONS_REQUEST = 1;
-    private static final int NUM_CLASSES = 1008;
-    private static final int IMAGE_MEAN = 128;
-    private static final float IMAGE_STD = 128;
-    private static final String INPUT_NAME = "Mul";
-    private static final String OUTPUT_NAME = "final_result";
-    public static final int INPUT_SIZE = 299;
-    private static final String MODEL_FILE =
-            "file:///android_asset/banitsa.pb";
-    private static final String LABEL_FILE =
-            "file:///android_asset/banitsa.txt";
-
-    private TensorFlowImageClassifier mTensorFlowClassifier;
-    private AtomicBoolean mReady = new AtomicBoolean(false);
 
     @BindView(R.id.classifier_image_view)
     public ImageView mImage;
 
     @BindView(R.id.result)
     public TextView result;
-
-    @BindView(R.id.recipe_result)
-    public TextView classificationResultText;
 
     @BindView(R.id.take_gallery_picture)
     public Button galleryButton;
@@ -107,7 +80,7 @@ public class ImageClassifierFragment extends Fragment implements IView.ImageClas
 
         if (hasPermission()) {
             if (savedInstanceState == null) {
-                this.init();
+                this.presenter.initClassifier(getActivity().getAssets(), getContext());
             }
         } else {
             requestPermission();
@@ -116,46 +89,10 @@ public class ImageClassifierFragment extends Fragment implements IView.ImageClas
         return view;
     }
 
-    private void setReady(boolean ready) {
-        mReady.set(ready);
-    }
-
-    private void init() {
-        try {
-            if (this.mTensorFlowClassifier == null) {
-                this.mTensorFlowClassifier = (TensorFlowImageClassifier) TensorFlowImageClassifier.create(
-                        getActivity().getAssets(),
-                        MODEL_FILE,
-                        LABEL_FILE,
-                        INPUT_SIZE,
-                        IMAGE_MEAN,
-                        IMAGE_STD,
-                        INPUT_NAME,
-                        OUTPUT_NAME
-                );
-            }
-
-        } catch (IOException e) {
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-        setReady(true);
-    }
-
-    private void classifyImage(Bitmap bmp) {
-        Bitmap rescaled = Bitmap.createScaledBitmap(
-                bmp,
-                INPUT_SIZE,
-                INPUT_SIZE,
-                true);
-        mImage.setImageBitmap(rescaled);
-
-        final List<Classifier.Recognition> results = mTensorFlowClassifier.recognizeImage(rescaled);
-        if (!results.isEmpty()) {
-            this.result.setText(results.get(0).toString());
-        }
-
-        setReady(true);
-        this.presenter.getRecipeWithName(results.get(0).getTitle());
+    @Override
+    public void setClassifiedImageData(Bitmap bmp, String resultString) {
+        mImage.setImageBitmap(bmp);
+        this.result.setText(resultString);
     }
 
 
@@ -171,7 +108,7 @@ public class ImageClassifierFragment extends Fragment implements IView.ImageClas
             try {
                 InputStream inputStream = getContext().getContentResolver().openInputStream(data.getData());
                 Bitmap bmp = BitmapFactory.decodeStream(inputStream);
-                this.classifyImage(bmp);
+                this.presenter.classifyImage(bmp);
 
             } catch (FileNotFoundException e) {
                 // no such file
@@ -183,20 +120,13 @@ public class ImageClassifierFragment extends Fragment implements IView.ImageClas
     public void onResume() {
         super.onResume();
 
-        init();
+        this.presenter.initClassifier(getActivity().getAssets(), getContext());
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        this.setReady(false);
-        try {
-            if (mTensorFlowClassifier != null) {
-                mTensorFlowClassifier.close();
-            }
-        } catch (Throwable t) {
-            // close quietly
-        }
+        this.presenter.unloadClassifier();
     }
 
     @Override
@@ -209,7 +139,7 @@ public class ImageClassifierFragment extends Fragment implements IView.ImageClas
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                    init();
+                    this.presenter.initClassifier(getActivity().getAssets(), getContext());
                 } else {
                     requestPermission();
                 }
@@ -239,11 +169,6 @@ public class ImageClassifierFragment extends Fragment implements IView.ImageClas
     }
 
     @Override
-    public void setClassificationName(String name) {
-        classificationResultText.setText(name);
-    }
-
-    @Override
     public void openRecipeDetails(Recipe recipe) {
         Intent intent = new Intent(this.getContext(), ActivityRecipeDetails.class);
         Gson gson = new Gson();
@@ -254,24 +179,9 @@ public class ImageClassifierFragment extends Fragment implements IView.ImageClas
 
     @OnClick(R.id.take_camera_picture)
     public void onClickCameraButton() {
-        if (mReady.get()) {
-            setReady(false);
-            String filename = "cam2_" + Build.MANUFACTURER + "_" + Build.PRODUCT
-                    + "_" + new SimpleDateFormat("yyyyMMdd'-'HHmmss", Locale.ENGLISH).format(new Date());
-            File testRoot = new File(getActivity().getExternalFilesDir(null), filename);
-
-            Intent i = new CameraActivity.IntentBuilder(getContext())
-                    .requestPermissions()
-                    .skipConfirm()
-                    .facing(Facing.BACK)
-                    .to(new File(testRoot, getString(R.string.screenshot)))
-                    .debug()
-                    .zoomStyle(ZoomStyle.SEEKBAR)
-                    .updateMediaStore()
-                    .build();
-            i.putExtra(getString(R.string.PhotoPath), testRoot.getAbsolutePath());
-
-            startActivityForResult(i, REQUEST_MEDIA_USER);
+        if (this.presenter.getReady()) {
+            this.presenter.setReady(false);
+            CameraUtils.takePhotoForAi(this);
         } else {
             Toast.makeText(getContext(), "Wait a bit!", Toast.LENGTH_SHORT).show();
         }
@@ -279,8 +189,8 @@ public class ImageClassifierFragment extends Fragment implements IView.ImageClas
 
     @OnClick(R.id.take_gallery_picture)
     public void onClickGalleryButton() {
-        if (mReady.get()) {
-            setReady(false);
+        if (this.presenter.getReady()) {
+            this.presenter.setReady(false);
             Intent pickPhoto = new Intent(
                     Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
