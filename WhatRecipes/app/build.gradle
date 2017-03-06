@@ -11,10 +11,6 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        ndk {
-            abiFilters "armeabi", "armeabi-v7a"
-        }
-
         applicationId "com.whatrecipes.whatrecipes"
         minSdkVersion 21
         targetSdkVersion 25

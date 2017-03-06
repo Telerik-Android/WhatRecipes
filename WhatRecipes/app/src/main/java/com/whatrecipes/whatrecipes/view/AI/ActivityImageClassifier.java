@@ -3,7 +3,6 @@ package com.whatrecipes.whatrecipes.view.AI;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import android.widget.Toast;
 import com.commonsware.cwac.cam2.CameraActivity;
 import com.commonsware.cwac.cam2.Facing;
 import com.commonsware.cwac.cam2.ZoomStyle;
+import com.google.gson.Gson;
 import com.whatrecipes.whatrecipes.AI.Classification.Classifier;
 import com.whatrecipes.whatrecipes.AI.Classification.TensorFlowImageClassifier;
 
@@ -40,11 +40,11 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static com.whatrecipes.whatrecipes.utils.CameraUtils.REQUEST_MEDIA_USER;
 
 import com.whatrecipes.whatrecipes.App;
-import com.whatrecipes.whatrecipes.IPresenter;
 import com.whatrecipes.whatrecipes.IView;
 import com.whatrecipes.whatrecipes.R;
+import com.whatrecipes.whatrecipes.data.Recipe;
 import com.whatrecipes.whatrecipes.presenters.ImageClassifierPresenter;
-import com.whatrecipes.whatrecipes.presenters.RecipesStackPresenter;
+import com.whatrecipes.whatrecipes.view.ActivityRecipeDetails;
 
 import javax.inject.Inject;
 
@@ -57,9 +57,9 @@ public class ActivityImageClassifier extends AppCompatActivity implements IView.
     private static final String OUTPUT_NAME = "final_result";
     public static final int INPUT_SIZE = 299;
     private static final String MODEL_FILE =
-            "file:///android_asset/tensorflow_inception_graph.pb";
+            "file:///android_asset/banitsa.pb";
     private static final String LABEL_FILE =
-            "file:///android_asset/imagenet_comp_graph_label_strings.txt";
+            "file:///android_asset/banitsa.txt";
 
     private TensorFlowImageClassifier mTensorFlowClassifier;
 
@@ -86,6 +86,7 @@ public class ActivityImageClassifier extends AppCompatActivity implements IView.
         mResultViews[0] = (TextView) findViewById(R.id.result1);
         mResultViews[1] = (TextView) findViewById(R.id.result2);
         mResultViews[2] = (TextView) findViewById(R.id.result3);
+
 
         if (hasPermission()) {
             if (savedInstanceState == null) {
@@ -141,7 +142,7 @@ public class ActivityImageClassifier extends AppCompatActivity implements IView.
 
         App.get().component().inject(this);
         this.presenter.setView(this);
-        this.presenter.getRecipeWithName("Chicken");
+
     }
 
     private void init() {
@@ -197,8 +198,6 @@ public class ActivityImageClassifier extends AppCompatActivity implements IView.
 
         final List<Classifier.Recognition> results = mTensorFlowClassifier.recognizeImage(rescaled);
 
-        setReady(true);
-
         for (int i = 0; i < mResultViews.length; i++) {
             if (results.size() > i) {
                 Classifier.Recognition r = results.get(i);
@@ -207,6 +206,10 @@ public class ActivityImageClassifier extends AppCompatActivity implements IView.
                 mResultViews[i].setText(null);
             }
         }
+
+        this.presenter.getRecipeWithName(results.get(0).getTitle());
+
+        setReady(true);
     }
 
 
@@ -262,5 +265,14 @@ public class ActivityImageClassifier extends AppCompatActivity implements IView.
     public void setClassificationName(String name) {
         TextView classificationResultText = (TextView)findViewById(R.id.recipe_result);
         classificationResultText.setText(name);
+    }
+
+    @Override
+    public void openRecipeDetails(Recipe recipe) {
+        Intent intent = new Intent(this.getBaseContext(), ActivityRecipeDetails.class);
+        Gson gson = new Gson();
+        String recipeJson = gson.toJson(recipe);
+        intent.putExtra("Recipe", recipeJson);
+        this.getBaseContext().startActivity(intent);
     }
 }

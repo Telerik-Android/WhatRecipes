@@ -16,6 +16,8 @@ public interface IView {
 
     interface ImageClassifierView {
         void setClassificationName(String name);
+
+        void openRecipeDetails(Recipe recipe);
     }
 
     interface RecipeStackView {
