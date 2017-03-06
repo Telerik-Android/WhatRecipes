@@ -13,7 +13,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ==============================================================================*/
 
-package com.whatrecipes.whatrecipes.AI.Classification;
+package com.whatrecipes.whatrecipes.data.ai;
 
 import android.graphics.Bitmap;
 import android.graphics.RectF;

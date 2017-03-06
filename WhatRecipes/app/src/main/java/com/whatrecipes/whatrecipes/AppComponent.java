@@ -1,9 +1,7 @@
 package com.whatrecipes.whatrecipes;
 
-import com.whatrecipes.whatrecipes.data.firebase.FirebaseAuthenticationInteractor;
-import com.whatrecipes.whatrecipes.presenters.AddUserProfileImagePresenter;
 import com.whatrecipes.whatrecipes.presenters.PresenterModule;
-import com.whatrecipes.whatrecipes.view.AI.ActivityImageClassifier;
+import com.whatrecipes.whatrecipes.view.ai.ImageClassifierFragment;
 import com.whatrecipes.whatrecipes.view.ActivityLogIn;
 import com.whatrecipes.whatrecipes.view.ActivityRecipeDetails;
 import com.whatrecipes.whatrecipes.view.ActivityRegister;
@@ -50,5 +48,5 @@ public interface AppComponent {
 
     void inject(ActivityRecipeDetails activity);
 
-    void inject(ActivityImageClassifier activity);
+    void inject(ImageClassifierFragment fragment);
 }

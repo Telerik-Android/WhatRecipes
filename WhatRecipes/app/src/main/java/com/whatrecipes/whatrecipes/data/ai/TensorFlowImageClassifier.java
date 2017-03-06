@@ -1,8 +1,9 @@
-package com.whatrecipes.whatrecipes.AI.Classification;
+package com.whatrecipes.whatrecipes.data.ai;
 
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.os.Trace;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

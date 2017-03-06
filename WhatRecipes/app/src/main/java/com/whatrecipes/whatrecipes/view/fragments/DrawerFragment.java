@@ -38,7 +38,7 @@ import javax.inject.Inject;
 
 import static android.app.Activity.RESULT_OK;
 
-import com.whatrecipes.whatrecipes.view.AI.ActivityImageClassifier;
+import com.whatrecipes.whatrecipes.view.ai.ActivityImageClassifier;
 
 public class DrawerFragment extends Fragment {
     private static final int RC_SIGN_OUT = 121;
@@ -161,7 +161,7 @@ public class DrawerFragment extends Fragment {
         SecondaryDrawerItem signOut = new SecondaryDrawerItem().withIdentifier(4).withName("Sign out");
         SecondaryDrawerItem signUp = new SecondaryDrawerItem().withIdentifier(5).withName("Sign up");
         SecondaryDrawerItem signIn = new SecondaryDrawerItem().withIdentifier(6).withName("Sign in");
-        final SecondaryDrawerItem aiClassifier = new SecondaryDrawerItem().withIdentifier(7).withName("AI");
+        final SecondaryDrawerItem aiClassifier = new SecondaryDrawerItem().withIdentifier(7).withName("ai");
 
         Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
         //create the drawer and remember the `Drawer` result object
@@ -192,7 +192,7 @@ public class DrawerFragment extends Fragment {
                                 startActivityForResult(new Intent(getActivity(), ActivityLogIn.class), RC_SIGN_IN);
                                 break;
                             case 7:
-                                startActivityForResult(new Intent(getActivity(), ActivityImageClassifier.class), RC_SIGN_IN);
+                                startActivityForResult(new Intent(getActivity(), ActivityImageClassifier.class), -1);
                                 break;
                         }
                         return false;

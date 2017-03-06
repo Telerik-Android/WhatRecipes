@@ -71,11 +71,9 @@ dependencies {
 
     //image library
 
-    
-
     //Dagger mocks
     //and/or
-    
+
     // Set this dependency to use JUnit 4 rules
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2') {
         // Necessary if your app targets Marshmallow (since Espresso
@@ -90,6 +88,9 @@ dependencies {
     // Set this dependency to build and run UI Automator tests
     
     
+    
+
+
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:recyclerview-v7:25.2.0'
     compile 'com.android.support:cardview-v7:25.2.0'
@@ -114,6 +115,7 @@ dependencies {
     compile 'com.commonsware.cwac:cam2:0.7.4'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support.constraint:constraint-layout:1.0.1'
+    compile 'com.google.guava:guava:20.0'
     testCompile 'com.github.fabioCollini:DaggerMock:0.6.4'
     testCompile 'org.mockito:mockito-core:2.0.57-beta'
     testCompile 'junit:junit:4.12'
@@ -123,7 +125,5 @@ dependencies {
     annotationProcessor 'javax.annotation:jsr250-api:1.0'
     apt 'com.google.dagger:dagger-compiler:2.2'
     apt 'com.jakewharton:butterknife-compiler:8.0.1'
-
-    compile 'com.google.guava:guava:20.0'
 }
 apply plugin: 'com.google.gms.google-services'
